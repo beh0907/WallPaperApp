@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.screen.fragment
+package com.skymilk.wallpaperapp.store.presentation.screen.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skymilk.wallpaperapp.databinding.FragmentMainBinding
-import com.skymilk.wallpaperapp.screen.fragment.adapter.ViewPagerAdapter
+import com.skymilk.wallpaperapp.store.presentation.screen.main.adapter.ViewPagerAdapter
+import com.skymilk.wallpaperapp.store.presentation.screen.category.CategoriesFragment
+import com.skymilk.wallpaperapp.store.presentation.screen.home.HomeFragment
+import com.skymilk.wallpaperapp.store.presentation.screen.popular.PopularFragment
+import com.skymilk.wallpaperapp.store.presentation.screen.random.RandomFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private val tabTitles = arrayOf("Home", "Popular", "Random", "Categories")
+    private val fragments = listOf(HomeFragment(), PopularFragment(), RandomFragment(), CategoriesFragment())
 
     private lateinit var binding: FragmentMainBinding
 
@@ -40,11 +47,7 @@ class MainFragment : Fragment() {
     }
 
     private fun initViewPager() {
-        val fragmentActivity = activity as? FragmentActivity
-            ?: throw IllegalStateException("Activity must be a FragmentActivity")
-
-        val fragments = listOf(HomeFragment(), PopularFragment(), RandomFragment(), CategoriesFragment())
-        val pagerAdapter = ViewPagerAdapter(fragmentActivity, fragments)
+        val pagerAdapter = ViewPagerAdapter(requireContext() as FragmentActivity, fragments)
         binding.viewPager.apply {
             adapter = pagerAdapter
             isUserInputEnabled = false

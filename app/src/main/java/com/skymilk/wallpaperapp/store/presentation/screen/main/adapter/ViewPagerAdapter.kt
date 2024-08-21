@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.screen.fragment.adapter
+package com.skymilk.wallpaperapp.store.presentation.screen.main.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

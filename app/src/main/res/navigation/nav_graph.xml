@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.skymilk.wallpaperapp.screen.fragment.MainFragment"
+        android:name="com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
 </navigation>

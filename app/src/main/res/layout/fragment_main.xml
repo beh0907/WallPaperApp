@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screen.fragment.MainFragment">
+    tools:context=".store.presentation.screen.main.MainFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -49,6 +49,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabGravity="center"
+            app:tabIndicatorFullWidth="true"
             app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorColor="@color/red_400"
             app:tabIndicatorHeight="@dimen/_30sdp"
