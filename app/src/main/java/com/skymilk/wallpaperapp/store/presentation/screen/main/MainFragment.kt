@@ -16,7 +16,6 @@ import com.skymilk.wallpaperapp.store.presentation.screen.popular.PopularFragmen
 import com.skymilk.wallpaperapp.store.presentation.screen.random.RandomFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private val tabTitles = arrayOf("Home", "Popular", "Random", "Categories")

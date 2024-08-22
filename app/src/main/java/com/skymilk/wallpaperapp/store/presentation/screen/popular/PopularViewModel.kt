@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PopularVewModel @Inject constructor(
+class PopularViewModel @Inject constructor(
     private val wallPaperRepository: WallPaperRepository
 ):ViewModel() {
 }

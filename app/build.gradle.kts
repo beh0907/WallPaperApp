@@ -67,4 +67,13 @@ dependencies {
     //dagger hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    //paging3
+    implementation(libs.androidx.paging.runtime.ktx)
+
+    //Glide
+    implementation(libs.glide)
+    implementation(libs.blurhash)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.androidx.swiperefreshlayout)
 }

@@ -8,7 +8,7 @@ interface WallPaperApi {
 
     //API로부터 랜덤 이미지 가져오기
     @GET("Random")
-    suspend fun getRandomWallPaper(@Query("page") page: Int): WallPaper
+    suspend fun getHomeWallPaper(@Query("page") page: Int): WallPaper
 
     //API로부터 인기있는 이미지 가져오기
     @GET("Popular")
