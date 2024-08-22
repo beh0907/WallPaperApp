@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_menu" />
+
+    <Button
+        android:id="@+id/btnDownload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/main_selector"
+        android:drawableLeft="@drawable/ic_download"
+        android:drawablePadding="@dimen/_70sdp"
+        android:fontFamily="@font/bm_hanna_pro"
+        android:gravity="center"
+        android:text="다운로드"
+        android:textSize="@dimen/_12ssp"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <Button
+        android:id="@+id/btnSetBackGround"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/main_selector"
+        android:drawableLeft="@drawable/ic_image"
+        android:drawablePadding="@dimen/_70sdp"
+        android:fontFamily="@font/bm_hanna_pro"
+        android:gravity="center"
+        android:text="바탕화면 설정"
+        android:textSize="@dimen/_12ssp"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <Button
+        android:id="@+id/btnSetLockScreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:background="@drawable/main_selector"
+        android:drawableLeft="@drawable/ic_image"
+        android:drawablePadding="@dimen/_70sdp"
+        android:fontFamily="@font/bm_hanna_pro"
+        android:gravity="center"
+        android:text="잠금화면 설정"
+        android:textSize="@dimen/_12ssp"
+        android:clickable="true"
+        android:focusable="true" />
+
+
+</LinearLayout>

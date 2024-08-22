@@ -1,7 +1,9 @@
-package com.skymilk.wallpaperapp.store.presentation.screen.main.adapter
+package com.skymilk.wallpaperapp.store.presentation.common
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,13 +11,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.skymilk.wallpaperapp.databinding.ItemWallPaperBinding
 import com.skymilk.wallpaperapp.store.domain.model.Data
+import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirections
 import com.skymilk.wallpaperapp.utils.BlurHashDecoder
+import com.skymilk.wallpaperapp.utils.Constants
 
-class WallPaperAdapter: PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewHolder>(
+class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewHolder>(
     DiffUtilCallback()
 ) {
-
-    var onItemClick: ((Data) -> Unit)? = null
+    var onItemClick: ((Data, View) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallPaperViewHolder {
         return WallPaperViewHolder(
@@ -46,12 +49,6 @@ class WallPaperAdapter: PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewHo
     inner class WallPaperViewHolder(val binding: ItemWallPaperBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.root.setOnClickListener {
-                onItemClick?.invoke(getItem(bindingAdapterPosition)!!)
-            }
-        }
-
         fun bind(data: Data) {
             val blurHashDecodeDrawable = BlurHashDecoder.blurHashBitmap(itemView.resources, data)
 
@@ -65,6 +62,11 @@ class WallPaperAdapter: PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewHo
                     .error(blurHashDecodeDrawable)
                     .into(imageWallPaper)
 
+            }
+
+
+            itemView.setOnClickListener { view ->
+                onItemClick?.invoke(data, view)
             }
         }
     }

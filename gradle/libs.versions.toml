@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.2"
+androidSpinkit = "1.4.0"
 blurhash = "1.0.0"
 glide = "4.16.0"
 kotlin = "1.9.0"
@@ -20,6 +21,7 @@ hiltAndroid = "2.48.1"
 swiperefreshlayout = "1.1.0"
 
 [libraries]
+android-spinkit = { module = "com.github.ybq:Android-SpinKit", version.ref = "androidSpinkit" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationUiKtx" }
 androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationUiKtx" }

@@ -76,4 +76,8 @@ dependencies {
     implementation(libs.blurhash)
     implementation(libs.kotlin.reflect)
     implementation(libs.androidx.swiperefreshlayout)
+
+    //progress bar
+    implementation(libs.android.spinkit)
+    implementation("com.flaviofaria:kenburnsview:1.0.7")
 }

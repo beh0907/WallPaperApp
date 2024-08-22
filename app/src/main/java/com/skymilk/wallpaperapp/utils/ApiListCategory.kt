@@ -60,8 +60,6 @@ object ApiListCategory {
             "Minimalism",
             "https://images.unsplash.com/photo-1555587441-d6327df2b932?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHw1MzV8fE1pbmltYWxpc218ZW58MHwxfHx8MTYzMTg4MjAyNA&ixlib=rb-1.2.1&q=80&w=400"
         ),
-
-
         Category(
             "Motorcycles",
             "https://images.unsplash.com/photo-1619262290574-914dc1158620?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHwxNjV8fE1vdG9yY3ljbGVzfGVufDB8MXx8fDE2MzE2NDEyMjc&ixlib=rb-1.2.1&q=80&w=400"

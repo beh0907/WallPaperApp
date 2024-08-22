@@ -12,6 +12,6 @@ class HomeViewModel @Inject constructor(
     private val wallPaperRepository: WallPaperRepository
 ) : ViewModel() {
 
-    val wallPapers =wallPaperRepository.getHomeWallPaper().cachedIn(viewModelScope)
+    val wallPapers = wallPaperRepository.getHomeWallPaper().cachedIn(viewModelScope)
 
 }

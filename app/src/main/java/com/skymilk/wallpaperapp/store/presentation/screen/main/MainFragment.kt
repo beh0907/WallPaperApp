@@ -9,12 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skymilk.wallpaperapp.databinding.FragmentMainBinding
-import com.skymilk.wallpaperapp.store.presentation.screen.main.adapter.ViewPagerAdapter
 import com.skymilk.wallpaperapp.store.presentation.screen.category.CategoriesFragment
 import com.skymilk.wallpaperapp.store.presentation.screen.home.HomeFragment
 import com.skymilk.wallpaperapp.store.presentation.screen.popular.PopularFragment
 import com.skymilk.wallpaperapp.store.presentation.screen.random.RandomFragment
-import dagger.hilt.android.AndroidEntryPoint
 
 class MainFragment : Fragment() {
 
