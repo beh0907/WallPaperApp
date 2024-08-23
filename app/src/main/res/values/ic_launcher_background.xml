@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="retry">재시도</string>
+    <color name="ic_launcher_background">#212121</color>
 </resources>

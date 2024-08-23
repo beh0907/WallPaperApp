@@ -14,6 +14,9 @@
             android:id="@+id/action_mainFragment_to_downloadFragment"
             app:destination="@id/downloadFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_mainFragment_to_specificCategoryFragment"
+            app:destination="@id/specificCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/downloadFragment"
@@ -23,5 +26,18 @@
         <argument
             android:name="imageData"
             app:argType="string[]" />
+    </fragment>
+    <fragment
+        android:id="@+id/specificCategoryFragment"
+        android:name="com.skymilk.wallpaperapp.store.presentation.screen.category.SpecificCategoryFragment"
+        android:label="fragment_specific_category"
+        tools:layout="@layout/fragment_specific_category" >
+        <argument
+            android:name="category"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_specificCategoryFragment_to_downloadFragment"
+            app:destination="@id/downloadFragment" />
     </fragment>
 </navigation>

@@ -18,7 +18,7 @@ import com.skymilk.wallpaperapp.utils.Constants
 class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewHolder>(
     DiffUtilCallback()
 ) {
-    var onItemClick: ((Data, View) -> Unit)? = null
+    var onItemClick: ((Data) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallPaperViewHolder {
         return WallPaperViewHolder(
@@ -65,8 +65,8 @@ class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewH
             }
 
 
-            itemView.setOnClickListener { view ->
-                onItemClick?.invoke(data, view)
+            itemView.setOnClickListener {
+                onItemClick?.invoke(data)
             }
         }
     }

@@ -30,7 +30,7 @@ class BottomSheetFragment(private val imageUrl: String) : BottomSheetDialogFragm
         savedInstanceState: Bundle?
     ): View? {
         binding = DialogBottomSheetBinding.inflate(inflater)
-
+        setClick()
         return binding.root
     }
 

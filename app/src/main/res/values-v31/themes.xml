@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/main_background</item>
+        <item name="android:navigationBarColor">@color/main_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowSplashScreenBackground">@color/main_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+    </style>
+</resources>

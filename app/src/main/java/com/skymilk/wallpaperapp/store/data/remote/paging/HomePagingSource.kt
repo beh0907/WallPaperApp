@@ -10,7 +10,10 @@ class HomePagingSource(
     private val wallPaperApi: WallPaperApi
 ) : PagingSource<Int, Data>() {
     override fun getRefreshKey(state: PagingState<Int, Data>): Int? {
-        return state.anchorPosition
+        return state.anchorPosition?.let {
+            val anchorPage = state.closestPageToPosition(it)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Data> {

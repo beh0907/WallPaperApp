@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.skymilk.wallpaperapp.store.data.remote.WallPaperApi
+import com.skymilk.wallpaperapp.store.data.remote.paging.CategoryPagingSource
 import com.skymilk.wallpaperapp.store.data.remote.paging.HomePagingSource
 import com.skymilk.wallpaperapp.store.data.remote.paging.PopularPagingSource
 import com.skymilk.wallpaperapp.store.data.remote.paging.RandomPagingSource
@@ -39,6 +40,15 @@ class WallPaperRepositoryImpl @Inject constructor(
             config = PagingConfig(pageSize = 30),
             pagingSourceFactory = {
                 RandomPagingSource(wallPaperApi)
+            }
+        ).flow
+    }
+
+    override fun getCategoryWallPaper(category: String): Flow<PagingData<Data>> {
+        return Pager(
+            config = PagingConfig(pageSize = 30),
+            pagingSourceFactory = {
+                CategoryPagingSource(wallPaperApi, category)
             }
         ).flow
     }

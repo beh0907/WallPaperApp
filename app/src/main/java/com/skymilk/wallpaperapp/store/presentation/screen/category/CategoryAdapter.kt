@@ -13,7 +13,7 @@ class CategoryAdapter(
     private val categoryList: List<Category>
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
-    var onItemClick: ((Category) -> Unit)? = null
+    var onItemClick: ((String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         return CategoryViewHolder(
@@ -36,7 +36,7 @@ class CategoryAdapter(
 
         init {
             binding.root.setOnClickListener {
-                onItemClick?.invoke(categoryList[bindingAdapterPosition])
+                onItemClick?.invoke(categoryList[bindingAdapterPosition].categoryName)
             }
         }
 

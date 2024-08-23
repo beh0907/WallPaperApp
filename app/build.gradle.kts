@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -5,6 +8,10 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
+
+// local.properties 사용을 위함
+val properties = Properties()
+properties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace = "com.skymilk.wallpaperapp"
@@ -16,8 +23,8 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String","WALLHAVEN_API_KEY", properties.getProperty("wallhaven_api_key"))
     }
 
     buildTypes {
@@ -38,6 +45,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -79,5 +87,5 @@ dependencies {
 
     //progress bar
     implementation(libs.android.spinkit)
-    implementation("com.flaviofaria:kenburnsview:1.0.7")
+    implementation(libs.kenburnsview)
 }
