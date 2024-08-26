@@ -1,19 +1,15 @@
-package com.skymilk.wallpaperapp.store.presentation.common
+package com.skymilk.wallpaperapp.store.presentation.common.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemWallPaperBinding
 import com.skymilk.wallpaperapp.store.domain.model.Data
-import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirections
-import com.skymilk.wallpaperapp.utils.BlurHashDecoder
-import com.skymilk.wallpaperapp.utils.Constants
 
 class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewHolder>(
     DiffUtilCallback()
@@ -50,16 +46,13 @@ class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewH
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Data) {
-            val blurHashDecodeDrawable = BlurHashDecoder.blurHashBitmap(itemView.resources, data)
-
             binding.apply {
                 Glide.with(itemView.context)
                     .asBitmap()
                     .load(data.smallImageUrl)
                     .centerCrop()
                     .transition(BitmapTransitionOptions.withCrossFade(100))
-                    .placeholder(blurHashDecodeDrawable)
-                    .error(blurHashDecodeDrawable)
+                    .error(R.color.teal_200)
                     .into(imageWallPaper)
 
             }

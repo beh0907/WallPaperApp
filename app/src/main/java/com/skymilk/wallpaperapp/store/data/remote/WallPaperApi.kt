@@ -24,4 +24,11 @@ interface WallPaperApi {
         @Query("page") page: Int,
         @Query("category") category: String
     ): WallPaper
+
+    //API로부터 키워드 검색
+    @GET("search")
+    suspend fun getSearchWallPaper(
+        @Query("page") page: Int,
+        @Query("search") search: String
+    ): WallPaper
 }

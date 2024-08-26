@@ -1,12 +1,14 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skymilk.wallpaperapp.databinding.FragmentMainBinding
 import com.skymilk.wallpaperapp.store.presentation.screen.category.CategoriesFragment
@@ -32,16 +34,15 @@ class MainFragment : Fragment() {
             false
         )
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         initViewPager()
         initTabLayout()
         initToolBar()
+        setEvent()
+
+        return binding.root
     }
+
 
     private fun initViewPager() {
         val pagerAdapter = ViewPagerAdapter(requireContext() as FragmentActivity, fragments)
@@ -60,5 +61,13 @@ class MainFragment : Fragment() {
     private fun initToolBar() {
         binding.toolbar.title = "WallPapers"
         (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
+    }
+
+    private fun setEvent() {
+        binding.btnSearch.setOnClickListener {
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToSearchFragment()
+            )
+        }
     }
 }

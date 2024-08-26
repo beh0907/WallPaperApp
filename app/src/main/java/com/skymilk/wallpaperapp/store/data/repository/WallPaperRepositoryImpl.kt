@@ -8,6 +8,7 @@ import com.skymilk.wallpaperapp.store.data.remote.paging.CategoryPagingSource
 import com.skymilk.wallpaperapp.store.data.remote.paging.HomePagingSource
 import com.skymilk.wallpaperapp.store.data.remote.paging.PopularPagingSource
 import com.skymilk.wallpaperapp.store.data.remote.paging.RandomPagingSource
+import com.skymilk.wallpaperapp.store.data.remote.paging.SearchPagingSource
 import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
 import com.skymilk.wallpaperapp.store.domain.model.Data
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +50,15 @@ class WallPaperRepositoryImpl @Inject constructor(
             config = PagingConfig(pageSize = 30),
             pagingSourceFactory = {
                 CategoryPagingSource(wallPaperApi, category)
+            }
+        ).flow
+    }
+
+    override fun getSearchWallPaper(searchQuery: String): Flow<PagingData<Data>> {
+        return Pager(
+            config = PagingConfig(pageSize = 30),
+            pagingSourceFactory = {
+                SearchPagingSource(wallPaperApi, searchQuery)
             }
         ).flow
     }

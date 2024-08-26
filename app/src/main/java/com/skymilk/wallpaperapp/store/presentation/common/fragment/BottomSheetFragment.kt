@@ -1,24 +1,24 @@
-package com.skymilk.wallpaperapp.store.presentation.common
+package com.skymilk.wallpaperapp.store.presentation.common.fragment
 
 import android.app.DownloadManager
 import android.app.WallpaperManager
+import android.content.BroadcastReceiver
 import android.content.Context
-import android.graphics.Bitmap
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.imageview.ShapeableImageView
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.DialogBottomSheetBinding
+import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
 import com.skymilk.wallpaperapp.utils.Constants
-import java.io.File
 
 class BottomSheetFragment(private val imageUrl: String) : BottomSheetDialogFragment() {
 
@@ -45,34 +45,15 @@ class BottomSheetFragment(private val imageUrl: String) : BottomSheetDialogFragm
     }
 
     private fun downloadImageFromUrl(url: String) {
-        try {
-            val downloadManager =
-                requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        ImageDownloadManager.downloadImageFromUrl(url, requireContext(), object : BroadcastReceiver() {
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                //다운로드 완료 체크
+                if (p1?.action != DownloadManager.ACTION_DOWNLOAD_COMPLETE) return
 
-            val imageUrl = Uri.parse(url)
-            val request = DownloadManager.Request(imageUrl).apply {
-                setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                    .setMimeType("image/*")
-                    .setAllowedOverRoaming(false)
-                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                    .setTitle("이미지 다운로드")
-                    .setDestinationInExternalPublicDir(
-                        Environment.DIRECTORY_PICTURES,
-                        File.separator + "image" + ".jpg"
-                    )
+
             }
 
-            downloadManager.enqueue(request)
-            Toast.makeText(requireContext(), "이미지 다운로드 중......", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            e.printStackTrace()
-
-            Toast.makeText(
-                requireContext(),
-                "이미지 다운로드 실패 - ${e.message.toString()}",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        })
     }
 
     private fun setBackGround(LockOrBackground: Int) {
@@ -95,7 +76,6 @@ class BottomSheetFragment(private val imageUrl: String) : BottomSheetDialogFragm
                     "이미지가 적용되었습니다.",
                     Toast.LENGTH_SHORT
                 ).show()
-
             }
 
 

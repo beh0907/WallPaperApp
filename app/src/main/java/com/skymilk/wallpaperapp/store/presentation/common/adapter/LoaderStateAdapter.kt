@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.presentation.common
+package com.skymilk.wallpaperapp.store.presentation.common.adapter
 
 import android.view.ViewGroup
 import androidx.paging.LoadState

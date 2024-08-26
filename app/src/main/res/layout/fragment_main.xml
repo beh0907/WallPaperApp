@@ -29,6 +29,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
 
+
+            <ImageButton
+                android:layout_gravity="end"
+                android:id="@+id/btnSearch"
+                android:src="@drawable/ic_manage_search"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                app:tint="@color/white"
+                android:background="@null"
+                android:clickable="true"
+                android:focusable="true"/>
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>

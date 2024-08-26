@@ -1,8 +1,8 @@
 [versions]
 agp = "8.5.2"
 androidSpinkit = "1.4.0"
-blurhash = "1.0.0"
 glide = "4.16.0"
+glideTransformations = "4.3.0"
 kenburnsview = "1.0.7"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -16,9 +16,9 @@ activity = "1.9.1"
 constraintlayout = "2.1.4"
 navigationUiKtx = "2.7.7"
 pagingRuntimeKtx = "3.3.2"
-sdp-sdp-Android = "1.1.1"
+sdp-ssp-Android = "1.1.1"
 retrofit = "2.9.0"
-hiltAndroid = "2.48.1"
+hiltAndroid = "2.49"
 swiperefreshlayout = "1.1.0"
 
 [libraries]
@@ -29,8 +29,8 @@ androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:na
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
-blurhash = { module = "io.trbl:blurhash", version.ref = "blurhash" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glideTransformations" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -40,8 +40,8 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-ssp-android = { module = "com.intuit.ssp:ssp-android", version.ref = "sdp-sdp-Android" }
-sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdp-sdp-Android" }
+ssp-android = { module = "com.intuit.ssp:ssp-android", version.ref = "sdp-ssp-Android" }
+sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdp-ssp-Android" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
@@ -50,4 +50,5 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 

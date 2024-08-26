@@ -44,8 +44,6 @@ class CategoryViewModel @AssistedInject constructor(
     }
 
     init {
-        Log.d("CategoryViewModel", "category : $category")
-
         viewModelScope.launch {
             getCategoryWallPaper(category).collect {
                 _categoryWallPapers.emit(it)

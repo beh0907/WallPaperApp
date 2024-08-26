@@ -13,4 +13,6 @@ interface WallPaperRepository {
     fun getRandomWallPaper(): Flow<PagingData<Data>>
 
     fun getCategoryWallPaper(category: String): Flow<PagingData<Data>>
+
+    fun getSearchWallPaper(searchQuery: String): Flow<PagingData<Data>>
 }

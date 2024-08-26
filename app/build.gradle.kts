@@ -7,6 +7,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+
 }
 
 // local.properties 사용을 위함
@@ -60,6 +61,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+
+    implementation(libs.kotlin.reflect)
+
+    //layout
+    implementation(libs.androidx.swiperefreshlayout)
+
     //size
     implementation(libs.ssp.android)
     implementation(libs.sdp.android)
@@ -81,11 +88,11 @@ dependencies {
 
     //Glide
     implementation(libs.glide)
-    implementation(libs.blurhash)
-    implementation(libs.kotlin.reflect)
-    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.glide.transformations)
 
     //progress bar
     implementation(libs.android.spinkit)
     implementation(libs.kenburnsview)
+
+    //Image Editor
 }

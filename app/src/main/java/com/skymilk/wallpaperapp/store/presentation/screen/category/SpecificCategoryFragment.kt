@@ -11,17 +11,15 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.skymilk.wallpaperapp.databinding.FragmentSpecificCategoryBinding
-import com.skymilk.wallpaperapp.store.presentation.common.LoaderStateAdapter
-import com.skymilk.wallpaperapp.store.presentation.common.WallPaperAdapter
+import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
+import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -50,20 +48,19 @@ class SpecificCategoryFragment : Fragment() {
     ): View? {
         binding = FragmentSpecificCategoryBinding.inflate(layoutInflater)
 
-        initViewModel()
         initRecyclerView()
+
+        setObserve()
         setCategoryName()
         setClick()
 
         return binding.root
     }
 
-    private fun initViewModel() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                categoryViewModel.categoryWallPapers.collectLatest {
-                    wallPaperAdapter.submitData(it)
-                }
+    private fun setObserve() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            categoryViewModel.categoryWallPapers.collectLatest {
+                wallPaperAdapter.submitData(it)
             }
         }
     }
