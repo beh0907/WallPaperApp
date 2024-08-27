@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/main_background"
-        android:elevation="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolBar"
@@ -26,21 +26,44 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                android:background="@color/main_background"
+                app:contentScrim="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
 
 
-            <ImageButton
-                android:layout_gravity="end"
-                android:id="@+id/btnSearch"
-                android:src="@drawable/ic_manage_search"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:layout_width="@dimen/_36sdp"
-                android:layout_height="@dimen/_36sdp"
-                app:tint="@color/white"
-                android:background="@null"
-                android:clickable="true"
-                android:focusable="true"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/btnSearch"
+                    android:src="@drawable/ic_manage_search"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
+                    app:tint="@color/white"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <ImageButton
+                    app:layout_constraintBottom_toBottomOf="@id/btnSearch"
+                    app:layout_constraintTop_toTopOf="@id/btnSearch"
+                    app:layout_constraintEnd_toStartOf="@id/btnSearch"
+                    android:id="@+id/btnMyDownload"
+                    android:src="@drawable/ic_download"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
+                    app:tint="@color/white"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

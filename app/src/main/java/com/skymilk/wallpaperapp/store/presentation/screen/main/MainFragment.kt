@@ -1,7 +1,6 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,7 @@ class MainFragment : Fragment() {
         initViewPager()
         initTabLayout()
         initToolBar()
-        setEvent()
+        setClick()
 
         return binding.root
     }
@@ -63,11 +62,21 @@ class MainFragment : Fragment() {
         (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
     }
 
-    private fun setEvent() {
-        binding.btnSearch.setOnClickListener {
-            findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToSearchFragment()
-            )
+    private fun setClick() {
+        binding.apply {
+            btnSearch.setOnClickListener {
+                findNavController().navigate(
+                    MainFragmentDirections.actionMainFragmentToSearchFragment()
+                )
+            }
+
+            btnMyDownload.setOnClickListener {
+                findNavController().navigate(
+                    MainFragmentDirections.actionMainFragmentToMyDownloadFragment()
+                )
+            }
         }
+
+
     }
 }

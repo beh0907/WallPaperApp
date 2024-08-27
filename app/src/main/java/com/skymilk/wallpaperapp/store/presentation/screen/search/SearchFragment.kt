@@ -1,12 +1,17 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.search
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView.OnQueryTextListener
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.R
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +27,7 @@ import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirec
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -42,7 +48,31 @@ class SearchFragment : Fragment() {
         setObserve()
         setEvent()
 
+        setSearchView()
         return binding.root
+    }
+
+    private fun setSearchView() {
+        binding.txtSearch.apply {
+            //텍스트 색상 및 폰트 설정
+            val searchEditText: EditText = findViewById(R.id.search_src_text)
+            searchEditText.setTextColor(Color.WHITE)
+            searchEditText.setHintTextColor(Color.WHITE)
+            val typeface =
+                ResourcesCompat.getFont(requireContext(), com.skymilk.wallpaperapp.R.font.bm_hanna_pro)
+            searchEditText.typeface = typeface
+
+            //검색 버튼 색상 설정
+            val searchIcon: ImageView = findViewById(R.id.search_mag_icon)
+            searchIcon.setColorFilter(Color.WHITE)
+
+            //초기화 버튼 색상 설정
+            val closeIcon: ImageView = findViewById(R.id.search_close_btn)
+            closeIcon.setColorFilter(Color.WHITE)
+
+            //기본 확장 상태 설정
+            onActionViewExpanded()
+        }
     }
 
     private fun setObserve() {
@@ -87,13 +117,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun setEvent() {
-        binding.txtSearch.onActionViewExpanded()
-
         binding.apply {
-            txtSearch.setOnQueryTextListener(object : OnQueryTextListener {
+            txtSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(p0: String?): Boolean {
 
-                    Log.d("ddd", p0.toString())
                     searchViewModel.searchWallPapers()
                     return false
                 }

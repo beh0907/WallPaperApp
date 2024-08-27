@@ -88,11 +88,11 @@ dependencies {
 
     //Glide
     implementation(libs.glide)
+    kapt(libs.glide.compiler)
     implementation(libs.glide.transformations)
 
     //progress bar
     implementation(libs.android.spinkit)
     implementation(libs.kenburnsview)
 
-    //Image Editor
 }

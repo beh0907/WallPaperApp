@@ -7,20 +7,24 @@
     android:background="@color/main_background"
     tools:context=".store.presentation.screen.search.SearchFragment">
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/txtSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:queryHint="검색어를 입력해주세요."
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/bg_search"
+        app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="검색어를 입력해주세요." />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerWallPaper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

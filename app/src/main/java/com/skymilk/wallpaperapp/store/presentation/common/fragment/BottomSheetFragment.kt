@@ -5,10 +5,10 @@ import android.app.WallpaperManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +18,8 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.DialogBottomSheetBinding
 import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
-import com.skymilk.wallpaperapp.utils.Constants
 
-class BottomSheetFragment(private val imageUrl: String) : BottomSheetDialogFragment() {
+class BottomSheetFragment(private val imageUrl: String? = null, private val bitmap: Bitmap) : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogBottomSheetBinding
 
@@ -30,54 +29,52 @@ class BottomSheetFragment(private val imageUrl: String) : BottomSheetDialogFragm
         savedInstanceState: Bundle?
     ): View? {
         binding = DialogBottomSheetBinding.inflate(inflater)
+
+        setVisible()
         setClick()
+
         return binding.root
+    }
+
+    private fun setVisible() {
+        if (imageUrl == null) binding.btnDownload.visibility = View.GONE
     }
 
     private fun setClick() {
         binding.apply {
-            btnDownload.setOnClickListener { downloadImageFromUrl(imageUrl) }
+            btnDownload.setOnClickListener { downloadImageFromUrl(imageUrl!!) }
 
-            btnSetBackGround.setOnClickListener { setBackGround(Constants.Background.HOME_SCREEN) }
+            btnSetBackGround.setOnClickListener { setBackGround(WallpaperManager.FLAG_SYSTEM) }
 
-            btnSetLockScreen.setOnClickListener { setBackGround(Constants.Background.LOCK_SCREEN) }
+            btnSetLockScreen.setOnClickListener { setBackGround(WallpaperManager.FLAG_LOCK) }
         }
     }
 
     private fun downloadImageFromUrl(url: String) {
-        ImageDownloadManager.downloadImageFromUrl(url, requireContext(), object : BroadcastReceiver() {
-            override fun onReceive(p0: Context?, p1: Intent?) {
-                //다운로드 완료 체크
-                if (p1?.action != DownloadManager.ACTION_DOWNLOAD_COMPLETE) return
+        ImageDownloadManager.downloadImageFromUrl(
+            url,
+            requireContext(),
+            object : BroadcastReceiver() {
+                override fun onReceive(p0: Context?, p1: Intent?) {
+                    //다운로드 완료 체크
+                    if (p1?.action != DownloadManager.ACTION_DOWNLOAD_COMPLETE) return
 
+                    
+                }
 
-            }
-
-        })
+            })
     }
 
-    private fun setBackGround(LockOrBackground: Int) {
+    private fun setBackGround(flag: Int) {
         try {
             val wallPaperManager = WallpaperManager.getInstance(requireContext())
-            val image = requireActivity().findViewById<ShapeableImageView>(R.id.imageDownload)
+            wallPaperManager.setBitmap(bitmap, null, true, flag)
 
-            if (image?.drawable == null) {
-                Toast.makeText(
-                    requireContext(),
-                    "이미지 로딩을 기다려주세요.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                val bitmap = (image.drawable as BitmapDrawable).bitmap
-                wallPaperManager.setBitmap(bitmap, null, true, LockOrBackground)
-
-                Toast.makeText(
-                    requireContext(),
-                    "이미지가 적용되었습니다.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
+            Toast.makeText(
+                requireContext(),
+                "이미지가 적용되었습니다.",
+                Toast.LENGTH_SHORT
+            ).show()
 
         } catch (e: Exception) {
             e.printStackTrace()

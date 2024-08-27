@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_mainFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_myDownloadFragment"
+            app:destination="@id/myDownloadFragment" />
     </fragment>
     <fragment
         android:id="@+id/downloadFragment"
@@ -48,4 +51,9 @@
         android:name="com.skymilk.wallpaperapp.store.presentation.screen.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/myDownloadFragment"
+        android:name="com.skymilk.wallpaperapp.store.presentation.screen.download.MyDownloadFragment"
+        android:label="fragment_my_download"
+        tools:layout="@layout/fragment_my_download" />
 </navigation>

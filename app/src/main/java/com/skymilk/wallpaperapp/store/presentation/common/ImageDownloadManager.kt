@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
+import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import java.io.File
 
 object ImageDownloadManager {
@@ -24,14 +25,14 @@ object ImageDownloadManager {
                     .setTitle("이미지 다운로드")
                     .setDestinationInExternalPublicDir(
                         Environment.DIRECTORY_PICTURES,
-                        File.separator + "image" + ".jpg"
+                        File.separator + "wallpapers" + File.separator + "image" + ".jpg"
                     )
             }
 
             downloadManager.enqueue(request)
 
             val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-            context.registerReceiver(downloadReceiver, filter)
+            context.registerReceiver(downloadReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
 
         } catch (e: Exception) {
             e.printStackTrace()

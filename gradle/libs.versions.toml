@@ -1,6 +1,8 @@
 [versions]
 agp = "8.5.2"
+ananas = "1.2.6"
 androidSpinkit = "1.4.0"
+cardStackView = "v2.3.4"
 glide = "4.16.0"
 glideTransformations = "4.3.0"
 kenburnsview = "1.0.7"
@@ -10,18 +12,19 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
-kotlinReflect = "1.9.22"
+kotlinReflect = "2.0.20"
 material = "1.12.0"
 activity = "1.9.1"
 constraintlayout = "2.1.4"
 navigationUiKtx = "2.7.7"
 pagingRuntimeKtx = "3.3.2"
 sdp-ssp-Android = "1.1.1"
-retrofit = "2.9.0"
-hiltAndroid = "2.49"
+retrofit = "2.11.0"
+hiltAndroid = "2.52"
 swiperefreshlayout = "1.1.0"
 
 [libraries]
+ananas = { module = "com.github.iamutkarshtiwari:Ananas", version.ref = "ananas" }
 android-spinkit = { module = "com.github.ybq:Android-SpinKit", version.ref = "androidSpinkit" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationUiKtx" }
@@ -29,7 +32,9 @@ androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:na
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+card-stack-view = { module = "com.github.yuyakaido:CardStackView", version.ref = "cardStackView" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glideTransformations" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -49,6 +54,7 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 
