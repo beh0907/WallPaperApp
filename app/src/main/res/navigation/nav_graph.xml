@@ -13,16 +13,32 @@
         <action
             android:id="@+id/action_mainFragment_to_downloadFragment"
             app:destination="@id/downloadFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_mainFragment_to_specificCategoryFragment"
-            app:destination="@id/specificCategoryFragment" />
+            app:destination="@id/specificCategoryFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_mainFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_mainFragment_to_myDownloadFragment"
-            app:destination="@id/myDownloadFragment" />
+            app:destination="@id/myDownloadFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/downloadFragment"
@@ -30,8 +46,8 @@
         android:label="fragment_download"
         tools:layout="@layout/fragment_download" >
         <argument
-            android:name="imageData"
-            app:argType="string[]" />
+            android:name="imageUrl"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/specificCategoryFragment"
@@ -44,13 +60,21 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_specificCategoryFragment_to_downloadFragment"
-            app:destination="@id/downloadFragment" />
+            app:destination="@id/downloadFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.skymilk.wallpaperapp.store.presentation.screen.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_downloadFragment"
+            app:destination="@id/downloadFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myDownloadFragment"
         android:name="com.skymilk.wallpaperapp.store.presentation.screen.download.MyDownloadFragment"

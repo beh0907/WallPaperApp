@@ -67,14 +67,12 @@ class SpecificCategoryFragment : Fragment() {
 
     private fun initRecyclerView() {
         //이미지 아이템 클릭 이벤트
-        wallPaperAdapter.onItemClick = { data ->
-            val imageData = arrayOf(data.fullImageUrl.toString(), data.blurHash.toString())
-
+        wallPaperAdapter.onItemClick = { hit ->
             //이미지 URL 정보와 함꼐 다운로드 화면으로 이동
             findNavController()
                 .navigate(
                     SpecificCategoryFragmentDirections.actionSpecificCategoryFragmentToDownloadFragment(
-                        imageData
+                        hit.largeImageURL
                     )
                 )
         }

@@ -11,7 +11,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 object ImageUtil {
-    fun getSavedImages(context: Context): List<File> {
+    fun getSavedImages(): List<File> {
         val picturesDirectory =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         val wallpapersDirectory = File(picturesDirectory, "wallpapers")

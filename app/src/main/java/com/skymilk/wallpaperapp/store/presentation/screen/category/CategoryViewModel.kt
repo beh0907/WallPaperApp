@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
-import com.skymilk.wallpaperapp.store.domain.model.Data
+import com.skymilk.wallpaperapp.store.domain.model.Hit
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -51,9 +51,9 @@ class CategoryViewModel @AssistedInject constructor(
         }
     }
 
-    private val _categoryWallPapers = MutableSharedFlow<PagingData<Data>>()
+    private val _categoryWallPapers = MutableSharedFlow<PagingData<Hit>>()
     var categoryWallPapers = _categoryWallPapers.asSharedFlow()
 
-    private fun getCategoryWallPaper(category: String): Flow<PagingData<Data>> =
+    private fun getCategoryWallPaper(category: String): Flow<PagingData<Hit>> =
         wallPaperRepository.getCategoryWallPaper(category).cachedIn(viewModelScope)
 }

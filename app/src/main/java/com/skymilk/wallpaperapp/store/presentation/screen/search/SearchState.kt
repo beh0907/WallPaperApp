@@ -1,10 +1,10 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.search
 
 import androidx.paging.PagingData
-import com.skymilk.wallpaperapp.store.domain.model.Data
+import com.skymilk.wallpaperapp.store.domain.model.Hit
 import kotlinx.coroutines.flow.Flow
 
 data class SearchState(
     val searchQuery: String = "",
-    val wallPapers: Flow<PagingData<Data>>? = null
+    val wallPapers: Flow<PagingData<Hit>>? = null
 )

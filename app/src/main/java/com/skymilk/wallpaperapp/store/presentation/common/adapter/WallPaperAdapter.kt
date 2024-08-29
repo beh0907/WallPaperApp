@@ -9,12 +9,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemWallPaperBinding
-import com.skymilk.wallpaperapp.store.domain.model.Data
+import com.skymilk.wallpaperapp.store.domain.model.Hit
 
-class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewHolder>(
+class WallPaperAdapter : PagingDataAdapter<Hit, WallPaperAdapter.WallPaperViewHolder>(
     DiffUtilCallback()
 ) {
-    var onItemClick: ((Data) -> Unit)? = null
+    var onItemClick: ((Hit) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallPaperViewHolder {
         return WallPaperViewHolder(
@@ -31,12 +31,12 @@ class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewH
     }
 
 
-    class DiffUtilCallback : DiffUtil.ItemCallback<Data>() {
-        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
-            return oldItem.blurHash == newItem.blurHash
+    class DiffUtilCallback : DiffUtil.ItemCallback<Hit>() {
+        override fun areItemsTheSame(oldItem: Hit, newItem: Hit): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
+        override fun areContentsTheSame(oldItem: Hit, newItem: Hit): Boolean {
             return oldItem == newItem
         }
     }
@@ -45,11 +45,11 @@ class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewH
     inner class WallPaperViewHolder(val binding: ItemWallPaperBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Data) {
+        fun bind(hit: Hit) {
             binding.apply {
                 Glide.with(itemView.context)
                     .asBitmap()
-                    .load(data.smallImageUrl)
+                    .load(hit.previewURL)
                     .centerCrop()
                     .transition(BitmapTransitionOptions.withCrossFade(100))
                     .error(R.color.teal_200)
@@ -59,7 +59,7 @@ class WallPaperAdapter : PagingDataAdapter<Data, WallPaperAdapter.WallPaperViewH
 
 
             itemView.setOnClickListener {
-                onItemClick?.invoke(data)
+                onItemClick?.invoke(hit)
             }
         }
     }

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.FragmentMyDownloadBinding
 import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetFragment
 import com.skymilk.wallpaperapp.utils.ImageUtil
@@ -45,7 +43,7 @@ class MyDownloadFragment : Fragment() {
     }
 
     private fun initViewPager() {
-        imageList = ImageUtil.getSavedImages(requireContext())
+        imageList = ImageUtil.getSavedImages()
         myDownloadImageAdapter = MyDownloadImageAdapter(imageList)
 
         binding.viewPagerImage.apply {
@@ -71,7 +69,7 @@ class MyDownloadFragment : Fragment() {
             }
 
             btnEdit.setOnClickListener {
-
+                editWallPaper()
             }
 
             viewPagerImage.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -100,10 +98,18 @@ class MyDownloadFragment : Fragment() {
 
     private fun getCurrentImageView(): ImageView {
         //현재 ViewPager가 위치의 이미지 뷰를 가져온다
-        return (binding.viewPagerImage.get(0) as RecyclerView).findViewHolderForAdapterPosition(
-            binding.viewPagerImage.currentItem
-        )!!.itemView.findViewById(R.id.imageDownload)
+
+        // ViewPager2 내부의 RecyclerView에 접근
+        val recyclerView = binding.viewPagerImage.getChildAt(0) as? RecyclerView
+
+        // 현재 위치의 ViewHolder를 가져옴
+        val viewHolder =
+            recyclerView?.findViewHolderForAdapterPosition(binding.viewPagerImage.currentItem) as? MyDownloadImageAdapter.MyDownloadImageViewHolder
+
+        return viewHolder!!.binding.imageDownload
     }
+
+    private fun getCurrentImageFile(): File = imageList[binding.viewPagerImage.currentItem]
 
     private fun shareImage() {
         val imageView = getCurrentImageView()
@@ -137,9 +143,13 @@ class MyDownloadFragment : Fragment() {
         }
 
         //이미 다운로드한 이미지이기 떄문에 URL은 넘겨주지 않는다
-        val bottomSheet = BottomSheetFragment(
+        val bottomSheet = BottomSheetFragment.newInstance(
             bitmap = (imageView.drawable as BitmapDrawable).bitmap
         )
         bottomSheet.show(requireActivity().supportFragmentManager, "myDownload bottomSheet")
+    }
+
+    private fun editWallPaper() {
+        val file = getCurrentImageFile()
     }
 }

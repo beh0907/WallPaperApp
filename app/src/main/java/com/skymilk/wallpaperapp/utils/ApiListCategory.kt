@@ -5,16 +5,20 @@ import com.skymilk.wallpaperapp.store.domain.model.Category
 object ApiListCategory {
     val list = listOf(
         Category(
-            "Gaming",
-            "https://images.unsplash.com/photo-1616440537338-1d04df3987f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHw5N3x8R2FtaW5nfGVufDB8MXx8fDE2MzM0Njg0Mjc&ixlib=rb-1.2.1&q=80&w=400"
-        ),
-        Category(
             "Food",
             "https://images.unsplash.com/photo-1532635215-25385bb7c5d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHwzMDAzfHxGb29kfGVufDB8MXx8fDE2MzE4ODE4ODA&ixlib=rb-1.2.1&q=80&w=400"
         ),
         Category(
+            "Animals",
+            "https://images.unsplash.com/photo-1619065402614-0e5569e78684?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHwxNDEyfHxBbmltYWxzfGVufDB8MXx8fDE2MzE4ODExOTE&ixlib=rb-1.2.1&q=80&w=400"
+        ),
+        Category(
             "Art",
             "https://images.unsplash.com/photo-1596644573908-7254b2e81456?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHwyNTkxfHxBcnR8ZW58MHwxfHx8MTYzMjA2MzA2OA&ixlib=rb-1.2.1&q=80&w=400"
+        ),
+        Category(
+            "Gaming",
+            "https://images.unsplash.com/photo-1616440537338-1d04df3987f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHw5N3x8R2FtaW5nfGVufDB8MXx8fDE2MzM0Njg0Mjc&ixlib=rb-1.2.1&q=80&w=400"
         ),
         Category(
             "Cars",
@@ -27,10 +31,6 @@ object ApiListCategory {
         Category(
             "City",
             "https://images.unsplash.com/photo-1595865766314-f402c265cabb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHwzODM4fHxDaXR5fGVufDB8MXx8fDE2MzE4ODE0NjQ&ixlib=rb-1.2.1&q=80&w=400"
-        ),
-        Category(
-            "Animals",
-            "https://images.unsplash.com/photo-1619065402614-0e5569e78684?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNTUzMjl8MHwxfHNlYXJjaHwxNDEyfHxBbmltYWxzfGVufDB8MXx8fDE2MzE4ODExOTE&ixlib=rb-1.2.1&q=80&w=400"
         ),
         Category(
             "Flowers",

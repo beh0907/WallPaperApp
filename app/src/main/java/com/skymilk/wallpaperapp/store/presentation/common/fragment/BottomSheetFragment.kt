@@ -6,22 +6,48 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.imageview.ShapeableImageView
-import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.DialogBottomSheetBinding
 import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
 
-class BottomSheetFragment(private val imageUrl: String? = null, private val bitmap: Bitmap) : BottomSheetDialogFragment() {
+class BottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogBottomSheetBinding
+    private var imageUrl: String? = null
+    private lateinit var bitmap: Bitmap
+
+    companion object {
+        private const val ARG_IMAGE_URL = "image_url"
+        private const val ARG_BITMAP = "bitmap"
+
+        fun newInstance(imageUrl: String? = null, bitmap: Bitmap): BottomSheetFragment {
+            val fragment = BottomSheetFragment()
+            val args = Bundle().apply {
+                putString(ARG_IMAGE_URL, imageUrl)
+                putParcelable(ARG_BITMAP, bitmap)
+            }
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            imageUrl = it.getString(ARG_IMAGE_URL)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                bitmap = it.getParcelable(ARG_BITMAP, Bitmap::class.java)!!
+            } else {
+                bitmap = it.getParcelable(ARG_BITMAP)!!
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,8 +84,6 @@ class BottomSheetFragment(private val imageUrl: String? = null, private val bitm
                 override fun onReceive(p0: Context?, p1: Intent?) {
                     //다운로드 완료 체크
                     if (p1?.action != DownloadManager.ACTION_DOWNLOAD_COMPLETE) return
-
-                    
                 }
 
             })
@@ -76,6 +100,8 @@ class BottomSheetFragment(private val imageUrl: String? = null, private val bitm
                 Toast.LENGTH_SHORT
             ).show()
 
+            //종료
+            dismiss()
         } catch (e: Exception) {
             e.printStackTrace()
 

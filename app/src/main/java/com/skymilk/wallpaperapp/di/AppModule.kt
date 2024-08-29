@@ -23,5 +23,4 @@ object AppModule {
             .build()
             .create(WallPaperApi::class.java)
     }
-
 }

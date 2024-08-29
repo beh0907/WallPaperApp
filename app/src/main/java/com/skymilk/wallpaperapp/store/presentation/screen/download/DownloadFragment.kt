@@ -35,7 +35,7 @@ class DownloadFragment : Fragment() {
     ): View? {
         binding = FragmentDownloadBinding.inflate(inflater, container, false)
 
-        loadImage(args.imageData[0])
+        loadImage(args.imageUrl)
         setClick()
 
         return binding.root
@@ -111,8 +111,8 @@ class DownloadFragment : Fragment() {
             return
         }
 
-        val bottomSheet = BottomSheetFragment(
-            imageUrl = args.imageData[0],
+        val bottomSheet = BottomSheetFragment.newInstance(
+            imageUrl = args.imageUrl,
             bitmap = (binding.imageDownload.drawable as BitmapDrawable).bitmap
         )
         bottomSheet.show(requireActivity().supportFragmentManager, "download bottomSheet")

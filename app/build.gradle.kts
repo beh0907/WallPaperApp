@@ -4,10 +4,10 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt.android)
+    kotlin("plugin.serialization") version "1.9.22"
     id("androidx.navigation.safeargs.kotlin")
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
-
 }
 
 // local.properties 사용을 위함
@@ -26,6 +26,7 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String","WALLHAVEN_API_KEY", properties.getProperty("wallhaven_api_key"))
+        buildConfigField("String","PIXABAY_API_KEY", properties.getProperty("pixabay_api_key"))
     }
 
     buildTypes {
@@ -61,6 +62,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //serialization
+    implementation(libs.kotlinx.serialization.json)
+
 
     implementation(libs.kotlin.reflect)
 
@@ -94,5 +98,10 @@ dependencies {
     //progress bar
     implementation(libs.android.spinkit)
     implementation(libs.kenburnsview)
+
+    //ImageEditor
+
+    //permission
+    implementation("io.github.ParkSangGwon:tedpermission-normal:3.4.2")
 
 }
