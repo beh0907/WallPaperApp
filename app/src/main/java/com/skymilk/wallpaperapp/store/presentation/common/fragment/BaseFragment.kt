@@ -32,7 +32,7 @@ abstract class BaseFragment : Fragment() {
         initRecyclerView()
 
         setObserve()
-        setClick()
+        setEvent()
 
         return binding.root
     }
@@ -70,10 +70,15 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    private fun setClick() {
+    private fun setEvent() {
         binding.apply {
             btnRetry.setOnClickListener {
                 wallPaperAdapter.retry()
+            }
+
+            layoutSwipeRefresh.setOnRefreshListener {
+                wallPaperAdapter.refresh()
+                layoutSwipeRefresh.isRefreshing = false
             }
         }
     }

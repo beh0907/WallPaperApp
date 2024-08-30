@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.skymilk.wallpaperapp.databinding.FragmentCategoriesBinding
 import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirections
-import com.skymilk.wallpaperapp.utils.ApiListCategory
-import dagger.hilt.android.AndroidEntryPoint
+import com.skymilk.wallpaperapp.utils.ApiCategoryList
 
 class CategoriesFragment : Fragment() {
 
@@ -34,7 +32,7 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        categoryAdapter = CategoryAdapter(ApiListCategory.list)
+        categoryAdapter = CategoryAdapter(ApiCategoryList.list)
 
         //선택한 카테고리명을 넘겨 화면을 이동한다
         categoryAdapter.onItemClick = { category ->

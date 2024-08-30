@@ -3,22 +3,41 @@ package com.skymilk.wallpaperapp.utils
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Environment
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.skymilk.wallpaperapp.BuildConfig
 import java.io.File
 import java.io.FileOutputStream
 
 object ImageUtil {
+
+    fun getShimmerDrawable() : ShimmerDrawable {
+        val shimmer = Shimmer.ColorHighlightBuilder()
+            .setBaseColor(Color.parseColor("#F3F3F3"))
+            .setBaseAlpha(1f)
+            .setHighlightColor(Color.parseColor("#9E9E9E"))
+            .setHighlightAlpha(1f)
+            .setDropoff(50f)
+            .build()
+
+        return ShimmerDrawable().apply {
+            setShimmer(shimmer)
+        }
+    }
+
     fun getSavedImages(): List<File> {
         val picturesDirectory =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         val wallpapersDirectory = File(picturesDirectory, "wallpapers")
 
+        //최신 이미지부터 가져오기 위해 reversed 설정
         return if (wallpapersDirectory.exists() && wallpapersDirectory.isDirectory) {
             wallpapersDirectory.listFiles { file -> file.isFile && file.extension == "jpg" }
-                ?.toList() ?: emptyList()
+                ?.toList()?.reversed() ?: emptyList()
         } else {
             emptyList()
         }

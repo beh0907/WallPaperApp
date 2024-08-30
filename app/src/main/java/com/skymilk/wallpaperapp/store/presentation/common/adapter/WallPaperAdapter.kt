@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemWallPaperBinding
 import com.skymilk.wallpaperapp.store.domain.model.Hit
+import com.skymilk.wallpaperapp.utils.ImageUtil
 
 class WallPaperAdapter : PagingDataAdapter<Hit, WallPaperAdapter.WallPaperViewHolder>(
     DiffUtilCallback()
@@ -49,7 +50,8 @@ class WallPaperAdapter : PagingDataAdapter<Hit, WallPaperAdapter.WallPaperViewHo
             binding.apply {
                 Glide.with(itemView.context)
                     .asBitmap()
-                    .load(hit.previewURL)
+                    .load(hit.webformatURL)
+                    .placeholder(ImageUtil.getShimmerDrawable())
                     .centerCrop()
                     .transition(BitmapTransitionOptions.withCrossFade(100))
                     .error(R.color.teal_200)

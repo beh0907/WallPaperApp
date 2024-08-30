@@ -65,7 +65,6 @@ dependencies {
     //serialization
     implementation(libs.kotlinx.serialization.json)
 
-
     implementation(libs.kotlin.reflect)
 
     //layout
@@ -82,6 +81,7 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
+    implementation (libs.logging.interceptor)
 
     //dagger hilt
     implementation(libs.hilt.android)
@@ -99,9 +99,9 @@ dependencies {
     implementation(libs.android.spinkit)
     implementation(libs.kenburnsview)
 
-    //ImageEditor
-
     //permission
-    implementation("io.github.ParkSangGwon:tedpermission-normal:3.4.2")
+    implementation(libs.tedpermission.normal)
 
+    //shimmer
+    implementation (libs.shimmer)
 }

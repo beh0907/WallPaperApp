@@ -109,6 +109,11 @@ class SpecificCategoryFragment : Fragment() {
             txtCategory.onRightDrawableClickListener {
                 findNavController().popBackStack()
             }
+
+            layoutSwipeRefresh.setOnRefreshListener {
+                wallPaperAdapter.refresh()
+                layoutSwipeRefresh.isRefreshing = false
+            }
         }
     }
 

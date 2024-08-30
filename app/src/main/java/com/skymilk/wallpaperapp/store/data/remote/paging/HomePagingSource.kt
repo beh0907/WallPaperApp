@@ -22,12 +22,12 @@ class HomePagingSource(
         val currentPage = params.key ?: Constants.FIRST_PAGE_INDEX
 
         return try {
-            val responseHome = wallPaperApi.getHomeWallPaper(currentPage)
+            val response = wallPaperApi.getHomeWallPaper(page = currentPage)
 
             LoadResult.Page(
-                data = responseHome.hits,
+                data = response.hits,
                 prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (PAGE_SIZE == responseHome.hits.size) currentPage + 1 else null,
+                nextKey = if (PAGE_SIZE == response.hits.size) currentPage + 1 else null,
             )
 
 

@@ -9,7 +9,7 @@ import com.skymilk.wallpaperapp.utils.Constants.PAGE_SIZE
 
 class CategoryPagingSource(
     private val wallPaperApi: WallPaperApi,
-    private val category:String
+    private val category: String
 ) : PagingSource<Int, Hit>() {
 
     override fun getRefreshKey(state: PagingState<Int, Hit>): Int? {
@@ -24,12 +24,13 @@ class CategoryPagingSource(
         val currentPage = params.key ?: Constants.FIRST_PAGE_INDEX
 
         return try {
-            val responseHome = wallPaperApi.getCategoryWallPaper(currentPage, category)
+            val response =
+                wallPaperApi.getCategoryWallPaper(page = currentPage, category = category)
 
             LoadResult.Page(
-                data = responseHome.hits,
+                data = response.hits,
                 prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (PAGE_SIZE == responseHome.hits.size) currentPage + 1 else null,
+                nextKey = if (PAGE_SIZE == response.hits.size) currentPage + 1 else null,
             )
 
 

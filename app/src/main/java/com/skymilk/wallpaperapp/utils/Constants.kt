@@ -5,5 +5,5 @@ object Constants {
 
     const val FIRST_PAGE_INDEX = 1
 
-    const val PAGE_SIZE = 20
+    const val PAGE_SIZE = 30
 }

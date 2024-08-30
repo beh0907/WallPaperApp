@@ -1,21 +1,11 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.home
 
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.fragment.BaseFragment
-import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirections
-import com.skymilk.wallpaperapp.utils.ApiListCategory
-import com.skymilk.wallpaperapp.utils.ImageUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

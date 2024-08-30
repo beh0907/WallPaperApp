@@ -7,20 +7,29 @@
     android:background="@color/main_background"
     tools:context=".store.presentation.screen.home.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerWallPaper"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/layoutSwipeRefresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtCategory" />
+        app:layout_constraintTop_toBottomOf="@id/txtCategory">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerWallPaper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <Button
         android:id="@+id/btnRetry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/red_400"
+        android:backgroundTint="@color/deep_orange_300"
         android:fontFamily="@font/bm_hanna_pro"
         android:text="@string/retry"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:SpinKit_Color="@color/red_400"
+        app:SpinKit_Color="@color/deep_orange_300"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,11 +54,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp"
+        android:drawableTint="@color/white"
         android:fontFamily="@font/bm_hanna_pro"
         android:gravity="start"
         android:textColor="@color/white"
         android:textSize="@dimen/_24ssp"
-        android:drawableTint="@color/white"
         app:drawableEndCompat="@drawable/ic_arrow_forward"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
