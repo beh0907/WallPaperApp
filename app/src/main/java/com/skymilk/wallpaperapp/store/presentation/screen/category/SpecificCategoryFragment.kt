@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.skymilk.wallpaperapp.databinding.FragmentSpecificCategoryBinding
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
@@ -80,6 +81,9 @@ class SpecificCategoryFragment : Fragment() {
         //이미지 로드 리스너
         wallPaperAdapter.addLoadStateListener { loadState ->
             binding.apply {
+                //LoadState.NotLoading : 활성 로드 작업이 없고 오류가 없음
+                //LoadState.Loading : 활성 로드 작업이 있음
+                //LoadState.Error : 오류가 있음
                 recyclerWallPaper.isVisible = loadState.source.refresh is LoadState.NotLoading
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
                 btnRetry.isVisible = loadState.source.refresh is LoadState.Error
@@ -87,11 +91,28 @@ class SpecificCategoryFragment : Fragment() {
             }
         }
 
+        val headerAdapter = LoaderStateAdapter { wallPaperAdapter.retry() }
+        val footerAdapter = LoaderStateAdapter { wallPaperAdapter.retry() }
+
+        //헤더/풋터 span 사이즈 조정
+        val gridLayoutManager = GridLayoutManager(context, 3)
+        gridLayoutManager.spanSizeLookup = object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if ((position == wallPaperAdapter.itemCount) && footerAdapter.itemCount > 0) {
+                    3
+                } else if (wallPaperAdapter.itemCount == 0 && headerAdapter.itemCount > 0) {
+                    3
+                } else {
+                    1
+                }
+            }
+        }
+
         binding.recyclerWallPaper.apply {
-            layoutManager = GridLayoutManager(context, 3)
+            layoutManager = gridLayoutManager
             adapter = wallPaperAdapter.withLoadStateHeaderAndFooter(
-                header = LoaderStateAdapter { wallPaperAdapter.retry() },
-                footer = LoaderStateAdapter { wallPaperAdapter.retry() }
+                header = headerAdapter,
+                footer = footerAdapter
             )
         }
     }

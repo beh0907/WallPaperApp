@@ -118,8 +118,6 @@ object ApiCategoryList {
 //        )
 //    )
 
-
-
     val list = listOf(
         Category(
             "backgrounds",

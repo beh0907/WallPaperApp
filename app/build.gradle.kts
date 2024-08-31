@@ -65,8 +65,6 @@ dependencies {
     //serialization
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.kotlin.reflect)
-
     //layout
     implementation(libs.androidx.swiperefreshlayout)
 
@@ -104,4 +102,7 @@ dependencies {
 
     //shimmer
     implementation (libs.shimmer)
+
+    //image Editor
+    implementation(libs.photoeditor)
 }

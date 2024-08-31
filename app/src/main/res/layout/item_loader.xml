@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center">
 
     <TextView
         android:id="@+id/txtError"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bm_hanna_pro"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
     <Button
+        android:layout_marginHorizontal="@dimen/_5sdp"
         android:id="@+id/btnRetry"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fontFamily="@font/bm_hanna_pro"
         android:backgroundTint="@color/deep_orange_300"
+        android:fontFamily="@font/bm_hanna_pro"
         android:text="@string/retry"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/progressBar"
@@ -29,6 +33,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:SpinKit_Color="@color/deep_orange_300"/>
+        app:SpinKit_Color="@color/deep_orange_300" />
 
 </LinearLayout>

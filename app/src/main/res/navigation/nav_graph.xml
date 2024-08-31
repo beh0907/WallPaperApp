@@ -46,8 +46,11 @@
         android:label="fragment_download"
         tools:layout="@layout/fragment_download" >
         <argument
-            android:name="imageUrl"
+            android:name="imagePath"
             app:argType="string" />
+        <action
+            android:id="@+id/action_downloadFragment_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
     <fragment
         android:id="@+id/specificCategoryFragment"
@@ -79,5 +82,18 @@
         android:id="@+id/myDownloadFragment"
         android:name="com.skymilk.wallpaperapp.store.presentation.screen.download.MyDownloadFragment"
         android:label="fragment_my_download"
-        tools:layout="@layout/fragment_my_download" />
+        tools:layout="@layout/fragment_my_download" >
+        <action
+            android:id="@+id/action_myDownloadFragment_to_editFragment"
+            app:destination="@id/editFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.skymilk.wallpaperapp.store.presentation.screen.edit.EditFragment"
+        android:label="fragment_edit"
+        tools:layout="@layout/fragment_edit" >
+        <argument
+            android:name="imagePath"
+            app:argType="string" />
+    </fragment>
 </navigation>

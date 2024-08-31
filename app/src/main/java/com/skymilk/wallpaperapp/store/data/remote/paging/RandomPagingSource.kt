@@ -1,16 +1,17 @@
 package com.skymilk.wallpaperapp.store.data.remote.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.skymilk.wallpaperapp.store.data.remote.WallPaperApi
 import com.skymilk.wallpaperapp.store.domain.model.Hit
-import com.skymilk.wallpaperapp.utils.Constants
 import com.skymilk.wallpaperapp.utils.Constants.FIRST_PAGE_INDEX
 import com.skymilk.wallpaperapp.utils.Constants.PAGE_SIZE
 
 class RandomPagingSource(
     private val wallPaperApi: WallPaperApi
 ) : PagingSource<Int, Hit>() {
+
     override fun getRefreshKey(state: PagingState<Int, Hit>): Int? {
         return state.anchorPosition?.let {
             val anchorPage = state.closestPageToPosition(it)

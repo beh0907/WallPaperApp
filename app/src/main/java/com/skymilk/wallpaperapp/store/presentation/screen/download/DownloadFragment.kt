@@ -1,6 +1,5 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.download
 
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -15,10 +14,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.facebook.shimmer.Shimmer
-import com.facebook.shimmer.ShimmerDrawable
 import com.skymilk.wallpaperapp.databinding.FragmentDownloadBinding
-import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetFragment
+import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
 import com.skymilk.wallpaperapp.utils.ImageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -28,17 +25,13 @@ class DownloadFragment : Fragment() {
     private lateinit var binding: FragmentDownloadBinding
     private val args: DownloadFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDownloadBinding.inflate(inflater, container, false)
 
-        loadImage(args.imageUrl)
+        loadImage(args.imagePath)
         setClick()
 
         return binding.root
@@ -76,33 +69,10 @@ class DownloadFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
-            btnShared.setOnClickListener {
-                shareImage()
-            }
-
             btnDownload.setOnClickListener {
                 showBottomSheet()
             }
-
-            btnEdit.setOnClickListener {
-            }
         }
-    }
-
-    private fun shareImage() {
-        if (binding.imageDownload.drawable == null) {
-            Toast.makeText(
-                requireContext(),
-                "이미지 로딩을 기다려주세요.",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-        ImageUtil.shareImage(
-            requireContext(),
-            (binding.imageDownload.drawable as BitmapDrawable).bitmap
-        )
     }
 
     private fun showBottomSheet() {
@@ -115,8 +85,8 @@ class DownloadFragment : Fragment() {
             return
         }
 
-        val bottomSheet = BottomSheetFragment.newInstance(
-            imageUrl = args.imageUrl,
+        val bottomSheet = BottomSheetDownloadFragment.newInstance(
+            imageUrl = args.imagePath,
             bitmap = (binding.imageDownload.drawable as BitmapDrawable).bitmap
         )
         bottomSheet.show(requireActivity().supportFragmentManager, "download bottomSheet")

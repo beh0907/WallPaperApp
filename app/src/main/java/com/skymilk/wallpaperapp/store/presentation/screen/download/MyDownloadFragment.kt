@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.skymilk.wallpaperapp.databinding.FragmentMyDownloadBinding
-import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetFragment
+import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
 import com.skymilk.wallpaperapp.utils.ImageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
@@ -26,7 +26,7 @@ import java.io.File
 class MyDownloadFragment : Fragment() {
 
     private lateinit var binding: FragmentMyDownloadBinding
-    private lateinit var myDownloadImageAdapter: MyDownloadImageAdapter
+    private val myDownloadImageAdapter: MyDownloadImageAdapter = MyDownloadImageAdapter()
 
     private lateinit var imageList: List<File>
 
@@ -44,7 +44,7 @@ class MyDownloadFragment : Fragment() {
 
     private fun initViewPager() {
         imageList = ImageUtil.getSavedImages()
-        myDownloadImageAdapter = MyDownloadImageAdapter(imageList)
+        myDownloadImageAdapter.differ.submitList(imageList)
 
         binding.viewPagerImage.apply {
             adapter = myDownloadImageAdapter
@@ -103,8 +103,7 @@ class MyDownloadFragment : Fragment() {
         val recyclerView = binding.viewPagerImage.getChildAt(0) as? RecyclerView
 
         // 현재 위치의 ViewHolder를 가져옴
-        val viewHolder =
-            recyclerView?.findViewHolderForAdapterPosition(binding.viewPagerImage.currentItem) as? MyDownloadImageAdapter.MyDownloadImageViewHolder
+        val viewHolder = recyclerView?.findViewHolderForAdapterPosition(binding.viewPagerImage.currentItem) as? MyDownloadImageAdapter.MyDownloadImageViewHolder
 
         return viewHolder!!.binding.imageDownload
     }
@@ -143,7 +142,7 @@ class MyDownloadFragment : Fragment() {
         }
 
         //이미 다운로드한 이미지이기 떄문에 URL은 넘겨주지 않는다
-        val bottomSheet = BottomSheetFragment.newInstance(
+        val bottomSheet = BottomSheetDownloadFragment.newInstance(
             bitmap = (imageView.drawable as BitmapDrawable).bitmap
         )
         bottomSheet.show(requireActivity().supportFragmentManager, "myDownload bottomSheet")
@@ -151,5 +150,9 @@ class MyDownloadFragment : Fragment() {
 
     private fun editWallPaper() {
         val file = getCurrentImageFile()
+
+        findNavController().navigate(MyDownloadFragmentDirections.actionMyDownloadFragmentToEditFragment(
+            file.absolutePath
+        ))
     }
 }

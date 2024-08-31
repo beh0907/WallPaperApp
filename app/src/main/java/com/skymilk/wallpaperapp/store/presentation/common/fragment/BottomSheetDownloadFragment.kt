@@ -16,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.skymilk.wallpaperapp.databinding.DialogBottomSheetBinding
 import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
 
-class BottomSheetFragment : BottomSheetDialogFragment() {
+class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogBottomSheetBinding
     private var imageUrl: String? = null
@@ -26,8 +26,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         private const val ARG_IMAGE_URL = "image_url"
         private const val ARG_BITMAP = "bitmap"
 
-        fun newInstance(imageUrl: String? = null, bitmap: Bitmap): BottomSheetFragment {
-            val fragment = BottomSheetFragment()
+        fun newInstance(imageUrl: String? = null, bitmap: Bitmap): BottomSheetDownloadFragment {
+            val fragment = BottomSheetDownloadFragment()
             val args = Bundle().apply {
                 putString(ARG_IMAGE_URL, imageUrl)
                 putParcelable(ARG_BITMAP, bitmap)
@@ -83,7 +83,13 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             object : BroadcastReceiver() {
                 override fun onReceive(p0: Context?, p1: Intent?) {
                     //다운로드 완료 체크
-                    if (p1?.action != DownloadManager.ACTION_DOWNLOAD_COMPLETE) return
+                    if (p1?.action != DownloadManager.ACTION_DOWNLOAD_COMPLETE) {
+                        Toast.makeText(
+                            requireContext(),
+                            "다운로드가 완료되었습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
 
             })
