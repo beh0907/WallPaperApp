@@ -76,7 +76,7 @@ class DownloadFragment : Fragment() {
     }
 
     private fun showBottomSheet() {
-        if (binding.imageDownload.drawable == null) {
+        if (binding.imageDownload.drawable == null || binding.imageDownload.drawable !is BitmapDrawable) {
             Toast.makeText(
                 requireContext(),
                 "이미지 로딩을 기다려주세요.",

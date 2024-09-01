@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -10,51 +12,110 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_menu" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnDownload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginHorizontal="@dimen/_30sdp"
         android:layout_marginTop="@dimen/_20sdp"
+        android:paddingVertical="@dimen/_5sdp"
         android:background="@drawable/main_selector"
-        android:drawableStart="@drawable/ic_download"
-        android:fontFamily="@font/bm_hanna_pro"
-        android:gravity="center"
-        android:text="다운로드"
-        android:textSize="@dimen/_12ssp"
         android:clickable="true"
-        android:focusable="true"/>
+        android:focusable="true">
 
-    <androidx.appcompat.widget.AppCompatButton
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:src="@drawable/ic_download"
+            android:layout_marginEnd="8dp"
+            tools:ignore="MissingConstraints" /> <!-- 이미지와 텍스트 간의 간격 설정 -->
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다운로드"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:fontFamily="@font/bm_hanna_pro"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnSetBackGround"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginHorizontal="@dimen/_30sdp"
         android:layout_marginTop="@dimen/_20sdp"
+        android:paddingVertical="@dimen/_5sdp"
         android:background="@drawable/main_selector"
-        android:drawableStart="@drawable/ic_image"
-        android:fontFamily="@font/bm_hanna_pro"
-        android:gravity="center"
-        android:text="바탕화면 설정"
-        android:textSize="@dimen/_12ssp"
         android:clickable="true"
-        android:focusable="true"/>
+        android:focusable="true">
 
-    <androidx.appcompat.widget.AppCompatButton
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:src="@drawable/ic_image"
+            android:layout_marginEnd="8dp"
+            tools:ignore="MissingConstraints" /> <!-- 이미지와 텍스트 간의 간격 설정 -->
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="바탕화면 설정"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:fontFamily="@font/bm_hanna_pro"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnSetLockScreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_20sdp"
-        android:background="@drawable/main_selector"
-        android:drawableStart="@drawable/ic_lock"
-        android:fontFamily="@font/bm_hanna_pro"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:text="잠금화면 설정"
-        android:textSize="@dimen/_12ssp"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:paddingVertical="@dimen/_5sdp"
+        android:background="@drawable/main_selector"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true">
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:src="@drawable/ic_lock"
+            android:layout_marginEnd="8dp"
+            tools:ignore="MissingConstraints" /> <!-- 이미지와 텍스트 간의 간격 설정 -->
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="잠금화면 설정"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:fontFamily="@font/bm_hanna_pro"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

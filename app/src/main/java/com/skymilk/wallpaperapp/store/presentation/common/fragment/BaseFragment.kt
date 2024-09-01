@@ -20,7 +20,8 @@ import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirec
 abstract class BaseFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    abstract var wallPaperAdapter: WallPaperAdapter
+
+    abstract val wallPaperAdapter: WallPaperAdapter
 
 
     override fun onCreateView(
@@ -88,6 +89,8 @@ abstract class BaseFragment : Fragment() {
                 header = headerAdapter,
                 footer = footerAdapter
             )
+
+            setHasFixedSize(true)
         }
     }
 
@@ -104,12 +107,12 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    private fun handleError(loadState:CombinedLoadStates) {
+    private fun handleError(loadState: CombinedLoadStates) {
         val errorState = loadState.source.append as? LoadState.Error
             ?: loadState.source.prepend as? LoadState.Error
 
         errorState?.let {
-            Toast.makeText(requireContext(), "다시 시도해주세요",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show()
         }
     }
 }

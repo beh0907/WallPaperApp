@@ -42,7 +42,6 @@ class SpecificCategoryFragment : Fragment() {
 
     private val wallPaperAdapter: WallPaperAdapter = WallPaperAdapter()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

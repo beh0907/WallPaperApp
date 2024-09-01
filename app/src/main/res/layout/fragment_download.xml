@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBack"
-        app:cardBackgroundColor="@color/main_background"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_20sdp">
 
         <ImageView

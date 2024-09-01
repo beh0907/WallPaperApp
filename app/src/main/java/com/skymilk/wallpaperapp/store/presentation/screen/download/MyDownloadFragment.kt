@@ -103,7 +103,8 @@ class MyDownloadFragment : Fragment() {
         val recyclerView = binding.viewPagerImage.getChildAt(0) as? RecyclerView
 
         // 현재 위치의 ViewHolder를 가져옴
-        val viewHolder = recyclerView?.findViewHolderForAdapterPosition(binding.viewPagerImage.currentItem) as? MyDownloadImageAdapter.MyDownloadImageViewHolder
+        val viewHolder =
+            recyclerView?.findViewHolderForAdapterPosition(binding.viewPagerImage.currentItem) as? MyDownloadImageAdapter.MyDownloadImageViewHolder
 
         return viewHolder!!.binding.imageDownload
     }
@@ -113,7 +114,7 @@ class MyDownloadFragment : Fragment() {
     private fun shareImage() {
         val imageView = getCurrentImageView()
 
-        if (imageView.drawable == null) {
+        if (imageView.drawable == null || imageView.drawable !is BitmapDrawable) {
             Toast.makeText(
                 requireContext(),
                 "이미지 로딩을 기다려주세요.",
@@ -132,7 +133,7 @@ class MyDownloadFragment : Fragment() {
     private fun showBottomSheet() {
         val imageView = getCurrentImageView()
 
-        if (imageView.drawable == null) {
+        if (imageView.drawable == null || imageView.drawable !is BitmapDrawable) {
             Toast.makeText(
                 requireContext(),
                 "이미지 로딩을 기다려주세요.",
@@ -151,8 +152,10 @@ class MyDownloadFragment : Fragment() {
     private fun editWallPaper() {
         val file = getCurrentImageFile()
 
-        findNavController().navigate(MyDownloadFragmentDirections.actionMyDownloadFragmentToEditFragment(
-            file.absolutePath
-        ))
+        findNavController().navigate(
+            MyDownloadFragmentDirections.actionMyDownloadFragmentToEditFragment(
+                file.absolutePath
+            )
+        )
     }
 }

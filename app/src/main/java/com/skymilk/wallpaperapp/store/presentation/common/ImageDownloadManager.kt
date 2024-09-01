@@ -7,14 +7,16 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
-import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import java.io.File
 
 object ImageDownloadManager {
-    fun downloadImageFromUrl(url: String, context: Context, downloadReceiver: BroadcastReceiver) {
+    fun downloadImageFromUrl(
+        url: String,
+        context: Context
+    ) {
         try {
-            val downloadManager =
-                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            // 백그라운드에서 실행
+            val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
             val imageUrl = Uri.parse(url)
             val request = DownloadManager.Request(imageUrl).apply {
@@ -30,10 +32,6 @@ object ImageDownloadManager {
             }
 
             downloadManager.enqueue(request)
-
-            val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-            context.registerReceiver(downloadReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
-
         } catch (e: Exception) {
             e.printStackTrace()
 

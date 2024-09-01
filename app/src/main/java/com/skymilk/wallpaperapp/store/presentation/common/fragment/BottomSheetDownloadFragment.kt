@@ -8,13 +8,18 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.skymilk.wallpaperapp.databinding.DialogBottomSheetBinding
 import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
@@ -63,60 +68,63 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     }
 
     private fun setVisible() {
+        //다운로드할 URL 정보가 없다면 download 버튼을 지운다
         if (imageUrl == null) binding.btnDownload.visibility = View.GONE
     }
 
     private fun setClick() {
         binding.apply {
-            btnDownload.setOnClickListener { downloadImageFromUrl(imageUrl!!) }
+            btnDownload.setOnClickListener {
+                downloadImageFromUrl(imageUrl!!)
+            }
 
-            btnSetBackGround.setOnClickListener { setBackGround(WallpaperManager.FLAG_SYSTEM) }
+            btnSetBackGround.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    setBackGround(WallpaperManager.FLAG_SYSTEM)
+                }
+            }
 
-            btnSetLockScreen.setOnClickListener { setBackGround(WallpaperManager.FLAG_LOCK) }
+            btnSetLockScreen.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    setBackGround(WallpaperManager.FLAG_LOCK)
+                }
+            }
         }
     }
 
     private fun downloadImageFromUrl(url: String) {
         ImageDownloadManager.downloadImageFromUrl(
             url,
-            requireContext(),
-            object : BroadcastReceiver() {
-                override fun onReceive(p0: Context?, p1: Intent?) {
-                    //다운로드 완료 체크
-                    if (p1?.action != DownloadManager.ACTION_DOWNLOAD_COMPLETE) {
-                        Toast.makeText(
-                            requireContext(),
-                            "다운로드가 완료되었습니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-            })
+            requireContext())
     }
 
-    private fun setBackGround(flag: Int) {
+    private suspend fun setBackGround(flag: Int) {
         try {
-            val wallPaperManager = WallpaperManager.getInstance(requireContext())
-            wallPaperManager.setBitmap(bitmap, null, true, flag)
+            // 백그라운드에서 실행
+            withContext(Dispatchers.IO) {
+                val wallPaperManager = WallpaperManager.getInstance(requireContext())
+                wallPaperManager.setBitmap(bitmap, null, true, flag)
+            }
 
-            Toast.makeText(
-                requireContext(),
-                "이미지가 적용되었습니다.",
-                Toast.LENGTH_SHORT
-            ).show()
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    requireContext(),
+                    "이미지가 적용되었습니다.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
             //종료
             dismiss()
         } catch (e: Exception) {
             e.printStackTrace()
-
-            Toast.makeText(
-                requireContext(),
-                "적용 실패 - ${e.message.toString()}",
-                Toast.LENGTH_SHORT
-            ).show()
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    requireContext(),
+                    "적용 실패 - ${e.message.toString()}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
-
     }
 }
