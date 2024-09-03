@@ -5,9 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemLoaderBinding
 

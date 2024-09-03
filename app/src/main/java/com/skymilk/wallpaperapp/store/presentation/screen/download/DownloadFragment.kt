@@ -15,8 +15,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.skymilk.wallpaperapp.databinding.FragmentDownloadBinding
-import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
-import com.skymilk.wallpaperapp.utils.ImageUtil
+import com.skymilk.wallpaperapp.store.presentation.common.fragments.BottomSheetDownloadFragment
+import com.skymilk.wallpaperapp.util.ImageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 
@@ -41,7 +41,7 @@ class DownloadFragment : Fragment() {
         //선택한 이미지 적용
         Glide.with(this)
             .load(url)
-            .centerCrop()
+            .optionalCenterCrop()
             .placeholder(ImageUtil.getShimmerDrawable())
             .into(binding.imageDownload)
 

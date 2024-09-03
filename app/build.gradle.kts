@@ -98,11 +98,12 @@ dependencies {
     implementation(libs.kenburnsview)
 
     //permission
-    implementation(libs.tedpermission.normal)
+    implementation(libs.tedpermission.coroutine)
 
     //shimmer
     implementation (libs.shimmer)
 
     //image Editor
     implementation(libs.photoeditor)
+    implementation(libs.android.image.cropper)
 }

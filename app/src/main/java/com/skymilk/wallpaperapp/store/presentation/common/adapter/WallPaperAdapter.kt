@@ -1,19 +1,16 @@
 package com.skymilk.wallpaperapp.store.presentation.common.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.ListPreloader
-import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemWallPaperBinding
 import com.skymilk.wallpaperapp.store.domain.model.Hit
-import com.skymilk.wallpaperapp.utils.ImageUtil
+import com.skymilk.wallpaperapp.util.ImageUtil
 
 class WallPaperAdapter : PagingDataAdapter<Hit, WallPaperAdapter.WallPaperViewHolder>(
     DiffUtilCallback()
@@ -55,7 +52,7 @@ class WallPaperAdapter : PagingDataAdapter<Hit, WallPaperAdapter.WallPaperViewHo
                     .asBitmap()
                     .load(hit.webformatURL)
                     .placeholder(ImageUtil.getShimmerDrawable())
-                    .centerCrop()
+                    .optionalCenterCrop()
                     .transition(BitmapTransitionOptions.withCrossFade(100))
                     .error(R.color.teal_200)
                     .into(imageWallPaper)

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".store.presentation.screen.edit.EditImageFragment">
+
+    <ja.burhanrashid52.photoeditor.PhotoEditorView
+        android:id="@+id/photoEditorView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerTools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:photo_src="@drawable/photobc" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerTools"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/_4sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/guideLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_edit_tool" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerFilters"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="@+id/recyclerTools"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerTools"
+        app:layout_constraintStart_toEndOf="parent"
+        tools:listitem="@layout/item_edit_filter" />
+
+    <ImageButton
+        android:id="@+id/btnUndo"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:paddingVertical="@dimen/_10sdp"
+        android:src="@drawable/ic_undo"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerTools"
+        app:layout_constraintEnd_toStartOf="@id/btnRedo" />
+
+    <ImageButton
+        android:id="@+id/btnRedo"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:paddingVertical="@dimen/_10sdp"
+        android:src="@drawable/ic_redo"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerTools"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="?attr/actionBarSize" />
+
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:paddingVertical="@dimen/_10sdp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideLine" />
+
+    <TextView
+        android:id="@+id/txtCurrentTool"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="@font/bm_hanna_pro"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="그리기"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnDone"
+        app:layout_constraintStart_toEndOf="@id/btnClose"
+        app:layout_constraintTop_toBottomOf="@id/guideLine" />
+
+    <ImageButton
+        android:id="@+id/btnDone"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:paddingVertical="@dimen/_10sdp"
+        android:src="@drawable/ic_check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideLine" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

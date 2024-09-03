@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.skymilk.wallpaperapp.databinding.ItemImageBinding
+import com.skymilk.wallpaperapp.databinding.ItemMyDownloadImageBinding
 import java.io.File
 
 class MyDownloadImageAdapter :
@@ -25,7 +25,7 @@ class MyDownloadImageAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyDownloadImageViewHolder {
         return MyDownloadImageViewHolder(
-            ItemImageBinding.inflate(
+            ItemMyDownloadImageBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -39,11 +39,14 @@ class MyDownloadImageAdapter :
 
     override fun getItemCount(): Int = differ.currentList.size
 
-    inner class MyDownloadImageViewHolder(val binding: ItemImageBinding) :
+    inner class MyDownloadImageViewHolder(val binding: ItemMyDownloadImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(file: File) {
-            Glide.with(binding.root).load(file.absolutePath).into(binding.imageDownload)
+            Glide.with(binding.root)
+                .load(file.absolutePath)
+                .optionalCenterCrop()
+                .into(binding.imageDownload)
         }
 
     }

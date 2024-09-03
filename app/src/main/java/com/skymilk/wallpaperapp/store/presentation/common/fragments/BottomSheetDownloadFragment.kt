@@ -1,21 +1,16 @@
-package com.skymilk.wallpaperapp.store.presentation.common.fragment
+package com.skymilk.wallpaperapp.store.presentation.common.fragments
 
-import android.app.DownloadManager
 import android.app.WallpaperManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.skymilk.wallpaperapp.databinding.DialogBottomSheetBinding
+import com.skymilk.wallpaperapp.databinding.DialogDownloadBottomSheetBinding
 import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +18,7 @@ import kotlinx.coroutines.withContext
 
 class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: DialogBottomSheetBinding
+    private lateinit var binding: DialogDownloadBottomSheetBinding
     private var imageUrl: String? = null
     private lateinit var bitmap: Bitmap
 
@@ -59,7 +54,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DialogBottomSheetBinding.inflate(inflater)
+        binding = DialogDownloadBottomSheetBinding.inflate(inflater)
 
         setVisible()
         setClick()
@@ -95,7 +90,8 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     private fun downloadImageFromUrl(url: String) {
         ImageDownloadManager.downloadImageFromUrl(
             url,
-            requireContext())
+            requireContext()
+        )
     }
 
     private suspend fun setBackGround(flag: Int) {

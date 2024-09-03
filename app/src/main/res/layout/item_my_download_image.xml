@@ -25,9 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:elevation="@dimen/_2sdp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/roundedImageView" />
+            android:elevation="@dimen/_2sdp"/>
 
     </androidx.cardview.widget.CardView>
 

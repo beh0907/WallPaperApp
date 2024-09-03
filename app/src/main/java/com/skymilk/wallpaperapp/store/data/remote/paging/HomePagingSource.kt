@@ -4,8 +4,8 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.skymilk.wallpaperapp.store.data.remote.WallPaperApi
 import com.skymilk.wallpaperapp.store.domain.model.Hit
-import com.skymilk.wallpaperapp.utils.Constants
-import com.skymilk.wallpaperapp.utils.Constants.PAGE_SIZE
+import com.skymilk.wallpaperapp.util.Constants
+import com.skymilk.wallpaperapp.util.Constants.PAGE_SIZE
 
 class HomePagingSource(
     private val wallPaperApi: WallPaperApi

@@ -1,12 +1,11 @@
 package com.skymilk.wallpaperapp.store.data.remote.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.skymilk.wallpaperapp.store.data.remote.WallPaperApi
 import com.skymilk.wallpaperapp.store.domain.model.Hit
-import com.skymilk.wallpaperapp.utils.Constants.FIRST_PAGE_INDEX
-import com.skymilk.wallpaperapp.utils.Constants.PAGE_SIZE
+import com.skymilk.wallpaperapp.util.Constants.FIRST_PAGE_INDEX
+import com.skymilk.wallpaperapp.util.Constants.PAGE_SIZE
 
 class RandomPagingSource(
     private val wallPaperApi: WallPaperApi

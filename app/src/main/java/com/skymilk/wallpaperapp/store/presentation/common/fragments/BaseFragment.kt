@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.presentation.common.fragment
+package com.skymilk.wallpaperapp.store.presentation.common.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -89,8 +89,6 @@ abstract class BaseFragment : Fragment() {
                 header = headerAdapter,
                 footer = footerAdapter
             )
-
-            setHasFixedSize(true)
         }
     }
 

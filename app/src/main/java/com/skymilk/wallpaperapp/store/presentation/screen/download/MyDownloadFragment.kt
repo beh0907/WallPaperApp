@@ -17,8 +17,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.skymilk.wallpaperapp.databinding.FragmentMyDownloadBinding
-import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
-import com.skymilk.wallpaperapp.utils.ImageUtil
+import com.skymilk.wallpaperapp.store.presentation.common.fragments.BottomSheetDownloadFragment
+import com.skymilk.wallpaperapp.util.ImageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
 

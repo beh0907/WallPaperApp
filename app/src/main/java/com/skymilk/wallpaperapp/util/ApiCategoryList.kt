@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.utils
+package com.skymilk.wallpaperapp.util
 
 import com.skymilk.wallpaperapp.store.domain.model.Category
 

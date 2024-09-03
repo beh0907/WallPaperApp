@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.skymilk.wallpaperapp.databinding.FragmentCategoriesBinding
 import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirections
-import com.skymilk.wallpaperapp.utils.ApiCategoryList
+import com.skymilk.wallpaperapp.util.ApiCategoryList
 
 class CategoriesFragment : Fragment() {
 

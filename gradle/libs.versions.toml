@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.2"
+androidImageCropper = "4.6.0"
 androidSpinkit = "1.4.0"
 glide = "4.16.0"
 glideTransformations = "4.3.0"
@@ -10,7 +11,7 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
-kotlinxSerializationJson = "1.6.3"
+kotlinxSerializationJson = "1.5.0"
 loggingInterceptor = "4.12.0"
 material = "1.12.0"
 activity = "1.9.1"
@@ -23,9 +24,10 @@ retrofit = "2.11.0"
 hiltAndroid = "2.52"
 shimmer = "0.5.0"
 swiperefreshlayout = "1.1.0"
-tedpermissionNormal = "3.4.2"
+tedpermission = "3.4.2"
 
 [libraries]
+android-image-cropper = { module = "com.vanniktech:android-image-cropper", version.ref = "androidImageCropper" }
 android-spinkit = { module = "com.github.ybq:Android-SpinKit", version.ref = "androidSpinkit" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationUiKtx" }
@@ -54,7 +56,7 @@ retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "ret
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
-tedpermission-normal = { module = "io.github.ParkSangGwon:tedpermission-normal", version.ref = "tedpermissionNormal" }
+tedpermission-coroutine = { module = "io.github.ParkSangGwon:tedpermission-coroutine", version.ref = "tedpermission" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

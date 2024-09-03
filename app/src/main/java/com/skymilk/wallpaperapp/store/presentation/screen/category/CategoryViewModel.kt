@@ -1,6 +1,5 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.category
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -11,12 +10,10 @@ import com.skymilk.wallpaperapp.store.domain.model.Hit
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 //@AssistedInject를 사용한 땐 @HiltViewModel을 정의해선 안된다
 class CategoryViewModel @AssistedInject constructor(

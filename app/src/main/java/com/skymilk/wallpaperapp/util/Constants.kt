@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.utils
+package com.skymilk.wallpaperapp.util
 
 object Constants {
     const val BASE_URL = "https://pixabay.com/"

@@ -2,7 +2,7 @@ package com.skymilk.wallpaperapp.di
 
 import com.skymilk.wallpaperapp.BuildConfig
 import com.skymilk.wallpaperapp.store.data.remote.WallPaperApi
-import com.skymilk.wallpaperapp.utils.Constants
+import com.skymilk.wallpaperapp.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

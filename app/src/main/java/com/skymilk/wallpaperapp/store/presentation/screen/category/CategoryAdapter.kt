@@ -1,16 +1,13 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.category
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.facebook.shimmer.Shimmer
-import com.facebook.shimmer.ShimmerDrawable
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemCategoryBinding
 import com.skymilk.wallpaperapp.store.domain.model.Category
-import com.skymilk.wallpaperapp.utils.ImageUtil
+import com.skymilk.wallpaperapp.util.ImageUtil
 
 class CategoryAdapter(
     private val categoryList: List<Category>
@@ -50,7 +47,7 @@ class CategoryAdapter(
                 Glide.with(itemView.context)
                     .load(category.imageUrl)
                     .placeholder(ImageUtil.getShimmerDrawable())
-                    .centerCrop()
+                    .optionalCenterCrop()
                     .error(R.color.teal_200)
                     .into(imageCategory)
             }

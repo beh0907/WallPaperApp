@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_800">
+
+    <Button
+        android:id="@+id/btnDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="@font/bm_hanna_pro"
+        android:text="완료"
+        android:textSize="@dimen/_14ssp" />
+
+    <EditText
+        android:id="@+id/editAdd"
+        style="@style/DialogAddText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/recyclerColor"
+        android:layout_below="@id/btnDone"
+        android:layout_margin="@dimen/_20sdp"
+        android:background="@null"
+        android:fontFamily="@font/bm_hanna_pro"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        android:maxLines="1"
+        android:text="a1sd561asd56a1sd56sa1"
+        android:textSize="@dimen/_30ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnDone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_background"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+</RelativeLayout>

@@ -11,7 +11,7 @@ import com.skymilk.wallpaperapp.store.data.remote.paging.RandomPagingSource
 import com.skymilk.wallpaperapp.store.data.remote.paging.SearchPagingSource
 import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
 import com.skymilk.wallpaperapp.store.domain.model.Hit
-import com.skymilk.wallpaperapp.utils.Constants.PAGE_SIZE
+import com.skymilk.wallpaperapp.util.Constants.PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

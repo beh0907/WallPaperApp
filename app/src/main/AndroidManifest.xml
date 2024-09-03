@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Splash"
+        android:theme="@style/Base.Theme.WallPaperApp"
         tools:targetApi="31"
         tools:ignore="UnusedAttribute">
 
@@ -32,6 +32,9 @@
             </intent-filter>
         </activity>
 
+        <!--이미지 자르기 액티비티 액션바 지정-->
+        <activity android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

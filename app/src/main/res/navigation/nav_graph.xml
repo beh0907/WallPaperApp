@@ -89,9 +89,9 @@
     </fragment>
     <fragment
         android:id="@+id/editFragment"
-        android:name="com.skymilk.wallpaperapp.store.presentation.screen.edit.EditFragment"
+        android:name="com.skymilk.wallpaperapp.store.presentation.screen.edit.EditImageFragment"
         android:label="fragment_edit"
-        tools:layout="@layout/fragment_edit" >
+        tools:layout="@layout/fragment_edit_image" >
         <argument
             android:name="imagePath"
             app:argType="string" />
