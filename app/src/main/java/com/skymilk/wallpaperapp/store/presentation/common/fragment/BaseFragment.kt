@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.presentation.common.fragments
+package com.skymilk.wallpaperapp.store.presentation.common.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +16,7 @@ import com.skymilk.wallpaperapp.databinding.FragmentHomeBinding
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
 import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirections
+import com.skymilk.wallpaperapp.util.MessageUtil
 
 abstract class BaseFragment : Fragment() {
 
@@ -110,7 +111,7 @@ abstract class BaseFragment : Fragment() {
             ?: loadState.source.prepend as? LoadState.Error
 
         errorState?.let {
-            Toast.makeText(requireContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show()
+            MessageUtil.showToast(requireContext(), "다시 시도해주세요")
         }
     }
 }

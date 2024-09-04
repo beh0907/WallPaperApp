@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background"
@@ -36,17 +35,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingVertical="@dimen/_4sdp"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toTopOf="@+id/recyclerTools"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerTools"
-        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerTools"
         tools:listitem="@layout/item_edit_filter" />
 
     <ImageButton
         android:id="@+id/btnUndo"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
+        android:background="@drawable/bg_image_button"
         android:paddingVertical="@dimen/_10sdp"
         android:src="@drawable/ic_undo"
         app:layout_constraintBottom_toTopOf="@+id/recyclerTools"
@@ -56,7 +58,7 @@
         android:id="@+id/btnRedo"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
+        android:background="@drawable/bg_image_button"
         android:paddingVertical="@dimen/_10sdp"
         android:src="@drawable/ic_redo"
         app:layout_constraintBottom_toTopOf="@+id/recyclerTools"
@@ -69,41 +71,54 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="?attr/actionBarSize" />
 
-    <ImageButton
-        android:id="@+id/btnClose"
-        android:layout_width="@dimen/_40sdp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?attr/selectableItemBackground"
-        android:paddingVertical="@dimen/_10sdp"
-        android:src="@drawable/ic_close"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideLine" />
-
-    <TextView
-        android:id="@+id/txtCurrentTool"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fontFamily="@font/bm_hanna_pro"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="그리기"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_16ssp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnDone"
-        app:layout_constraintStart_toEndOf="@id/btnClose"
-        app:layout_constraintTop_toBottomOf="@id/guideLine" />
-
-    <ImageButton
-        android:id="@+id/btnDone"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="0dp"
-        android:background="?attr/selectableItemBackground"
-        android:paddingVertical="@dimen/_10sdp"
-        android:src="@drawable/ic_check"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideLine" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideLine"
+        android:background="#80111111">
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingVertical="@dimen/_10sdp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtCurrentTool"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/bm_hanna_pro"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDone"
+            app:layout_constraintStart_toEndOf="@id/btnClose"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnDone"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingVertical="@dimen/_10sdp"
+            android:src="@drawable/ic_check"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
+import com.skymilk.wallpaperapp.util.MessageUtil
 import java.io.File
 
 object ImageDownloadManager {
@@ -35,11 +36,7 @@ object ImageDownloadManager {
         } catch (e: Exception) {
             e.printStackTrace()
 
-            Toast.makeText(
-                context,
-                "이미지 다운로드 실패 - ${e.message.toString()}",
-                Toast.LENGTH_SHORT
-            ).show()
+            MessageUtil.showToast(context, "이미지 다운로드 실패 - ${e.message.toString()}")
         }
     }
 }

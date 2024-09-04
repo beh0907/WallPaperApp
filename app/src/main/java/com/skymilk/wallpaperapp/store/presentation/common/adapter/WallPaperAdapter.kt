@@ -6,6 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemWallPaperBinding
@@ -53,6 +54,8 @@ class WallPaperAdapter : PagingDataAdapter<Hit, WallPaperAdapter.WallPaperViewHo
                     .load(hit.webformatURL)
                     .placeholder(ImageUtil.getShimmerDrawable())
                     .optionalCenterCrop()
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .transition(BitmapTransitionOptions.withCrossFade(100))
                     .error(R.color.teal_200)
                     .into(imageWallPaper)

@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.presentation.common.fragments
+package com.skymilk.wallpaperapp.store.presentation.common.fragment
 
 import android.app.WallpaperManager
 import android.graphics.Bitmap
@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.skymilk.wallpaperapp.databinding.DialogDownloadBottomSheetBinding
 import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
+import com.skymilk.wallpaperapp.util.MessageUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,7 +40,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
+        requireArguments().let {
             imageUrl = it.getString(ARG_IMAGE_URL)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 bitmap = it.getParcelable(ARG_BITMAP, Bitmap::class.java)!!
@@ -103,11 +104,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
             }
 
             withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    requireContext(),
-                    "이미지가 적용되었습니다.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                MessageUtil.showToast(requireContext(), "이미지가 적용되었습니다.")
             }
 
             //종료
@@ -115,11 +112,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         } catch (e: Exception) {
             e.printStackTrace()
             withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    requireContext(),
-                    "적용 실패 - ${e.message.toString()}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                MessageUtil.showToast(requireContext(), "적용 실패 - ${e.message.toString()}")
             }
         }
     }

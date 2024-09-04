@@ -3,16 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_800">
+    android:background="#70000000">
 
-    <Button
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="@dimen/_36sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/ic_close"/>
+
+    <ImageButton
         android:id="@+id/btnDone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_36sdp"
+        android:layout_height="@dimen/_36sdp"
         android:layout_alignParentEnd="true"
-        android:fontFamily="@font/bm_hanna_pro"
-        android:text="완료"
-        android:textSize="@dimen/_14ssp" />
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/ic_check" />
 
     <EditText
         android:id="@+id/editAdd"
@@ -26,12 +36,13 @@
         android:fontFamily="@font/bm_hanna_pro"
         android:gravity="center"
         android:inputType="textMultiLine"
-        android:maxLines="1"
         android:text="a1sd561asd56a1sd56sa1"
         android:textSize="@dimen/_30ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDone" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDone"
+        android:focusableInTouchMode="true"
+        android:focusable="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerColor"

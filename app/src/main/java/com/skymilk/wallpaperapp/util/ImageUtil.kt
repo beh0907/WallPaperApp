@@ -68,7 +68,7 @@ object ImageUtil {
             // 비트맵을 캐시 디렉토리에 파일로 저장
             val file = File(context.externalCacheDir, File.separator + "image.jpg")
             val fileOutputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
             fileOutputStream.flush()
             fileOutputStream.close()
             file.setReadable(true, false)
@@ -92,12 +92,7 @@ object ImageUtil {
 
         } catch (e: Exception) {
             e.printStackTrace()
-
-            Toast.makeText(
-                context,
-                "공유 실패 - ${e.message.toString()}",
-                Toast.LENGTH_SHORT
-            ).show()
+            MessageUtil.showToast(context, "공유 실패 - ${e.message.toString()}")
         }
     }
 

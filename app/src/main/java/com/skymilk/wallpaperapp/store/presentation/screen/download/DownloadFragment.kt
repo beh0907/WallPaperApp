@@ -15,8 +15,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.skymilk.wallpaperapp.databinding.FragmentDownloadBinding
-import com.skymilk.wallpaperapp.store.presentation.common.fragments.BottomSheetDownloadFragment
+import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
 import com.skymilk.wallpaperapp.util.ImageUtil
+import com.skymilk.wallpaperapp.util.MessageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 
@@ -66,22 +67,18 @@ class DownloadFragment : Fragment() {
 
         binding.apply {
             btnBack.setOnClickListener {
-                findNavController().popBackStack()
+                findNavController().navigateUp()
             }
 
             btnDownload.setOnClickListener {
-                showBottomSheet()
+                showDownloadBottomSheet()
             }
         }
     }
 
-    private fun showBottomSheet() {
+    private fun showDownloadBottomSheet() {
         if (binding.imageDownload.drawable == null || binding.imageDownload.drawable !is BitmapDrawable) {
-            Toast.makeText(
-                requireContext(),
-                "이미지 로딩을 기다려주세요.",
-                Toast.LENGTH_SHORT
-            ).show()
+            MessageUtil.showToast(requireContext(), "이미지 로딩을 기다려주세요.")
             return
         }
 
@@ -89,6 +86,6 @@ class DownloadFragment : Fragment() {
             imageUrl = args.imagePath,
             bitmap = (binding.imageDownload.drawable as BitmapDrawable).bitmap
         )
-        bottomSheet.show(requireActivity().supportFragmentManager, "download bottomSheet")
+        bottomSheet.show(childFragmentManager, "download bottomSheet")
     }
 }

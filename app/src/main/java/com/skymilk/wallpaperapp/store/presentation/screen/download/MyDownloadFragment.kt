@@ -17,8 +17,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.skymilk.wallpaperapp.databinding.FragmentMyDownloadBinding
-import com.skymilk.wallpaperapp.store.presentation.common.fragments.BottomSheetDownloadFragment
+import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
 import com.skymilk.wallpaperapp.util.ImageUtil
+import com.skymilk.wallpaperapp.util.MessageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
 
@@ -57,7 +58,7 @@ class MyDownloadFragment : Fragment() {
         binding.apply {
 
             btnBack.setOnClickListener {
-                findNavController().popBackStack()
+                findNavController().navigateUp()
             }
 
             btnShared.setOnClickListener {
@@ -65,7 +66,7 @@ class MyDownloadFragment : Fragment() {
             }
 
             btnSetBackGround.setOnClickListener {
-                showBottomSheet()
+                showDownloadBottomSheet()
             }
 
             btnEdit.setOnClickListener {
@@ -115,11 +116,7 @@ class MyDownloadFragment : Fragment() {
         val imageView = getCurrentImageView()
 
         if (imageView.drawable == null || imageView.drawable !is BitmapDrawable) {
-            Toast.makeText(
-                requireContext(),
-                "이미지 로딩을 기다려주세요.",
-                Toast.LENGTH_SHORT
-            ).show()
+            MessageUtil.showToast(requireContext(), "이미지 로딩을 기다려주세요.")
             return
         }
 
@@ -130,15 +127,11 @@ class MyDownloadFragment : Fragment() {
     }
 
 
-    private fun showBottomSheet() {
+    private fun showDownloadBottomSheet() {
         val imageView = getCurrentImageView()
 
         if (imageView.drawable == null || imageView.drawable !is BitmapDrawable) {
-            Toast.makeText(
-                requireContext(),
-                "이미지 로딩을 기다려주세요.",
-                Toast.LENGTH_SHORT
-            ).show()
+            MessageUtil.showToast(requireContext(), "이미지 로딩을 기다려주세요.")
             return
         }
 
@@ -146,7 +139,7 @@ class MyDownloadFragment : Fragment() {
         val bottomSheet = BottomSheetDownloadFragment.newInstance(
             bitmap = (imageView.drawable as BitmapDrawable).bitmap
         )
-        bottomSheet.show(requireActivity().supportFragmentManager, "myDownload bottomSheet")
+        bottomSheet.show(childFragmentManager, "myDownload bottomSheet")
     }
 
     private fun editWallPaper() {

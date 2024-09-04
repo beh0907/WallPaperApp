@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.skymilk.wallpaperapp.databinding.FragmentSpecificCategoryBinding
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
+import com.skymilk.wallpaperapp.util.MessageUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -127,7 +128,7 @@ class SpecificCategoryFragment : Fragment() {
             }
 
             txtCategory.onRightDrawableClickListener {
-                findNavController().popBackStack()
+                findNavController().navigateUp()
             }
 
             layoutSwipeRefresh.setOnRefreshListener {
@@ -161,7 +162,7 @@ class SpecificCategoryFragment : Fragment() {
             ?: loadState.source.prepend as? LoadState.Error
 
         errorState?.let {
-            Toast.makeText(requireContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show()
+            MessageUtil.showToast(requireContext(), "다시 시도해주세요")
         }
     }
 }

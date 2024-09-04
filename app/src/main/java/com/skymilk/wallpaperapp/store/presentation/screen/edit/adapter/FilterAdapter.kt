@@ -9,9 +9,9 @@ import ja.burhanrashid52.photoeditor.PhotoFilter
 
 class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
 
-    var onItemClick: ((PhotoFilter) -> Unit)? = null
-
     private var photoFilterList: MutableList<Pair<String, PhotoFilter>> = mutableListOf()
+
+    var onItemClick: ((PhotoFilter) -> Unit)? = null
 
     init {
         setUpFilters()

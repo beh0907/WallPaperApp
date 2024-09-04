@@ -26,13 +26,10 @@ object  PermissionUtil {
 
         return withContext(Dispatchers.IO) {
             try {
-                //권한 요청 및 결과 정보 가져오기
-                val result = TedPermission.create()
+                //권한 요청 및 결과 정보 리턴
+                return@withContext TedPermission.create()
                     .setPermissions(*permissions.toTypedArray())
-                    .check()
-
-                //권한 허용 여부 리턴
-                result.isGranted
+                    .checkGranted()
             } catch (e: Exception) {
                 e.printStackTrace()
                 false

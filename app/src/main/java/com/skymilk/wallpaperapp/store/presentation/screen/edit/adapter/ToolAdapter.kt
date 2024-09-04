@@ -11,9 +11,9 @@ import com.skymilk.wallpaperapp.store.presentation.screen.edit.ToolType
 
 class ToolAdapter : RecyclerView.Adapter<ToolAdapter.ToolViewHolder>() {
 
-    var onItemClick: ((ToolType) -> Unit)? = null
-
     private var photoToolList: MutableList<ToolModel> = mutableListOf()
+
+    var onItemClick: ((ToolType) -> Unit)? = null
 
     init {
         setUpTools()

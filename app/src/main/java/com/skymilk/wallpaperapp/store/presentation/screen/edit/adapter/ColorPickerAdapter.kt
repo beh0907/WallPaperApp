@@ -11,9 +11,9 @@ class ColorPickerAdapter(
     private val context: Context,
 ) : RecyclerView.Adapter<ColorPickerAdapter.ColorPickerViewHolder>() {
 
-    var onItemClick: ((Int) -> Unit)? = null
-
     private val colorList: MutableList<Int> = mutableListOf()
+
+    var onItemClick: ((Int) -> Unit)? = null
 
     init {
         setUpTools()
@@ -21,6 +21,7 @@ class ColorPickerAdapter(
 
     //고정 색상 정보 하드코딩
     private fun setUpTools() {
+        colorList.add(context.getColor(R.color.white))
         colorList.add(context.getColor(R.color.grey_700))
         colorList.add(context.getColor(R.color.red_700))
         colorList.add(context.getColor(R.color.pink_700))

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/_2sdp"
     tools:background="?attr/selectableItemBackground">
 
@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/imageFilter"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/_70sdp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:text="필터"
         android:fontFamily="@font/bm_hanna_pro"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_8ssp"
         android:background="#90000000"
         android:textColor="@color/white"
         android:gravity="center"

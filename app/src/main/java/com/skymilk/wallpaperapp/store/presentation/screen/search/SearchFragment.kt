@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -23,6 +22,8 @@ import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.FragmentSearchBinding
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
+import com.skymilk.wallpaperapp.util.KeyboardUtil.showKeyboard
+import com.skymilk.wallpaperapp.util.MessageUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -42,15 +43,19 @@ class SearchFragment : Fragment() {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
         initRecyclerView()
+        initSearchView()
 
         setObserve()
         setEvent()
 
-        setSearchView()
         return binding.root
     }
 
-    private fun setSearchView() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initSearchView() {
         binding.txtSearch.apply {
             //텍스트 색상 및 폰트 설정
             val searchEditText: EditText = findViewById(androidx.appcompat.R.id.search_src_text)
@@ -68,8 +73,13 @@ class SearchFragment : Fragment() {
             val closeIcon: ImageView = findViewById(androidx.appcompat.R.id.search_close_btn)
             closeIcon.setColorFilter(Color.WHITE)
 
-            //기본 확장 상태 설정
-            onActionViewExpanded()
+            // 기본 확장 상태 설정 및 키보드 표시
+            setOnQueryTextFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    searchEditText.showKeyboard()
+                }
+            }
+            onActionViewExpanded()  // 검색 뷰 확장
         }
     }
 
@@ -138,7 +148,7 @@ class SearchFragment : Fragment() {
                 override fun onQueryTextSubmit(p0: String?): Boolean {
 
                     if (p0.isNullOrEmpty()) {
-                        Toast.makeText(requireContext(), "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                        MessageUtil.showToast(requireContext(), "검색어를 입력해주세요.")
                         return true
                     }
 
@@ -158,7 +168,7 @@ class SearchFragment : Fragment() {
             ?: loadState.source.prepend as? LoadState.Error
 
         errorState?.let {
-            Toast.makeText(requireContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show()
+            MessageUtil.showToast(requireContext(), "다시 시도해주세요")
         }
     }
 }
