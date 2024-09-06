@@ -165,7 +165,8 @@ class MyDownloadFragment : Fragment() {
 
         findNavController().navigate(
             MyDownloadFragmentDirections.actionMyDownloadFragmentToEditFragment(
-                file.absolutePath
+                file.absolutePath, // 이미지 파일 절대 경로
+                file.lastModified().toString() // 캐싱 처리의 시그니처 값으로 활용될 마지막 수정 날짜
             )
         )
     }

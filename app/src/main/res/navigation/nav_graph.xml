@@ -95,5 +95,6 @@
         <argument
             android:name="imagePath"
             app:argType="string" />
+        <argument android:name="imageLastModified" />
     </fragment>
 </navigation>

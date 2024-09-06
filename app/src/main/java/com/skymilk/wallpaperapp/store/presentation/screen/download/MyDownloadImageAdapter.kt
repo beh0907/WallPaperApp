@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.signature.ObjectKey
 import com.skymilk.wallpaperapp.databinding.ItemMyDownloadImageBinding
 import java.io.File
 
@@ -46,8 +47,7 @@ class MyDownloadImageAdapter :
         fun bind(file: File) {
             Glide.with(binding.root)
                 .load(file.absolutePath)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .signature(ObjectKey(file.lastModified().toString()))
                 .optionalCenterCrop()
                 .into(binding.imageDownload)
         }

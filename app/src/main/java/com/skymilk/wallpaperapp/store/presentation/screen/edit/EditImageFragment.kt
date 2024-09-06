@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
@@ -61,7 +62,7 @@ class EditImageFragment : Fragment() {
 
         initRecyclerViewTool()
         initRecyclerViewFilter()
-        initPhoto(args.imagePath)
+        initPhoto(args.imagePath, args.imageLastModified)
 
         setEvent()
 
@@ -151,11 +152,12 @@ class EditImageFragment : Fragment() {
     }
 
     //선택한 이미지 불러오기
-    private fun initPhoto(imagePath: String) {
+    private fun initPhoto(imagePath: String, imageLastModified: String) {
         //선택한 이미지 적용
         Glide.with(this)
             .load(imagePath)
             .placeholder(ImageUtil.getShimmerDrawable())
+            .signature(ObjectKey(imageLastModified))
             .into(binding.photoEditorView.source)
 
         val textFont = ResourcesCompat.getFont(requireContext(), R.font.bm_hanna_pro)
