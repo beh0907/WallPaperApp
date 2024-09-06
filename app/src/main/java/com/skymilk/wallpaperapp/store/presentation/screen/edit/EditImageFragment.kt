@@ -16,13 +16,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.FragmentEditImageBinding
+import com.skymilk.wallpaperapp.store.presentation.common.ConfirmDialog
 import com.skymilk.wallpaperapp.store.presentation.screen.edit.adapter.FilterAdapter
 import com.skymilk.wallpaperapp.store.presentation.screen.edit.adapter.ToolAdapter
 import com.skymilk.wallpaperapp.store.presentation.screen.edit.dialog.BottomSheetEmojiFragment
@@ -33,10 +33,14 @@ import com.skymilk.wallpaperapp.util.ImageUtil
 import com.skymilk.wallpaperapp.util.MessageUtil
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
+import ja.burhanrashid52.photoeditor.PhotoFilter
 import ja.burhanrashid52.photoeditor.SaveFileResult
+import ja.burhanrashid52.photoeditor.SaveSettings
 import ja.burhanrashid52.photoeditor.ViewType
 import ja.burhanrashid52.photoeditor.shape.ShapeBuilder
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EditImageFragment : Fragment() {
 
@@ -157,12 +161,14 @@ class EditImageFragment : Fragment() {
         val textFont = ResourcesCompat.getFont(requireContext(), R.font.bm_hanna_pro)
         val emojiTypeFace = resources.getFont(R.font.emojione_android)
 
-
         photoEditor = PhotoEditor.Builder(requireContext(), binding.photoEditorView)
             .setPinchTextScalable(true) // set flag to make text scalable when pinch
             .setDefaultTextTypeface(textFont)
             .setDefaultEmojiTypeface(emojiTypeFace)
             .build() // build photo editor sdk
+
+        //기본 필터 설정
+        photoEditor.setFilterEffect(PhotoFilter.NONE)
     }
 
     //이벤트 초기화
@@ -239,21 +245,18 @@ class EditImageFragment : Fragment() {
 
         //브러쉬 사이즈 설정 이벤트
         emojiBottomSheet.onSizeChangedListener = { size ->
-//            photoEditor.brushSize = size
             photoEditor.setShape(ShapeBuilder().withShapeSize(size.toFloat()))
             binding.txtCurrentTool.text = "그리기"
         }
 
         //브러쉬 색상 설정 이벤트
         emojiBottomSheet.onColorChangedListener = { color ->
-//            photoEditor.brushColor = color
             photoEditor.setShape(ShapeBuilder().withShapeColor(color))
             binding.txtCurrentTool.text = "그리기"
         }
 
         //브러쉬 투명도 설정 이벤트
         emojiBottomSheet.onOpacityChangedListener = { opacity ->
-//            photoEditor.setOpacity(opacity)
             photoEditor.setShape(ShapeBuilder().withShapeOpacity(opacity))
             binding.txtCurrentTool.text = "그리기"
         }
@@ -314,15 +317,37 @@ class EditImageFragment : Fragment() {
     //편집한 이미지 저장
     @SuppressLint("MissingPermission")
     private fun saveImage() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val result = photoEditor.saveAsFile(args.imagePath)
-            if (result is SaveFileResult.Success) {
-                MessageUtil.showToast(requireContext(), "이미지가 저장되었습니다.")
-                findNavController().navigateUp()
-            } else {
-                MessageUtil.showToast(requireContext(), "이미지 저장에 실패하였습니다.")
+
+        //저장 여부 확인 다이얼로그 출력
+        ConfirmDialog(
+            requireContext(),
+            "이미지를 저장하시겠습니까?"
+        ) {
+            //확인 이벤트 정의
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                //기존 이미지의 경로를 활용해 덮어쓰기
+                val result = photoEditor.saveAsFile(
+                    args.imagePath,
+                    SaveSettings.Builder()
+                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .setTransparencyEnabled(false) // JPEG 타입이기 때문에 투명도는 설정될 필요가 없다
+                        .setClearViewsEnabled(false) //편집된 뷰를 초기화하지 않는다
+                        .build()
+                )
+
+                //비동기 다운로드 처리
+                withContext(Dispatchers.Main) {
+                    if (result is SaveFileResult.Success) {
+                        MessageUtil.showToast(requireContext(), "이미지가 저장되었습니다.")
+                        findNavController().navigateUp()
+                    } else {
+                        MessageUtil.showToast(requireContext(), "이미지 저장에 실패하였습니다.")
+
+                    }
+                }
             }
-        }
+        }.show()
+
     }
 
     //이미지 자르기

@@ -1,6 +1,7 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.edit.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.skymilk.wallpaperapp.databinding.ItemEditFilterBinding
@@ -10,6 +11,8 @@ import ja.burhanrashid52.photoeditor.PhotoFilter
 class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
 
     private var photoFilterList: MutableList<Pair<String, PhotoFilter>> = mutableListOf()
+
+    private var selectedPosition = 0
 
     var onItemClick: ((PhotoFilter) -> Unit)? = null
 
@@ -65,6 +68,17 @@ class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
 
         init {
             itemView.setOnClickListener {
+                // 이전 선택된 위치를 저장
+                val previousPosition = selectedPosition
+
+                // 현재 선택된 위치를 업데이트
+                selectedPosition = bindingAdapterPosition
+
+                // 이전 위치와 현재 위치의 아이템만 갱신
+                notifyItemChanged(previousPosition)
+                notifyItemChanged(selectedPosition)
+
+                //필터 클릭 이벤트 처리
                 onItemClick?.invoke(photoFilterList[bindingAdapterPosition].second)
             }
         }
@@ -75,6 +89,9 @@ class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
 
                 imageFilter.setImageBitmap(fromAsset)
                 txtFilter.text = pair.second.name.replace("_", " ")
+
+                //선택한 필터 정보를 체크 표시
+                imageCheck.visibility = if (selectedPosition == bindingAdapterPosition) View.VISIBLE else View.GONE
             }
         }
     }

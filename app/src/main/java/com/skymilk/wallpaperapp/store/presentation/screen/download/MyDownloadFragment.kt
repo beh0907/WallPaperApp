@@ -19,6 +19,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.skymilk.wallpaperapp.databinding.FragmentMyDownloadBinding
 import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
 import com.skymilk.wallpaperapp.util.ImageUtil
+import com.skymilk.wallpaperapp.util.ImageUtil.shareImage
 import com.skymilk.wallpaperapp.util.MessageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
@@ -37,14 +38,31 @@ class MyDownloadFragment : Fragment() {
     ): View? {
         binding = FragmentMyDownloadBinding.inflate(layoutInflater, container, false)
 
-        initViewPager()
+        initLayout()
         setEvent()
 
         return binding.root
     }
 
-    private fun initViewPager() {
+    private fun initLayout() {
+        //다운로드된 이미지 목록 가져오기
         imageList = ImageUtil.getSavedImages()
+
+        //다운로드 이미지 목록 여부에 따라 레이아웃 가시 처리
+        if (imageList.isEmpty()) {
+            binding.layoutEmpty.visibility = View.VISIBLE
+            binding.layoutDownloadedImage.visibility = View.GONE
+        } else {
+            binding.layoutEmpty.visibility = View.GONE
+            binding.layoutDownloadedImage.visibility = View.VISIBLE
+
+            //ViewPager 초기화
+            initViewPager()
+        }
+
+    }
+
+    private fun initViewPager() {
         myDownloadImageAdapter.differ.submitList(imageList)
 
         binding.viewPagerImage.apply {

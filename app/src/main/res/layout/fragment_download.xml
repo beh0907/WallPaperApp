@@ -18,7 +18,8 @@
         android:background="@null"
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
 
     <androidx.cardview.widget.CardView
@@ -29,12 +30,12 @@
         android:layout_marginTop="@dimen/_80sdp"
         android:layout_marginEnd="@dimen/_40sdp"
         android:layout_marginBottom="@dimen/_120sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_20sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnBack"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/_20sdp">
+        app:layout_constraintTop_toBottomOf="@id/btnBack">
 
         <ImageView
             android:id="@+id/imageDownload"
@@ -42,7 +43,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:elevation="@dimen/_2sdp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
     </androidx.cardview.widget.CardView>
 

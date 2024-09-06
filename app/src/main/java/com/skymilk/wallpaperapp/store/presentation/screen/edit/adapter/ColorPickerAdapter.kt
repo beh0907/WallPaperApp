@@ -2,6 +2,7 @@ package com.skymilk.wallpaperapp.store.presentation.screen.edit.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.skymilk.wallpaperapp.R
@@ -12,6 +13,8 @@ class ColorPickerAdapter(
 ) : RecyclerView.Adapter<ColorPickerAdapter.ColorPickerViewHolder>() {
 
     private val colorList: MutableList<Int> = mutableListOf()
+
+    private var selectedPosition = 0
 
     var onItemClick: ((Int) -> Unit)? = null
 
@@ -63,6 +66,17 @@ class ColorPickerAdapter(
 
         init {
             itemView.setOnClickListener {
+                // 이전 선택된 위치를 저장
+                val previousPosition = selectedPosition
+
+                // 현재 선택된 위치를 업데이트
+                selectedPosition = bindingAdapterPosition
+
+                // 이전 위치와 현재 위치의 아이템만 갱신
+                notifyItemChanged(previousPosition)
+                notifyItemChanged(selectedPosition)
+
+                //색상 클릭 이벤트 처리
                 onItemClick?.invoke(colorList[bindingAdapterPosition])
             }
         }
@@ -70,6 +84,9 @@ class ColorPickerAdapter(
         fun bind(color: Int) {
             binding.apply {
                 viewColor.setBackgroundColor(color)
+
+                //선택한 색상 정보를 체크 표시
+                imageCheck.visibility = if (selectedPosition == bindingAdapterPosition) View.VISIBLE else View.GONE
             }
         }
     }

@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Environment
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
@@ -15,6 +14,7 @@ import com.skymilk.wallpaperapp.BuildConfig
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.util.Locale
 
 object ImageUtil {
 
@@ -39,9 +39,18 @@ object ImageUtil {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         val wallpapersDirectory = File(picturesDirectory, "wallpapers")
 
+        // 이미지 파일 확장자 리스트
+        val imageExtensions = listOf("jpg", "jpeg", "png", "gif", "bmp", "webp")
+
         //최신 이미지부터 가져오기 위해 reversed 설정
         return if (wallpapersDirectory.exists() && wallpapersDirectory.isDirectory) {
-            wallpapersDirectory.listFiles { file -> file.isFile && file.extension == "jpg" }
+            wallpapersDirectory.listFiles { file ->
+                file.isFile && imageExtensions.contains(
+                    file.extension.lowercase(
+                        Locale.getDefault()
+                    )
+                )
+            }
                 ?.toList()?.reversed() ?: emptyList()
         } else {
             emptyList()
@@ -102,12 +111,12 @@ object ImageUtil {
         filePath: String
     ): Bitmap? {
         val assetManager = context.assets
-        var inputStream:InputStream? = null
+        var inputStream: InputStream? = null
 
         try {
             inputStream = assetManager.open(filePath)
             return BitmapFactory.decodeStream(inputStream)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             return null
         }
