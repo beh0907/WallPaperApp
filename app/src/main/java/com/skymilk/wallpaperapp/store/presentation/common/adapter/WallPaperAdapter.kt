@@ -54,8 +54,6 @@ class WallPaperAdapter : PagingDataAdapter<Hit, WallPaperAdapter.WallPaperViewHo
                     .load(hit.webformatURL)
                     .placeholder(ImageUtil.getShimmerDrawable())
                     .optionalCenterCrop()
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .transition(BitmapTransitionOptions.withCrossFade(100))
                     .error(R.color.teal_200)
                     .into(imageWallPaper)
