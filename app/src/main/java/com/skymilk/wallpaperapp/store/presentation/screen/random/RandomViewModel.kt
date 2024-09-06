@@ -10,7 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RandomViewModel @Inject constructor(
     private val wallPaperRepository: WallPaperRepository
-):ViewModel() {
+) : ViewModel() {
 
     val randomPapers = wallPaperRepository.getRandomWallPaper().cachedIn(viewModelScope)
 }

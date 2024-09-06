@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemCategoryBinding
 import com.skymilk.wallpaperapp.store.domain.model.Category
-import com.skymilk.wallpaperapp.util.ImageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil
 
 class CategoryAdapter(
     private val categoryList: List<Category>

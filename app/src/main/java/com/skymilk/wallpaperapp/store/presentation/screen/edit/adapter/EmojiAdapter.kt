@@ -4,10 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.skymilk.wallpaperapp.databinding.ItemEditEmojiBinding
-import com.skymilk.wallpaperapp.databinding.ItemEditFilterBinding
-import com.skymilk.wallpaperapp.util.ImageUtil.getBitmapFromAsset
-import ja.burhanrashid52.photoeditor.PhotoEditor
-import ja.burhanrashid52.photoeditor.PhotoFilter
 
 class EmojiAdapter : RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
 

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -16,7 +15,7 @@ import com.skymilk.wallpaperapp.databinding.FragmentHomeBinding
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
 import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirections
-import com.skymilk.wallpaperapp.util.MessageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 
 abstract class BaseFragment : Fragment() {
 

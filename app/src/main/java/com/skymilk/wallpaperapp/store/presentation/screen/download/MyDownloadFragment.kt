@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,9 +17,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.skymilk.wallpaperapp.databinding.FragmentMyDownloadBinding
 import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
-import com.skymilk.wallpaperapp.util.ImageUtil
-import com.skymilk.wallpaperapp.util.ImageUtil.shareImage
-import com.skymilk.wallpaperapp.util.MessageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.io.File
 

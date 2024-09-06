@@ -17,10 +17,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
+    // Retrofit 객체 생성
     @Singleton
     @Provides
     fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
+        //디버그 모드일 경우에만 로그를 남긴다
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         OkHttpClient.Builder()

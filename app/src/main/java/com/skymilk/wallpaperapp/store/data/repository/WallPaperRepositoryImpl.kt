@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class WallPaperRepositoryImpl @Inject constructor(
     private val wallPaperApi: WallPaperApi
-): WallPaperRepository {
+) : WallPaperRepository {
     override fun getHomeWallPaper(): Flow<PagingData<Hit>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),

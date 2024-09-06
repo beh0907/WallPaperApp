@@ -86,7 +86,8 @@ class ColorPickerAdapter(
                 viewColor.setBackgroundColor(color)
 
                 //선택한 색상 정보를 체크 표시
-                imageCheck.visibility = if (selectedPosition == bindingAdapterPosition) View.VISIBLE else View.GONE
+                imageCheck.visibility =
+                    if (selectedPosition == bindingAdapterPosition) View.VISIBLE else View.GONE
             }
         }
     }

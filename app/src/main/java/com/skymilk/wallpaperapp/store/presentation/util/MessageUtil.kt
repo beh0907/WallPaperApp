@@ -1,9 +1,8 @@
-package com.skymilk.wallpaperapp.util
+package com.skymilk.wallpaperapp.store.presentation.util
 
 import android.content.Context
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.android.material.snackbar.Snackbar
 
 object MessageUtil {

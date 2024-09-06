@@ -7,12 +7,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.skymilk.wallpaperapp.databinding.DialogDownloadBottomSheetBinding
-import com.skymilk.wallpaperapp.store.presentation.common.ImageDownloadManager
-import com.skymilk.wallpaperapp.util.MessageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -89,7 +88,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     }
 
     private fun downloadImageFromUrl(url: String) {
-        ImageDownloadManager.downloadImageFromUrl(
+        ImageUtil.downloadImageFromUrl(
             url,
             requireContext()
         )

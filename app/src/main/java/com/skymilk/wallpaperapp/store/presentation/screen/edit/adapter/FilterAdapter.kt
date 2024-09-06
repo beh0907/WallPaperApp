@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.skymilk.wallpaperapp.databinding.ItemEditFilterBinding
-import com.skymilk.wallpaperapp.util.ImageUtil.getBitmapFromAsset
+import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil.getBitmapFromAsset
 import ja.burhanrashid52.photoeditor.PhotoFilter
 
 class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
@@ -91,7 +91,8 @@ class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
                 txtFilter.text = pair.second.name.replace("_", " ")
 
                 //선택한 필터 정보를 체크 표시
-                imageCheck.visibility = if (selectedPosition == bindingAdapterPosition) View.VISIBLE else View.GONE
+                imageCheck.visibility =
+                    if (selectedPosition == bindingAdapterPosition) View.VISIBLE else View.GONE
             }
         }
     }

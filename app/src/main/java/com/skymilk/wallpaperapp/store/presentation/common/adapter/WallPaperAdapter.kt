@@ -6,12 +6,11 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemWallPaperBinding
 import com.skymilk.wallpaperapp.store.domain.model.Hit
-import com.skymilk.wallpaperapp.util.ImageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil
 
 class WallPaperAdapter : PagingDataAdapter<Hit, WallPaperAdapter.WallPaperViewHolder>(
     DiffUtilCallback()

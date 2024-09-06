@@ -18,7 +18,8 @@ import com.skymilk.wallpaperapp.store.presentation.screen.random.RandomFragment
 class MainFragment : Fragment() {
 
     private val tabTitles = arrayOf("Home", "Popular", "Random", "Categories")
-    private val fragments = listOf(HomeFragment(), PopularFragment(), RandomFragment(), CategoriesFragment())
+    private val fragments =
+        listOf(HomeFragment(), PopularFragment(), RandomFragment(), CategoriesFragment())
 
     private lateinit var binding: FragmentMainBinding
 

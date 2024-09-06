@@ -22,8 +22,8 @@ import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.FragmentSearchBinding
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
-import com.skymilk.wallpaperapp.util.KeyboardUtil.showKeyboard
-import com.skymilk.wallpaperapp.util.MessageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.KeyboardUtil.showKeyboard
+import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

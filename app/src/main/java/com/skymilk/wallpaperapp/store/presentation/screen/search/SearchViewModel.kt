@@ -25,11 +25,11 @@ class SearchViewModel @Inject constructor(
 
     // 외부에서 접근 가능한 검색 결과 Flow
     val searchWallPapers: Flow<PagingData<Hit>> = _searchQuery
-        .filter{
+        .filter {
             it.isBlank().not()
         } // null인 경우 무시
         .flatMapLatest { query ->
-            repository.getSearchWallPaper(query.toString())
+            repository.getSearchWallPaper(query)
         }
         .cachedIn(viewModelScope)
 

@@ -3,7 +3,6 @@ package com.skymilk.wallpaperapp.store.presentation.screen.edit.dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.skymilk.wallpaperapp.databinding.DialogEditAddTextBinding
 import com.skymilk.wallpaperapp.store.presentation.screen.edit.adapter.ColorPickerAdapter
-import com.skymilk.wallpaperapp.util.KeyboardUtil.hideKeyboard
-import com.skymilk.wallpaperapp.util.KeyboardUtil.showKeyboard
-import com.skymilk.wallpaperapp.util.MessageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.KeyboardUtil.hideKeyboard
+import com.skymilk.wallpaperapp.store.presentation.util.KeyboardUtil.showKeyboard
+import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 
 class DialogTextEditorFragment : DialogFragment() {
 
@@ -89,7 +88,7 @@ class DialogTextEditorFragment : DialogFragment() {
             setTextColor(requireArguments().getInt(ARG_INPUT_COLOR, Color.WHITE))
 
             // 뷰가 레이아웃에 추가된 후 포커스 요청 및 키보드 표시
-            postDelayed( {
+            postDelayed({
                 showKeyboard()
             }, 200)
         }

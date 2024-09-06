@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,7 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.skymilk.wallpaperapp.databinding.FragmentSpecificCategoryBinding
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
-import com.skymilk.wallpaperapp.util.MessageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

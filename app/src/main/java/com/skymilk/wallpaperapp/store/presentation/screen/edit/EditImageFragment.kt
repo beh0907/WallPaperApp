@@ -30,8 +30,8 @@ import com.skymilk.wallpaperapp.store.presentation.screen.edit.dialog.BottomShee
 import com.skymilk.wallpaperapp.store.presentation.screen.edit.dialog.BottomSheetPropertyFragment
 import com.skymilk.wallpaperapp.store.presentation.screen.edit.dialog.BottomSheetStickerFragment
 import com.skymilk.wallpaperapp.store.presentation.screen.edit.dialog.DialogTextEditorFragment
-import com.skymilk.wallpaperapp.util.ImageUtil
-import com.skymilk.wallpaperapp.util.MessageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil
+import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoFilter
@@ -194,7 +194,7 @@ class EditImageFragment : Fragment() {
             }
         }
 
-        //뒤로가기 버튼 콜백 생성
+        //프래그먼트에서 뒤로가기 버튼 콜백 생성
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner, // 생명주기를 관리해 종료될 때 자동으로 콜백 해제 처리
             object : OnBackPressedCallback(true) {
@@ -202,15 +202,14 @@ class EditImageFragment : Fragment() {
                     // 백 버튼을 눌렀을 때 수행할 작업
                     // 예: 이전 화면으로 이동하지 않고 다른 작업을 수행하고 싶을 때
                     // requireActivity().onBackPressedDispatcher.onBackPressed()을 호출하면 원래 동작(뒤로 가기)이 실행됨.
-
                     if (binding.recyclerFilters.visibility == View.VISIBLE) {
                         showFilterRecyclerView(false)
                         binding.txtCurrentTool.text = resources.getString(R.string.app_name)
                     } else if (!photoEditor.isCacheEmpty) {
-                        //이미지를 편집한 이력이 있다면
-                        //적용 여부 확인
+                        //이미지를 편집한 이력이 있다면 편집 뒤로가기
+                        photoEditor.undo()
                     } else {
-                        //뒤로가기
+                        //화면 닫기
                         findNavController().navigateUp()
                     }
                 }
@@ -337,7 +336,7 @@ class EditImageFragment : Fragment() {
                         .build()
                 )
 
-                //비동기 다운로드 처리
+                //다운로드 결과 처리
                 withContext(Dispatchers.Main) {
                     if (result is SaveFileResult.Success) {
                         MessageUtil.showToast(requireContext(), "이미지가 저장되었습니다.")
@@ -355,10 +354,8 @@ class EditImageFragment : Fragment() {
     //이미지 자르기
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            // Use the cropped image URI.
+            // Use the cropped image URI
             val croppedImageUri = result.uriContent
-            val croppedImageFilePath = result.getUriFilePath(requireContext()) // optional usage
-            // Process the cropped image URI as needed.
 
             //선택한 이미지 적용
             Glide.with(this)
