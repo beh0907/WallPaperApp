@@ -8,9 +8,10 @@ import com.gun0912.tedpermission.coroutine.TedPermission
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-object  PermissionUtil {
 
-    //권한 요청 처리
+object PermissionUtil {
+
+    //코루틴 권한 요청 처리
     suspend fun requestStoragePermissions(): Boolean {
         // SDK 버전에 따라 요청할 권한 결정
         val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

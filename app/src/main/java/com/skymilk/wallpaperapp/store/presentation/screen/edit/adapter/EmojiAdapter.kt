@@ -1,23 +1,20 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.edit.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemEditEmojiBinding
+import com.skymilk.wallpaperapp.store.presentation.util.EmojiUtil
 
-class EmojiAdapter : RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
+class EmojiAdapter(private val context: Context) : RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
 
-    private var emojiList: MutableList<String> = mutableListOf()
+    //이모지 정보 추가
+    private var emojiList: List<String> = EmojiUtil.getEmojis(context)
 
     var onItemClick: ((String) -> Unit)? = null
-
-    init {
-        setUpEmojis()
-    }
-
-    //고정 이모지 정보 하드코딩
-    private fun setUpEmojis() {
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmojiViewHolder {
         return EmojiViewHolder(

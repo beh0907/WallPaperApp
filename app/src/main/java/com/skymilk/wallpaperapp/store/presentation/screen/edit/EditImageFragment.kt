@@ -318,7 +318,6 @@ class EditImageFragment : Fragment() {
     //편집한 이미지 저장
     @SuppressLint("MissingPermission")
     private fun saveImage() {
-
         //저장 여부 확인 다이얼로그 출력
         ConfirmDialog(
             requireContext(),
@@ -354,7 +353,7 @@ class EditImageFragment : Fragment() {
     //이미지 자르기
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            // Use the cropped image URI
+            // 잘라낸 이미지 결과물
             val croppedImageUri = result.uriContent
 
             //선택한 이미지 적용

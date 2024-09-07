@@ -74,7 +74,7 @@ class SearchFragment : Fragment() {
             closeIcon.setColorFilter(Color.WHITE)
 
             // 기본 확장 상태 설정 및 키보드 표시
-            setOnQueryTextFocusChangeListener { v, hasFocus ->
+            setOnQueryTextFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     searchEditText.showKeyboard()
                 }

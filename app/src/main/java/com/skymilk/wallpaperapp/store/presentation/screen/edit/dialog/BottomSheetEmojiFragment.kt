@@ -28,7 +28,7 @@ class BottomSheetEmojiFragment : BottomSheetDialogFragment() {
     }
 
     private fun initRecyclerViewEmoji() {
-        val emojiAdapter = EmojiAdapter()
+        val emojiAdapter = EmojiAdapter(requireContext())
 
         //어댑터 -> 바텀시트 -> 편집 프래그먼트
         emojiAdapter.onItemClick = { emoji ->

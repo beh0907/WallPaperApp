@@ -16,14 +16,20 @@ class MyDownloadImageAdapter :
 
     private val diffCallback = object : DiffUtil.ItemCallback<File>() {
         override fun areItemsTheSame(oldItem: File, newItem: File): Boolean {
-            return oldItem == newItem
+            return oldItem.absolutePath == newItem.absolutePath
         }
 
         override fun areContentsTheSame(oldItem: File, newItem: File): Boolean {
-            return oldItem == newItem
+            return oldItem.lastModified() == newItem.lastModified()
         }
     }
     val differ = AsyncListDiffer(this, diffCallback)
+
+    fun removeItem(position: Int) {
+        val currentList = differ.currentList.toMutableList()
+        currentList.removeAt(position)
+        differ.submitList(currentList)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyDownloadImageViewHolder {
         return MyDownloadImageViewHolder(

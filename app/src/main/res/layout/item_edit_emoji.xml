@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_4sdp"
-        android:fontFamily="@font/bm_hanna_pro"
+        android:fontFamily="@font/emojione_android"
         android:padding="@dimen/_2sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_35ssp"/>

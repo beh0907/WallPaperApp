@@ -20,7 +20,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogDownloadBottomSheetBinding
     private var imageUrl: String? = null
-    private lateinit var bitmap: Bitmap
+    private var bitmap: Bitmap? = null
 
     companion object {
         private const val ARG_IMAGE_URL = "image_url"
@@ -42,9 +42,9 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         requireArguments().let {
             imageUrl = it.getString(ARG_IMAGE_URL)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                bitmap = it.getParcelable(ARG_BITMAP, Bitmap::class.java)!!
+                bitmap = it.getParcelable(ARG_BITMAP, Bitmap::class.java)
             } else {
-                bitmap = it.getParcelable(ARG_BITMAP)!!
+                bitmap = it.getParcelable(ARG_BITMAP)
             }
         }
     }
@@ -63,14 +63,22 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     }
 
     private fun setVisible() {
-        //다운로드할 URL 정보가 없다면 download 버튼을 지운다
-        if (imageUrl == null) binding.btnDownload.visibility = View.GONE
+        //다운로드 URL 정보가 있다면 download 버튼을 표시한다
+        binding.btnDownload.visibility = if (imageUrl == null) View.GONE else View.VISIBLE
+
+        //공유할 이미지 bitmap이 있다면 공유 버튼을 표시한다
+        binding.btnShare.visibility = if (bitmap == null) View.GONE else View.VISIBLE
     }
 
     private fun setClick() {
         binding.apply {
+
             btnDownload.setOnClickListener {
                 downloadImageFromUrl(imageUrl!!)
+            }
+
+            btnShare.setOnClickListener {
+                shareImage(bitmap!!)
             }
 
             btnSetBackGround.setOnClickListener {
@@ -94,6 +102,13 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         )
     }
 
+    private fun shareImage(bitmap: Bitmap) {
+        ImageUtil.shareImage(
+            requireContext(),
+            bitmap
+        )
+    }
+
     private suspend fun setBackGround(flag: Int) {
         try {
             // 백그라운드에서 실행
@@ -102,7 +117,8 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
                 wallPaperManager.setBitmap(bitmap, null, true, flag)
             }
 
-            withContext(Dispatchers.Main) {
+
+            viewLifecycleOwner.lifecycleScope.launch {
                 MessageUtil.showToast(requireContext(), "이미지가 적용되었습니다.")
             }
 
@@ -110,7 +126,8 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
             dismiss()
         } catch (e: Exception) {
             e.printStackTrace()
-            withContext(Dispatchers.Main) {
+
+            viewLifecycleOwner.lifecycleScope.launch {
                 MessageUtil.showToast(requireContext(), "적용 실패 - ${e.message.toString()}")
             }
         }

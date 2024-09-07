@@ -12,6 +12,8 @@ import androidx.core.content.FileProvider
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.skymilk.wallpaperapp.BuildConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -151,6 +153,21 @@ object ImageUtil {
             e.printStackTrace()
 
             MessageUtil.showToast(context, "이미지 다운로드 실패 - ${e.message.toString()}")
+        }
+    }
+
+    //특정 경로의 이미지 파일 제거
+    suspend fun deleteImageFile(filePath: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            // 경로와 파일명을 결합하여 전체 파일 경로를 생성
+            val file = File(filePath)
+
+            // 파일이 존재하는지 확인하고 삭제
+            if (file.exists()) {
+                file.delete()
+            } else {
+                false
+            }
         }
     }
 }
