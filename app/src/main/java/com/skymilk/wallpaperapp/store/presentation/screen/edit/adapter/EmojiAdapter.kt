@@ -3,13 +3,12 @@ package com.skymilk.wallpaperapp.store.presentation.screen.edit.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemEditEmojiBinding
 import com.skymilk.wallpaperapp.store.presentation.util.EmojiUtil
 
-class EmojiAdapter(private val context: Context) : RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
+class EmojiAdapter(private val context: Context) :
+    RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
 
     //이모지 정보 추가
     private var emojiList: List<String> = EmojiUtil.getEmojis(context)

@@ -1,7 +1,9 @@
 package com.skymilk.wallpaperapp.store.presentation.screen.random
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.fragment.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,8 +19,10 @@ class RandomFragment : BaseFragment() {
 
     override fun setObserve() {
         viewLifecycleOwner.lifecycleScope.launch {
-            randomViewModel.randomPapers.collectLatest {
-                wallPaperAdapter.submitData(it)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                randomViewModel.randomPapers.collectLatest {
+                    wallPaperAdapter.submitData(it)
+                }
             }
         }
     }

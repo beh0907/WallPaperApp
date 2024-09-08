@@ -12,7 +12,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -51,10 +53,6 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     private fun initSearchView() {
         binding.txtSearch.apply {
             //텍스트 색상 및 폰트 설정
@@ -85,8 +83,10 @@ class SearchFragment : Fragment() {
 
     private fun setObserve() {
         viewLifecycleOwner.lifecycleScope.launch {
-            searchViewModel.searchWallPapers.collectLatest {
-                wallPaperAdapter.submitData(it)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                searchViewModel.searchWallPapers.collectLatest {
+                    wallPaperAdapter.submitData(it)
+                }
             }
         }
     }

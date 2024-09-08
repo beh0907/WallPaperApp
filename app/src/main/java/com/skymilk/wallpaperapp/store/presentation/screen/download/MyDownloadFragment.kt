@@ -3,13 +3,16 @@ package com.skymilk.wallpaperapp.store.presentation.screen.download
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -17,13 +20,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
+import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.FragmentMyDownloadBinding
 import com.skymilk.wallpaperapp.store.presentation.common.ConfirmDialog
 import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDownloadFragment
-import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil
 import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import com.skymilk.wallpaperapp.util.PermissionUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -31,7 +36,10 @@ import java.io.File
 class MyDownloadFragment : Fragment() {
 
     private lateinit var binding: FragmentMyDownloadBinding
+
     private val myDownloadImageAdapter: MyDownloadImageAdapter = MyDownloadImageAdapter()
+
+    private val viewModel: MyDownloadViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,42 +47,80 @@ class MyDownloadFragment : Fragment() {
     ): View {
         binding = FragmentMyDownloadBinding.inflate(layoutInflater, container, false)
 
-        initLayout()
+        initViewPager()
+        setObserve()
         setEvent()
 
         return binding.root
     }
 
-    private fun initLayout() {
-        //다운로드된 이미지 목록 가져오기
-        val imageList = ImageUtil.getSavedImages()
-
-        //다운로드 이미지 목록 여부에 따라 레이아웃 가시 처리
-        if (imageList.isEmpty()) {
-            initEmpty()
-        } else {
-            initViewPager(imageList)
+    //뷰페이저 초기화
+    private fun initViewPager() {
+        binding.viewPagerImage.apply {
+            adapter = myDownloadImageAdapter
+            offscreenPageLimit = 5 // 메모리에 유지할 페이지 수
+            setPageTransformer(SliderTransformer(5)) // 페이지 전환 애니메이션 설정
         }
     }
 
-    //빈 레이아웃 설정 초기화
-    private fun initEmpty() {
-        binding.layoutEmpty.visibility = View.VISIBLE
-        binding.layoutDownloadedImage.visibility = View.GONE
+    private fun setObserve() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            // 뷰의 생명주기에 맞춰 상태 수집
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collectLatest { state ->
+                    when {
+                        state.isLoading -> showLoading()
+                        state.error != null -> showError(state.error)
+                        state.isEmptyState -> showEmptyState()
+                        else -> showImageList(state.imageList)
+                    }
+                }
+            }
+        }
     }
 
-    //뷰페이저 초기화
-    private fun initViewPager(imageList: List<File>) {
-        //뷰 가시 설정
+    // 로딩 상태 표시
+    private fun showLoading() {
+        // 로딩 UI 표시
+    }
+
+    // 에러 상태 표시
+    private fun showError(error: String) {
+        MessageUtil.showToast(requireContext(), error)
+        viewModel.clearError() // 에러 메시지 표시 후 초기화
+    }
+
+    // 이미지 목록이 비어있을 때의 상태 표시
+    private fun showEmptyState() {
+        binding.layoutEmpty.visibility = View.VISIBLE
+        binding.layoutDownloadedImage.visibility = View.GONE
+
+        // 빈 상태일 때 기본 배경으로 설정
+        binding.layoutConstraint.background =
+            ContextCompat.getDrawable(requireContext(), R.color.main_background)
+    }
+
+    // 이미지 목록 표시
+    private fun showImageList(imageList: List<File>) {
         binding.layoutEmpty.visibility = View.GONE
         binding.layoutDownloadedImage.visibility = View.VISIBLE
 
-        myDownloadImageAdapter.differ.submitList(imageList)
+        // 첫 초기화에서는 0이지만 삭제 후 불러올 땐 그 위치로 설정된다
+        val currentPosition = binding.viewPagerImage.currentItem
+        myDownloadImageAdapter.differ.submitList(imageList) {
+            // 리스트 업데이트 완료 후 실행되는 콜백
+            if (imageList.isNotEmpty()) {
+                // 현재 위치가 새 리스트 크기를 초과하지 않도록 조정
+                val newPosition = minOf(currentPosition, imageList.size - 1)
+                binding.viewPagerImage.setCurrentItem(newPosition, false)
+                updateBackground(newPosition) // 배경 업데이트
 
-        binding.viewPagerImage.apply {
-            adapter = myDownloadImageAdapter
-            offscreenPageLimit = 3
-            setPageTransformer(SliderTransformer(3))
+                //레이아웃 재적용
+                //삭제 후 이동 시 뷰가 그려지지 않는 오류 발생
+                binding.viewPagerImage.post {
+                    binding.viewPagerImage.requestTransform()
+                }
+            }
         }
     }
 
@@ -105,27 +151,40 @@ class MyDownloadFragment : Fragment() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
 
-                    //조회중인 이미지를 블러처리 해 백그라운드에 적용
-                    Glide.with(requireContext())
-                        .load(myDownloadImageAdapter.differ.currentList[position].absolutePath)
-                        .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
-                        .into(object : CustomTarget<Drawable?>() {
-                            override fun onResourceReady(
-                                resource: Drawable,
-                                transition: Transition<in Drawable?>?
-                            ) {
-                                binding.layoutConstraint.background = resource
-                            }
-
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                            }
-                        })
+                    updateBackground(position)
                 }
             })
         }
     }
 
-    //현재 ViewPager가 보고 있는 아이템 위치의 이미지 뷰 가져오기
+    //특정 위치의 이미지를 화면 백그라운드에 블러처리 후 반영
+    private fun updateBackground(position: Int) {
+        //특정 위치 이미지 파일 가져오기
+        val currentFile = getImageFile(position)
+
+        //이미지 반영
+        Glide.with(requireContext())
+            .load(currentFile.absolutePath)
+            .signature(
+                ObjectKey(
+                    currentFile.lastModified().toString()
+                )
+            ) // 캐싱으로 인해 삭제된 이미지 출력 문제가 생겨 signature 설정
+            .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
+            .into(object : CustomTarget<Drawable?>() {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable?>?
+                ) {
+                    //블러처리된 이미지 반영 적용
+                    binding.layoutConstraint.background = resource
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
+    }
+
+    // 현재 표시 중인 이미지 뷰 가져오기
     private fun getCurrentImageView(): ImageView {
         // ViewPager2 내부의 RecyclerView에 접근
         val recyclerView = binding.viewPagerImage.getChildAt(0) as? RecyclerView
@@ -134,36 +193,24 @@ class MyDownloadFragment : Fragment() {
         val viewHolder =
             recyclerView?.findViewHolderForAdapterPosition(binding.viewPagerImage.currentItem) as? MyDownloadImageAdapter.MyDownloadImageViewHolder
 
-        return viewHolder!!.binding.imageDownload
+        return viewHolder?.binding?.imageDownload
+            ?: throw IllegalStateException("현재 이미지 뷰를 찾을 수 없습니다.")
     }
 
-    //현재 viewPager가 보고 있는 아이템 위치의 파일 객체 가져오기
-    private fun getCurrentImageFile(): File =
-        myDownloadImageAdapter.differ.currentList[binding.viewPagerImage.currentItem]
+    // 이미지 파일 가져오기
+    // 파라미터가 없다면 현재 표시된 이미지를 가져온다
+    private fun getImageFile(position: Int = binding.viewPagerImage.currentItem): File =
+        myDownloadImageAdapter.differ.currentList[position]
 
-    //이미지 제거하기
+    //이미지 삭제 처리
     private fun deleteImage() {
-        //저장 여부 확인 다이얼로그 출력
+        //삭제 여부 확인 다이얼로그 출력
         ConfirmDialog(
             requireContext(),
             "이미지를 정말 삭제하시겠습니까?"
         ) {
-            //확인 버튼 클릭 시 이벤트 처리
-            val file = getCurrentImageFile()
-            val currentItemPosition = binding.viewPagerImage.currentItem
-
-            // 코루틴을 사용하여 이미지 제거를 비동기적으로 처리
-            viewLifecycleOwner.lifecycleScope.launch {
-                //이미지 제거 및 제거 여부 체크
-                if (ImageUtil.deleteImageFile(file.absolutePath)) {
-
-                    //새로고침 구현 필요
-
-                    MessageUtil.showToast(requireContext(), "이미지가 제거되었습니다.")
-                } else {
-                    MessageUtil.showToast(requireContext(), "이미지 제거에 실패하였습니다.")
-                }
-            }
+            //현재 선택한 이미지(파일)을 삭제처리한다
+            viewModel.deleteImage(getImageFile())
         }.show()
     }
 
@@ -188,7 +235,7 @@ class MyDownloadFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             //권한 여부 처리
             if (PermissionUtil.requestStoragePermissions()) {
-                val file = getCurrentImageFile()
+                val file = getImageFile()
 
                 findNavController().navigate(
                     MyDownloadFragmentDirections.actionMyDownloadFragmentToEditFragment(

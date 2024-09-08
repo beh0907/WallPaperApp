@@ -5,7 +5,7 @@ androidSpinkit = "1.4.0"
 glide = "4.16.0"
 glideTransformations = "4.3.0"
 kenburnsview = "1.0.7"
-kotlin = "1.9.0"
+kotlin = "1.9.20"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -14,9 +14,9 @@ appcompat = "1.7.0"
 kotlinxSerializationJson = "1.5.0"
 loggingInterceptor = "4.12.0"
 material = "1.12.0"
-activity = "1.9.1"
+activity = "1.9.2"
 constraintlayout = "2.1.4"
-navigationUiKtx = "2.7.7"
+navigationUiKtx = "2.8.0"
 pagingRuntimeKtx = "3.3.2"
 photoeditor = "3.0.2"
 sdp-ssp-Android = "1.1.1"
@@ -25,6 +25,7 @@ hiltAndroid = "2.52"
 shimmer = "0.5.0"
 swiperefreshlayout = "1.1.0"
 tedpermission = "3.4.2"
+ksp = "2.0.20-1.0.25"
 
 [libraries]
 android-image-cropper = { module = "com.vanniktech:android-image-cropper", version.ref = "androidImageCropper" }
@@ -63,4 +64,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
