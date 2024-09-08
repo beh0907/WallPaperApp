@@ -2,8 +2,8 @@ package com.skymilk.wallpaperapp.store.presentation.screen.edit.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.ItemColorPickerBinding
@@ -86,8 +86,7 @@ class ColorPickerAdapter(
                 viewColor.setBackgroundColor(color)
 
                 //선택한 색상 정보를 체크 표시
-                imageCheck.visibility =
-                    if (selectedPosition == bindingAdapterPosition) View.VISIBLE else View.GONE
+                imageCheck.isVisible = selectedPosition == bindingAdapterPosition
             }
         }
     }

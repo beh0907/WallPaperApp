@@ -12,6 +12,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.skymilk.wallpaperapp.databinding.FragmentHomeBinding
+import com.skymilk.wallpaperapp.store.presentation.common.LoadStateHandleError.handleError
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
 import com.skymilk.wallpaperapp.store.presentation.screen.main.MainFragmentDirections
@@ -62,7 +63,8 @@ abstract class BaseFragment : Fragment() {
                 recyclerWallPaper.isVisible = loadState.source.refresh is LoadState.NotLoading
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
                 btnRetry.isVisible = loadState.source.refresh is LoadState.Error
-                handleError(loadState)
+
+                requireContext().handleError(loadState)
             }
         }
 
@@ -102,15 +104,6 @@ abstract class BaseFragment : Fragment() {
                 wallPaperAdapter.refresh()
                 layoutSwipeRefresh.isRefreshing = false
             }
-        }
-    }
-
-    private fun handleError(loadState: CombinedLoadStates) {
-        val errorState = loadState.source.append as? LoadState.Error
-            ?: loadState.source.prepend as? LoadState.Error
-
-        errorState?.let {
-            MessageUtil.showToast(requireContext(), "다시 시도해주세요")
         }
     }
 }

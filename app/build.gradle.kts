@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     kotlin("plugin.serialization") version "1.9.22"
     id("androidx.navigation.safeargs.kotlin")
-    id("com.google.devtools.ksp")
+    kotlin("kapt")
 }
 
 // local.properties 사용을 위함
@@ -83,14 +83,14 @@ dependencies {
 
     //dagger hilt
     implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    kapt(libs.hilt.android.compiler)
 
     //paging3
     implementation(libs.androidx.paging.runtime.ktx)
 
     //Glide
     implementation(libs.glide)
-    ksp(libs.glide.compiler)
+    kapt(libs.glide.compiler)
     implementation(libs.glide.transformations)
 
     //progress bar

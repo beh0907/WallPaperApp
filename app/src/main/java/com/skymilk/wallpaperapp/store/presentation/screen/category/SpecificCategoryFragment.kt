@@ -10,17 +10,18 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.skymilk.wallpaperapp.databinding.FragmentSpecificCategoryBinding
+import com.skymilk.wallpaperapp.store.presentation.common.LoadStateHandleError.handleError
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
-import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -59,8 +60,10 @@ class SpecificCategoryFragment : Fragment() {
 
     private fun setObserve() {
         viewLifecycleOwner.lifecycleScope.launch {
-            categoryViewModel.categoryWallPapers.collectLatest {
-                wallPaperAdapter.submitData(it)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                categoryViewModel.categoryWallPapers.collectLatest {
+                    wallPaperAdapter.submitData(it)
+                }
             }
         }
     }
@@ -86,7 +89,8 @@ class SpecificCategoryFragment : Fragment() {
                 recyclerWallPaper.isVisible = loadState.source.refresh is LoadState.NotLoading
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
                 btnRetry.isVisible = loadState.source.refresh is LoadState.Error
-                handleError(loadState)
+
+                requireContext().handleError(loadState)
             }
         }
 
@@ -153,15 +157,6 @@ class SpecificCategoryFragment : Fragment() {
             }
 
             hasConsumed
-        }
-    }
-
-    private fun handleError(loadState: CombinedLoadStates) {
-        val errorState = loadState.source.append as? LoadState.Error
-            ?: loadState.source.prepend as? LoadState.Error
-
-        errorState?.let {
-            MessageUtil.showToast(requireContext(), "다시 시도해주세요")
         }
     }
 }

@@ -10,12 +10,11 @@ import com.skymilk.wallpaperapp.store.domain.model.Hit
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 
 //@AssistedInject를 사용한 땐 @HiltViewModel을 정의해선 안된다
+@OptIn(ExperimentalCoroutinesApi::class)
 class CategoryViewModel @AssistedInject constructor(
     private val wallPaperRepository: WallPaperRepository,
     @Assisted private val category: String
@@ -40,17 +39,7 @@ class CategoryViewModel @AssistedInject constructor(
         }
     }
 
-    init {
-        viewModelScope.launch {
-            getCategoryWallPaper(category).collect {
-                _categoryWallPapers.emit(it)
-            }
-        }
-    }
-
-    private val _categoryWallPapers = MutableSharedFlow<PagingData<Hit>>()
-    var categoryWallPapers = _categoryWallPapers.asSharedFlow()
-
-    private fun getCategoryWallPaper(category: String): Flow<PagingData<Hit>> =
-        wallPaperRepository.getCategoryWallPaper(category).cachedIn(viewModelScope)
+    // 외부에서 접근 가능한 검색 결과 Flow
+    val categoryWallPapers: Flow<PagingData<Hit>> =
+        wallPaperRepository.getSearchWallPaper(category).cachedIn(viewModelScope)
 }

@@ -48,9 +48,6 @@
         <argument
             android:name="imagePath"
             app:argType="string" />
-        <action
-            android:id="@+id/action_downloadFragment_to_editFragment"
-            app:destination="@id/editFragment" />
     </fragment>
     <fragment
         android:id="@+id/specificCategoryFragment"

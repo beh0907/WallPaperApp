@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.skymilk.wallpaperapp.databinding.DialogDownloadBottomSheetBinding
@@ -64,10 +65,10 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
     private fun setVisible() {
         //다운로드 URL 정보가 있다면 download 버튼을 표시한다
-        binding.btnDownload.visibility = if (imageUrl == null) View.GONE else View.VISIBLE
+        binding.btnDownload.isVisible = imageUrl != null
 
         //공유할 이미지 bitmap이 있다면 공유 버튼을 표시한다
-        binding.btnShare.visibility = if (bitmap == null) View.GONE else View.VISIBLE
+        binding.btnShare.isVisible = bitmap != null
     }
 
     private fun setClick() {

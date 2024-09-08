@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -202,7 +204,7 @@ class EditImageFragment : Fragment() {
                     // 백 버튼을 눌렀을 때 수행할 작업
                     // 예: 이전 화면으로 이동하지 않고 다른 작업을 수행하고 싶을 때
                     // requireActivity().onBackPressedDispatcher.onBackPressed()을 호출하면 원래 동작(뒤로 가기)이 실행됨.
-                    if (binding.recyclerFilters.visibility == View.VISIBLE) {
+                    if (binding.recyclerFilters.isVisible) {
                         showFilterRecyclerView(false)
                         binding.txtCurrentTool.text = resources.getString(R.string.app_name)
                     } else if (!photoEditor.isCacheEmpty) {
@@ -311,8 +313,8 @@ class EditImageFragment : Fragment() {
 
     //필터링 목록 출력
     private fun showFilterRecyclerView(visibility: Boolean) {
-        binding.recyclerFilters.visibility = if (visibility) View.VISIBLE else View.GONE
-        binding.recyclerTools.visibility = if (visibility) View.INVISIBLE else View.VISIBLE
+        binding.recyclerFilters.isVisible = visibility
+        binding.recyclerTools.isInvisible = visibility
     }
 
     //편집한 이미지 저장
