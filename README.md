@@ -18,7 +18,7 @@
     * Paging3 - 무한 스크롤 목록을 처리하고 관리합니다. (API 페이징 처리)
     * navigation - fragment 화면간의 이동을 처리하고 데이터 전달을 관리합니다.
     * Download Manager - 이미지 파일의 HTTP 다운로드를 백그라운드에서 원활하게 처리합니다.
-    * Permissions - (TedPermission)[https://github.com/ParkSangGwon/TedPermission]을 활용해 저장장치에 관한 권한을 요청하고 처리합니다.
+    * Permissions - [TedPermission](https://github.com/ParkSangGwon/TedPermission)을 활용해 저장장치에 관한 권한을 요청하고 처리합니다.
     * Notifications - 이미지 파일의 다운로드 상태를 알리기 위해 알림을 표시합니다.
 * Architecture
     * MVVM 패턴 적용 - Model + View + ViewModel
@@ -33,3 +33,14 @@
     * [Android-SpinKit](https://github.com/ybq/Android-SpinKit) - 이미지 목록의 로딩 상태를 표시하기 위해 Pulse Effect를 적용합니다.
 
 # 스크린샷
+|메인화면(최신 월페이퍼)|인기 월페이퍼 화면|랜덤 월페이퍼 화면|
+|---|---|---|
+|![메인화면](https://github.com/user-attachments/assets/7c7c7c8b-8b2c-421c-a237-80534bedbc97)|![인기 이미지 화면](https://github.com/user-attachments/assets/d36539f0-34b1-44f6-807f-5dcea8e35d28)|![랜덤 이미지 화면](https://github.com/user-attachments/assets/67f103cf-4943-4645-8337-55c61c90685c)|
+
+|카테고리 화면|카테고리 월페이퍼 화면|검색 화면|
+|---|---|---|
+|![카테고리 화면](https://github.com/user-attachments/assets/43884671-06a5-4b26-bda0-c61ea04899ea)|![카테고리 월페이퍼 화면](https://github.com/user-attachments/assets/f6f6cbee-44a3-4d42-8290-95f0df265b93)|![검색 화면](https://github.com/user-attachments/assets/d643ed0e-9f01-419d-b707-e18f9360625d)|
+
+|다운로드 화면|나의 다운로드 목록 화면|편집 화면|
+|---|---|---|
+|![다운로드 화면](https://github.com/user-attachments/assets/8279e34c-4b9e-4d8a-9608-7927355c54b7)|![나의 다운로드 목록 화면](https://github.com/user-attachments/assets/c78b417f-0e52-450b-b111-f324c56c5349)|![편집 화면](https://github.com/user-attachments/assets/17013849-27f0-407f-896e-0b6df8b9c485)|
