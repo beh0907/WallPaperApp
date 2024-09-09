@@ -23,7 +23,7 @@ class BottomSheetPropertyFragment : BottomSheetDialogFragment(), OnSeekBarChange
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DialogPropertiesBottomSheetBinding.inflate(inflater)
 
         initRecyclerViewColor()

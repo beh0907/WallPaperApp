@@ -27,7 +27,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMainBinding.inflate(
             inflater,  // `layoutInflater` 대신 `inflater`를 사용합니다.
             container,

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -218,6 +217,7 @@ class MyDownloadFragment : Fragment() {
     //다운로드 바텀 시트 띄우기
     private fun showDownloadBottomSheet() {
         val imageView = getCurrentImageView()
+        val file = getImageFile()
 
         if (imageView.drawable == null || imageView.drawable !is BitmapDrawable) {
             MessageUtil.showToast(requireContext(), "이미지 로딩을 기다려주세요.")
@@ -225,9 +225,11 @@ class MyDownloadFragment : Fragment() {
         }
 
         //이미 다운로드한 이미지이기 떄문에 URL은 넘겨주지 않는다
+        //공유를 위한 임시 이미지 저장 후 경로를 전달
         val bottomSheet = BottomSheetDownloadFragment.newInstance(
-            bitmap = (imageView.drawable as BitmapDrawable).bitmap
+            currentImageUrl = file.absolutePath
         )
+
         bottomSheet.show(childFragmentManager, "myDownload bottomSheet")
     }
 

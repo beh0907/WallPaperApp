@@ -20,7 +20,7 @@ class BottomSheetStickerFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DialogStickerEmojiBottomSheetBinding.inflate(inflater)
 
         initRecyclerViewEmoji()

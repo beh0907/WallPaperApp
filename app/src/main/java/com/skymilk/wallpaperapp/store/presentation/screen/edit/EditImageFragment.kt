@@ -59,7 +59,7 @@ class EditImageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentEditImageBinding.inflate(layoutInflater, container, false)
 
         initRecyclerViewTool()

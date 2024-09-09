@@ -52,7 +52,7 @@ class DialogTextEditorFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DialogEditAddTextBinding.inflate(inflater)
 
         return binding.root

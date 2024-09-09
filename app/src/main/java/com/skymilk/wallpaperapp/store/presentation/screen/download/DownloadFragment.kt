@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -18,6 +19,7 @@ import com.skymilk.wallpaperapp.store.presentation.common.fragment.BottomSheetDo
 import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil
 import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
+import kotlinx.coroutines.launch
 
 
 class DownloadFragment : Fragment() {
@@ -28,7 +30,7 @@ class DownloadFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDownloadBinding.inflate(inflater, container, false)
 
         loadImage(args.imagePath)
@@ -81,10 +83,21 @@ class DownloadFragment : Fragment() {
             return
         }
 
-        val bottomSheet = BottomSheetDownloadFragment.newInstance(
-            imageUrl = args.imagePath,
-            bitmap = (binding.imageDownload.drawable as BitmapDrawable).bitmap
-        )
-        bottomSheet.show(childFragmentManager, "download bottomSheet")
+        viewLifecycleOwner.lifecycleScope.launch {
+            //공유를 위한 임시 이미지 저장
+            val cacheFile = ImageUtil.saveCacheImage(
+                requireContext(),
+                (binding.imageDownload.drawable as BitmapDrawable).bitmap
+            )
+
+            //이미지 다운로드를 위한 이미지 URL 전달
+            //임시 이미지 저장 후 경로 전달
+            val bottomSheet = BottomSheetDownloadFragment.newInstance(
+                downloadImageUrl = args.imagePath,
+                currentImageUrl = cacheFile.absolutePath
+            )
+
+            bottomSheet.show(childFragmentManager, "download bottomSheet")
+        }
     }
 }

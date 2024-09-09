@@ -20,7 +20,7 @@ class CategoriesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCategoriesBinding.inflate(inflater, container, false)
 
         initRecyclerView()

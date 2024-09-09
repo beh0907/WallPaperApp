@@ -2,7 +2,6 @@ package com.skymilk.wallpaperapp.store.presentation.common.fragment
 
 import android.app.WallpaperManager
 import android.graphics.Bitmap
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,22 +15,30 @@ import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogDownloadBottomSheetBinding
-    private var imageUrl: String? = null
+
+    private var downloadImageUrl: String? = null
+
+    //공유, 배경화면 설정을 위한 이미지 정보
+    private lateinit var currentImageFile: File
     private var bitmap: Bitmap? = null
 
     companion object {
-        private const val ARG_IMAGE_URL = "image_url"
-        private const val ARG_BITMAP = "bitmap"
+        private const val ARG_DOWNLOAD_IMAGE_URL = "download_image_url"
+        private const val ARG_CURRENT_IMAGE_PATH = "current_image_path"
 
-        fun newInstance(imageUrl: String? = null, bitmap: Bitmap): BottomSheetDownloadFragment {
+        fun newInstance(
+            downloadImageUrl: String? = null,
+            currentImageUrl: String
+        ): BottomSheetDownloadFragment {
             val fragment = BottomSheetDownloadFragment()
             val args = Bundle().apply {
-                putString(ARG_IMAGE_URL, imageUrl)
-                putParcelable(ARG_BITMAP, bitmap)
+                putString(ARG_DOWNLOAD_IMAGE_URL, downloadImageUrl)
+                putString(ARG_CURRENT_IMAGE_PATH, currentImageUrl)
             }
             fragment.arguments = args
             return fragment
@@ -41,11 +48,11 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireArguments().let {
-            imageUrl = it.getString(ARG_IMAGE_URL)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                bitmap = it.getParcelable(ARG_BITMAP, Bitmap::class.java)
-            } else {
-                bitmap = it.getParcelable(ARG_BITMAP)
+            downloadImageUrl = it.getString(ARG_DOWNLOAD_IMAGE_URL)
+
+            it.getString(ARG_CURRENT_IMAGE_PATH)?.let { imageUrl ->
+                currentImageFile = File(imageUrl)
+                bitmap = ImageUtil.getBitmapFromCache(currentImageFile)
             }
         }
     }
@@ -54,7 +61,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DialogDownloadBottomSheetBinding.inflate(inflater)
 
         setVisible()
@@ -65,7 +72,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
     private fun setVisible() {
         //다운로드 URL 정보가 있다면 download 버튼을 표시한다
-        binding.btnDownload.isVisible = imageUrl != null
+        binding.btnDownload.isVisible = downloadImageUrl != null
 
         //공유할 이미지 bitmap이 있다면 공유 버튼을 표시한다
         binding.btnShare.isVisible = bitmap != null
@@ -75,22 +82,22 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         binding.apply {
 
             btnDownload.setOnClickListener {
-                downloadImageFromUrl(imageUrl!!)
+                downloadImageFromUrl(downloadImageUrl!!)
             }
 
             btnShare.setOnClickListener {
-                shareImage(bitmap!!)
+                shareImage(currentImageFile)
             }
 
             btnSetBackGround.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    setBackGround(WallpaperManager.FLAG_SYSTEM)
+                    setBackGround(WallpaperManager.FLAG_SYSTEM, bitmap!!)
                 }
             }
 
             btnSetLockScreen.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    setBackGround(WallpaperManager.FLAG_LOCK)
+                    setBackGround(WallpaperManager.FLAG_LOCK, bitmap!!)
                 }
             }
         }
@@ -103,14 +110,18 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private fun shareImage(bitmap: Bitmap) {
+    private fun shareImage(file: File) {
+        //이미지 공유
         ImageUtil.shareImage(
             requireContext(),
-            bitmap
+            file
         )
+
+        //공유 후 종료
+        dismiss()
     }
 
-    private suspend fun setBackGround(flag: Int) {
+    private suspend fun setBackGround(flag: Int, bitmap: Bitmap) {
         try {
             // 백그라운드에서 실행
             withContext(Dispatchers.IO) {

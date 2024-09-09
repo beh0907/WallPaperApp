@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
+import com.canhub.cropper.CropImage.CancelledResult.bitmap
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.skymilk.wallpaperapp.BuildConfig
@@ -74,40 +75,6 @@ object ImageUtil {
         }
     }
 
-    //이미지 공유하기
-    fun shareImage(context: Context, bitmap: Bitmap) {
-        try {
-            // 비트맵을 캐시 디렉토리에 파일로 저장
-            val file = File(context.externalCacheDir, File.separator + "image.jpg")
-            val fileOutputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-            fileOutputStream.flush()
-            fileOutputStream.close()
-            file.setReadable(true, false)
-
-            //저장한 이미지를 공유하기 위해 Intent 구성
-            val imageUri = FileProvider.getUriForFile(
-                context,
-                BuildConfig.APPLICATION_ID + ".provider",
-                file
-            )
-            val intent = Intent(Intent.ACTION_SEND).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                type = "image/jpg"
-                putExtra(Intent.EXTRA_STREAM, imageUri)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-
-            //이미지 공유 시작
-            context.startActivity(Intent.createChooser(intent, "이미지 공유"))
-
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            MessageUtil.showToast(context, "공유 실패 - ${e.message.toString()}")
-        }
-    }
-
     //에셋 폴더로부터 특정 이미지 가져오기
     fun getBitmapFromAsset(
         context: Context,
@@ -122,6 +89,20 @@ object ImageUtil {
         } catch (e: Exception) {
             e.printStackTrace()
             return null
+        }
+    }
+
+    //파일 경로를 통해 파일 객체를 가져온다
+    fun getFileFromPath(filePath: String) {
+        val file = File(filePath)
+    }
+
+    //파일 객체에서 이미지를 가져온다
+    fun getBitmapFromCache(file: File): Bitmap? {
+        return if (file.exists()) {
+            BitmapFactory.decodeFile(file.absolutePath)
+        } else {
+            null
         }
     }
 
@@ -153,6 +134,49 @@ object ImageUtil {
             e.printStackTrace()
 
             MessageUtil.showToast(context, "이미지 다운로드 실패 - ${e.message.toString()}")
+        }
+    }
+
+    //공유 or 배경화면 저장용 임시 이미지 저장
+    //프래그먼트 간 BITMAP 공유가 어려워 우회
+    suspend fun saveCacheImage(context: Context, bitmap: Bitmap): File {
+        // 비트맵을 캐시 디렉토리에 파일로 저장
+        val file = withContext(Dispatchers.IO) {
+            val file = File(context.externalCacheDir, File.separator + "image.jpg")
+            FileOutputStream(file).use { fos ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                fos.flush()
+            }
+            file
+        }
+
+        return file
+    }
+
+
+    //이미지 공유 처리
+    fun shareImage(context: Context, file: File) {
+        try {
+            //저장한 이미지를 공유하기 위해 Intent 구성
+            val imageUri = FileProvider.getUriForFile(
+                context,
+                BuildConfig.APPLICATION_ID + ".provider",
+                file
+            )
+
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                type = "image/jpg"
+                putExtra(Intent.EXTRA_STREAM, imageUri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+
+            //이미지 공유 시작
+            context.startActivity(Intent.createChooser(intent, "이미지 공유"))
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            MessageUtil.showToast(context, "공유 실패 - ${e.message.toString()}")
         }
     }
 
