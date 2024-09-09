@@ -1,7 +1,7 @@
 package com.skymilk.wallpaperapp.store.data.remote
 
 import com.skymilk.wallpaperapp.BuildConfig
-import com.skymilk.wallpaperapp.store.domain.model.WallPaperPixaBay
+import com.skymilk.wallpaperapp.store.data.remote.dto.WallPaperPixaBay
 import com.skymilk.wallpaperapp.util.Constants.PAGE_SIZE
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,6 +1,7 @@
-package com.skymilk.wallpaperapp.store.domain.model
+package com.skymilk.wallpaperapp.store.data.remote.dto
 
 
+import com.skymilk.wallpaperapp.store.domain.model.Hit
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

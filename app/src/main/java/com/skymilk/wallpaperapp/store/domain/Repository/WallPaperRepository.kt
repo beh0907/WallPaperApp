@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface WallPaperRepository {
 
-    fun getHomeWallPaper(): Flow<PagingData<Hit>>
+    fun getHomeWallPapers(): Flow<PagingData<Hit>>
 
-    fun getPopularWallPaper(): Flow<PagingData<Hit>>
+    fun getPopularWallPapers(): Flow<PagingData<Hit>>
 
-    fun getRandomWallPaper(): Flow<PagingData<Hit>>
+    fun getRandomWallPapers(): Flow<PagingData<Hit>>
 
-    fun getCategoryWallPaper(category: String): Flow<PagingData<Hit>>
+    fun getCategoryWallPapers(category: String): Flow<PagingData<Hit>>
 
-    fun getSearchWallPaper(searchQuery: String): Flow<PagingData<Hit>>
+    fun getSearchWallPapers(searchQuery: String): Flow<PagingData<Hit>>
 }

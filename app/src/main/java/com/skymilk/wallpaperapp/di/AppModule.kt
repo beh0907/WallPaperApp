@@ -2,6 +2,13 @@ package com.skymilk.wallpaperapp.di
 
 import com.skymilk.wallpaperapp.BuildConfig
 import com.skymilk.wallpaperapp.store.data.remote.WallPaperApi
+import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
+import com.skymilk.wallpaperapp.store.domain.usecase.GetCategoryWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.GetHomeWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.GetPopularWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.GetRandomWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.GetSearchWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.WallPaperUseCases
 import com.skymilk.wallpaperapp.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -43,4 +50,17 @@ object AppModule {
             .build()
             .create(WallPaperApi::class.java)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideWallPaperUseCases(
+        wallPaperRepository: WallPaperRepository
+    ) = WallPaperUseCases(
+        GetHomeWallPapers(wallPaperRepository),
+        GetPopularWallPapers(wallPaperRepository),
+        GetRandomWallPapers(wallPaperRepository),
+        GetCategoryWallPapers(wallPaperRepository),
+        GetSearchWallPapers(wallPaperRepository)
+    )
 }

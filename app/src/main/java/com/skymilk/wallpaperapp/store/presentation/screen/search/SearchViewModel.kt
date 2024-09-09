@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
 import com.skymilk.wallpaperapp.store.domain.model.Hit
+import com.skymilk.wallpaperapp.store.domain.usecase.WallPaperUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: WallPaperRepository
+    private val wallPaperUseCases: WallPaperUseCases
 ) : ViewModel() {
 
     // 검색 쿼리를 감지하는 StateFlow
@@ -29,7 +30,7 @@ class SearchViewModel @Inject constructor(
             it.isBlank().not()
         } // null인 경우 무시
         .flatMapLatest { query ->
-            repository.getSearchWallPaper(query)
+            wallPaperUseCases.getSearchWallPapers(query)
         }
         .cachedIn(viewModelScope)
 

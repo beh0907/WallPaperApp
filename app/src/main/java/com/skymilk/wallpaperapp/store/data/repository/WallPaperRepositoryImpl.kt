@@ -19,7 +19,7 @@ import javax.inject.Inject
 class WallPaperRepositoryImpl @Inject constructor(
     private val wallPaperApi: WallPaperApi
 ) : WallPaperRepository {
-    override fun getHomeWallPaper(): Flow<PagingData<Hit>> {
+    override fun getHomeWallPapers(): Flow<PagingData<Hit>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {
@@ -28,7 +28,7 @@ class WallPaperRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getPopularWallPaper(): Flow<PagingData<Hit>> {
+    override fun getPopularWallPapers(): Flow<PagingData<Hit>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {
@@ -37,7 +37,7 @@ class WallPaperRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getRandomWallPaper(): Flow<PagingData<Hit>> {
+    override fun getRandomWallPapers(): Flow<PagingData<Hit>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {
@@ -46,7 +46,7 @@ class WallPaperRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getCategoryWallPaper(category: String): Flow<PagingData<Hit>> {
+    override fun getCategoryWallPapers(category: String): Flow<PagingData<Hit>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {
@@ -55,7 +55,7 @@ class WallPaperRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getSearchWallPaper(searchQuery: String): Flow<PagingData<Hit>> {
+    override fun getSearchWallPapers(searchQuery: String): Flow<PagingData<Hit>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {

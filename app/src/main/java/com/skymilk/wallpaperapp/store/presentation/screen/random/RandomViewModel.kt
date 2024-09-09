@@ -4,13 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
+import com.skymilk.wallpaperapp.store.domain.usecase.WallPaperUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class RandomViewModel @Inject constructor(
-    private val wallPaperRepository: WallPaperRepository
+    private val wallPaperUseCases: WallPaperUseCases
 ) : ViewModel() {
 
-    val randomPapers = wallPaperRepository.getRandomWallPaper().cachedIn(viewModelScope)
+    val randomPapers = wallPaperUseCases.getRandomWallPapers().cachedIn(viewModelScope)
 }

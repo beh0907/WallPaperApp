@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
 import com.skymilk.wallpaperapp.store.domain.model.Hit
+import com.skymilk.wallpaperapp.store.domain.usecase.WallPaperUseCases
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 //@AssistedInject를 사용한 땐 @HiltViewModel을 정의해선 안된다
 @OptIn(ExperimentalCoroutinesApi::class)
 class CategoryViewModel @AssistedInject constructor(
-    private val wallPaperRepository: WallPaperRepository,
+    private val wallPaperUseCases: WallPaperUseCases,
     @Assisted private val category: String
 ) : ViewModel() {
 
@@ -41,5 +42,5 @@ class CategoryViewModel @AssistedInject constructor(
 
     // 외부에서 접근 가능한 검색 결과 Flow
     val categoryWallPapers: Flow<PagingData<Hit>> =
-        wallPaperRepository.getSearchWallPaper(category).cachedIn(viewModelScope)
+        wallPaperUseCases.getSearchWallPapers(category).cachedIn(viewModelScope)
 }
