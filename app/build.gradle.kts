@@ -25,7 +25,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String","WALLHAVEN_API_KEY", properties.getProperty("wallhaven_api_key"))
+        buildConfigField("String","UNSPLASH_API_KEY", properties.getProperty("unsplash_api_key"))
         buildConfigField("String","PIXABAY_API_KEY", properties.getProperty("pixabay_api_key"))
     }
 
@@ -95,7 +95,6 @@ dependencies {
 
     //progress bar
     implementation(libs.android.spinkit)
-    implementation(libs.kenburnsview)
 
     //permission
     implementation(libs.tedpermission.coroutine)
