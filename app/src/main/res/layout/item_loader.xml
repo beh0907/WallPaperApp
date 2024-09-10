@@ -3,36 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_gravity="center"
     android:gravity="center"
-    android:layout_gravity="center">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txtError"
-        android:layout_gravity="center"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:fontFamily="@font/bm_hanna_pro"
+        android:gravity="center"
         android:textColor="@color/white" />
 
     <Button
-        android:layout_marginHorizontal="@dimen/_5sdp"
         android:id="@+id/btnRetry"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
         android:layout_weight="1"
         android:backgroundTint="@color/deep_orange_300"
         android:fontFamily="@font/bm_hanna_pro"
         android:text="@string/retry"
         android:visibility="visible" />
 
-    <com.github.ybq.android.spinkit.SpinKitView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progressBar"
-        style="@style/SpinKitView.Large.Pulse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:SpinKit_Color="@color/deep_orange_300" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_lottie" />
 
 </LinearLayout>

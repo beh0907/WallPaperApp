@@ -1,7 +1,9 @@
 package com.skymilk.wallpaperapp.di
 
+import com.skymilk.wallpaperapp.store.data.repository.SearchHistoryRepositoryImpl
 import com.skymilk.wallpaperapp.store.data.repository.WallPaperRepositoryImpl
-import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
+import com.skymilk.wallpaperapp.store.domain.repository.SearchHistoryRepository
+import com.skymilk.wallpaperapp.store.domain.repository.WallPaperRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +19,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindWallPaperRepository(impl: WallPaperRepositoryImpl): WallPaperRepository
+
+
+    @Binds
+    @Singleton
+    abstract fun bindSearchHistoryRepository(impl: SearchHistoryRepositoryImpl): SearchHistoryRepository
 }

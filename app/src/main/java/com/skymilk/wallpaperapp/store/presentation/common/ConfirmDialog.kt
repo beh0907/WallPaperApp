@@ -1,7 +1,7 @@
 package com.skymilk.wallpaperapp.store.presentation.common
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ConfirmDialog(
     private val context: Context,
@@ -9,7 +9,7 @@ class ConfirmDialog(
     private val onConfirm: () -> Unit // 확인 버튼 클릭 시 호출될 콜백 함수
 ) {
     fun show() {
-        val builder = AlertDialog.Builder(context)
+        val builder = MaterialAlertDialogBuilder(context)
         builder.setMessage(message)
             .setCancelable(true)
             .setPositiveButton("확인") { dialog, _ ->

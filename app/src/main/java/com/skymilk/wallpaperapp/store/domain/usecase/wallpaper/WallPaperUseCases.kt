@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.domain.usecase
+package com.skymilk.wallpaperapp.store.domain.usecase.wallpaper
 
 data class WallPaperUseCases(
     val getHomeWallPapers: GetHomeWallPapers,

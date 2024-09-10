@@ -2,13 +2,18 @@ package com.skymilk.wallpaperapp.di
 
 import com.skymilk.wallpaperapp.BuildConfig
 import com.skymilk.wallpaperapp.store.data.remote.WallPaperApi
-import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
-import com.skymilk.wallpaperapp.store.domain.usecase.GetCategoryWallPapers
-import com.skymilk.wallpaperapp.store.domain.usecase.GetHomeWallPapers
-import com.skymilk.wallpaperapp.store.domain.usecase.GetPopularWallPapers
-import com.skymilk.wallpaperapp.store.domain.usecase.GetRandomWallPapers
-import com.skymilk.wallpaperapp.store.domain.usecase.GetSearchWallPapers
-import com.skymilk.wallpaperapp.store.domain.usecase.WallPaperUseCases
+import com.skymilk.wallpaperapp.store.domain.repository.SearchHistoryRepository
+import com.skymilk.wallpaperapp.store.domain.repository.WallPaperRepository
+import com.skymilk.wallpaperapp.store.domain.usecase.history.DeleteSearchHistory
+import com.skymilk.wallpaperapp.store.domain.usecase.history.GetSearchHistory
+import com.skymilk.wallpaperapp.store.domain.usecase.history.SaveSearchHistory
+import com.skymilk.wallpaperapp.store.domain.usecase.history.SearchHistoryUseCases
+import com.skymilk.wallpaperapp.store.domain.usecase.wallpaper.GetCategoryWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.wallpaper.GetHomeWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.wallpaper.GetPopularWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.wallpaper.GetRandomWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.wallpaper.GetSearchWallPapers
+import com.skymilk.wallpaperapp.store.domain.usecase.wallpaper.WallPaperUseCases
 import com.skymilk.wallpaperapp.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -62,5 +67,16 @@ object AppModule {
         GetRandomWallPapers(wallPaperRepository),
         GetCategoryWallPapers(wallPaperRepository),
         GetSearchWallPapers(wallPaperRepository)
+    )
+
+
+    @Provides
+    @Singleton
+    fun provideSearchHistoryUseCases(
+        searchHistoryRepository: SearchHistoryRepository
+    ) = SearchHistoryUseCases(
+        GetSearchHistory(searchHistoryRepository),
+        SaveSearchHistory(searchHistoryRepository),
+        DeleteSearchHistory(searchHistoryRepository)
     )
 }

@@ -2,11 +2,13 @@ package com.skymilk.wallpaperapp.store.presentation.screen.search
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -19,11 +21,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.skymilk.wallpaperapp.R
 import com.skymilk.wallpaperapp.databinding.FragmentSearchBinding
 import com.skymilk.wallpaperapp.store.presentation.common.LoadStateHandleError.handleError
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
+import com.skymilk.wallpaperapp.store.presentation.util.KeyboardUtil.hideKeyboard
 import com.skymilk.wallpaperapp.store.presentation.util.KeyboardUtil.showKeyboard
 import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +41,7 @@ class SearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
 
     private val wallPaperAdapter: WallPaperAdapter = WallPaperAdapter()
+    private val searchHistoryAdapter: SearchHistoryAdapter = SearchHistoryAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +49,9 @@ class SearchFragment : Fragment() {
     ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
-        initRecyclerView()
         initSearchView()
+        initRecyclerViewSearchHistory()
+        initRecyclerViewWallPaper()
 
         setObserve()
         setEvent()
@@ -71,13 +77,13 @@ class SearchFragment : Fragment() {
             val closeIcon: ImageView = findViewById(androidx.appcompat.R.id.search_close_btn)
             closeIcon.setColorFilter(Color.WHITE)
 
-            // 기본 확장 상태 설정 및 키보드 표시
-            setOnQueryTextFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    searchEditText.showKeyboard()
-                }
+            // 서치뷰를 터치할 때 검색 이력도 표시
+            setOnClickListener {
+                showSearchHistory(true)
             }
-            onActionViewExpanded()  // 검색 뷰 확장
+
+            //첫 화면 초기화에서만 키보드 표시
+            searchEditText.showKeyboard()
         }
     }
 
@@ -85,13 +91,48 @@ class SearchFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchViewModel.searchWallPapers.collectLatest {
+                    //paging3 Data
                     wallPaperAdapter.submitData(it)
+                }
+            }
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                searchViewModel.searchHistories.collectLatest {
+                    Log.d("검색어 이력", it.toString())
+                    // 검색 기록을 UI에 반영하는 로직 추가
+                    // 예를 들어 RecyclerView에 검색 기록을 업데이트하는 코드
+                    searchHistoryAdapter.differ.submitList(it)
                 }
             }
         }
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerViewSearchHistory() {
+        searchHistoryAdapter.onItemClickSearch = { history ->
+            //선택한 검색 이력 텍스트로 검색 시도
+            searchViewModel.searchWallPapers(history)
+
+            //searchView 텍스트 적용 및 검색
+            binding.txtSearch.setQuery(history, true)
+
+            showSearchHistory(false)
+        }
+
+        searchHistoryAdapter.onItemClickDelete = { history ->
+            //검색어 삭제
+            searchViewModel.deleteSearchHistory(history)
+        }
+
+        binding.recyclerSearchHistory.apply {
+            adapter = searchHistoryAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun initRecyclerViewWallPaper() {
         //이미지 아이템 클릭 이벤트
         wallPaperAdapter.onItemClick = { hit ->
             //이미지 URL 정보와 함꼐 다운로드 화면으로 이동
@@ -144,23 +185,56 @@ class SearchFragment : Fragment() {
     }
 
     private fun setEvent() {
-        binding.apply {
-            txtSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(p0: String?): Boolean {
+        //검색 뷰 이벤트
+        binding.txtSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            //검색어 입력 후 엔터를 눌렀을 때
+            override fun onQueryTextSubmit(p0: String?): Boolean {
 
-                    if (p0.isNullOrEmpty()) {
-                        MessageUtil.showToast(requireContext(), "검색어를 입력해주세요.")
-                        return true
-                    }
-
-                    searchViewModel.searchWallPapers(p0)
-                    return false
-                }
-
-                override fun onQueryTextChange(p0: String?): Boolean {
+                if (p0.isNullOrEmpty()) {
+                    MessageUtil.showToast(requireContext(), "검색어를 입력해주세요.")
                     return true
                 }
+
+                //검색 시도
+                searchViewModel.searchWallPapers(p0)
+
+                //검색어 저장
+                searchViewModel.saveSearchHistory(p0)
+
+                //검색 실행 시 검색 기록 숨기기
+                showSearchHistory(false)
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return true
+            }
+        })
+
+        //프래그먼트에서 뒤로가기 버튼 콜백 생성
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner, // 생명주기를 관리해 종료될 때 자동으로 콜백 해제 처리
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // 백 버튼을 눌렀을 때 수행할 작업
+                    // 예: 이전 화면으로 이동하지 않고 다른 작업을 수행하고 싶을 때
+                    // requireActivity().onBackPressedDispatcher.onBackPressed()을 호출하면 원래 동작(뒤로 가기)이 실행됨.
+                    if (binding.recyclerSearchHistory.isVisible) {
+                        showSearchHistory(false)
+                        return
+                    }
+
+                    findNavController().navigateUp()
+                }
             })
+    }
+
+    private fun showSearchHistory(isShow: Boolean) {
+        binding.apply {
+            //검색 중이 아닐땐 검색 결과 목록 보이기
+            recyclerSearchHistory.isVisible = isShow
         }
     }
+
+
 }

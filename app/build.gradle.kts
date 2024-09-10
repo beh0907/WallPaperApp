@@ -93,8 +93,8 @@ dependencies {
     kapt(libs.glide.compiler)
     implementation(libs.glide.transformations)
 
-    //progress bar
-    implementation(libs.android.spinkit)
+    //lottie animation
+    implementation(libs.lottie)
 
     //permission
     implementation(libs.tedpermission.coroutine)
@@ -105,4 +105,7 @@ dependencies {
     //image Editor
     implementation(libs.photoeditor)
     implementation(libs.android.image.cropper)
+
+    //Datastore
+    implementation (libs.androidx.datastore.preferences)
 }

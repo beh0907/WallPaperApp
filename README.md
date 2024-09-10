@@ -27,10 +27,10 @@
 * [Retrofit2](https://github.com/square/retrofit) - REST API를 호출하여 서버로부터 JSON 타입의 데이터를 수신합니다.
 * 이미지 편집
     * [PhotoEditor](https://github.com/burhanrashid52/PhotoEditor) - 이미지를 그리기, 필터링, 이모지 등의 효과를 반영하고 편집합니다
-    * [Android-Image-Cropper](https://github.com/CanHub/Android-Image-Cropper) - 이미지를 원하는 사용자가 원하는 상태로 자르고 저장합니다.
+    * [Android-Image-Cropper](https://github.com/CanHub/Android-Image-Cropper) - 이미지를 사용자가 원하는 상태로 자르고 저장합니다.
 * 로딩 상태
     * [Shimmer](https://github.com/facebookarchive/shimmer-android) - 이미지 로딩 상태를 표시하기 위해 Skeleton Effect를 적용합니다.
-    * [Android-SpinKit](https://github.com/ybq/Android-SpinKit) - 이미지 목록의 로딩 상태를 표시하기 위해 Pulse Effect를 적용합니다.
+    * [Lottie Animation](https://github.com/airbnb/lottie-android) - 이미지 목록의 로딩 상태를 표시하기 위해 애니메이션 이미지를 적용합니다.
 
 # 스크린샷
 |메인화면(최신 월페이퍼)|인기 월페이퍼 화면|랜덤 월페이퍼 화면|

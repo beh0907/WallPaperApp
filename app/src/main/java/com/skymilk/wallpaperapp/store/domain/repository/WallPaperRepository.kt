@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.domain.Repository
+package com.skymilk.wallpaperapp.store.domain.repository
 
 import androidx.paging.PagingData
 import com.skymilk.wallpaperapp.store.domain.model.Hit

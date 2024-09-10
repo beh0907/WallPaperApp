@@ -6,13 +6,11 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.signature.ObjectKey
 import com.skymilk.wallpaperapp.databinding.ItemMyDownloadImageBinding
 import java.io.File
 
-class MyDownloadImageAdapter :
-    RecyclerView.Adapter<MyDownloadImageAdapter.MyDownloadImageViewHolder>() {
+class MyDownloadImageAdapter : RecyclerView.Adapter<MyDownloadImageAdapter.MyDownloadImageViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<File>() {
         override fun areItemsTheSame(oldItem: File, newItem: File): Boolean {

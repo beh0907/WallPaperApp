@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.skymilk.wallpaperapp.store.domain.Repository.WallPaperRepository
 import com.skymilk.wallpaperapp.store.domain.model.Hit
-import com.skymilk.wallpaperapp.store.domain.usecase.WallPaperUseCases
+import com.skymilk.wallpaperapp.store.domain.usecase.wallpaper.WallPaperUseCases
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
