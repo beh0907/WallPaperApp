@@ -83,57 +83,56 @@ class SearchFragment : Fragment() {
             setOnQueryTextFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     searchEditText.showKeyboard()
-                    searchViewModel.setSearchHistoryVisible(true)
+                    searchViewModel.setSearchHistoryVisibility(true)
                 }
             }
 
             //첫 화면 초기화 시에만 포커스 설정
             if (searchViewModel.uiState.value.isFirstSearchFocus) {
                 searchEditText.requestFocus()
-                searchViewModel.setFirstFocus(false)
+                searchViewModel.setFirstSearchFocus(false)
             }
         }
     }
 
+    //UI 상태 변화 수집
     private fun setObserve() {
-        //검색 월페이퍼 페이징 데이터 수집
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                searchViewModel.searchWallPapers.collectLatest {
-                    // 페이징 데이터 목록 어댑터 적용
-                    wallPaperAdapter.submitData(it)
+                searchViewModel.uiState.collect { uiState ->
+                    updateUi(uiState)
                 }
             }
         }
+    }
 
-        //검색 이력 목록 데이터 수집
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                searchViewModel.searchHistories.collectLatest {
-                    // 검색 이력 목록 어댑터 적용
-                    searchHistoryAdapter.differ.submitList(it)
-                }
+    //UI 상태 갱신
+    private fun updateUi(uiState: SearchUiState) {
+        binding.apply {
+            //에러 메시지 출력
+            uiState.error?.let { error ->
+                MessageUtil.showToast(requireContext(), error)
             }
-        }
 
-        //UI 상태 변화 수집
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                searchViewModel.uiState.collectLatest {
-                    // UI 설정 반영
+            //검색 이력 목록 어댑터 적용
+            searchHistoryAdapter.differ.submitList(uiState.searchHistories)
 
-                    //검색 이력 목록 가시 설정
-                    binding.recyclerSearchHistory.isVisible = it.isSearchHistoryVisible
+            //검색 이력 목록 표시 여부
+            recyclerSearchHistory.isVisible = uiState.isSearchHistoryVisible
 
-                    //보여질때는 항상 최상단에 위치하여 최신 이력이 보이도록 설정
-                    if (it.isSearchHistoryVisible) {
-                        binding.recyclerSearchHistory.scrollToPosition(0)
+            //검색 페이징 데이터 어댑터 적용
+            uiState.searchWallPapers?.let { wallpapers ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    wallpapers.collectLatest { pagingData ->
+                        wallPaperAdapter.submitData(pagingData)
                     }
                 }
             }
         }
     }
 
+
+    //검색 이력 목록 초기화
     private fun initRecyclerViewSearchHistory() {
         searchHistoryAdapter.onItemClickSearch = { history ->
             //선택한 검색 이력 텍스트로 검색 시도
@@ -143,7 +142,7 @@ class SearchFragment : Fragment() {
             binding.txtSearch.setQuery(history, true)
 
             //검색 이력 목록 숨기기
-            searchViewModel.setSearchHistoryVisible(false)
+            searchViewModel.setSearchHistoryVisibility(false)
         }
 
         searchHistoryAdapter.onItemClickDelete = { history ->
@@ -157,6 +156,7 @@ class SearchFragment : Fragment() {
         }
     }
 
+    //검색 월페이퍼 목록 초기화
     private fun initRecyclerViewWallPaper() {
         //이미지 아이템 클릭 이벤트
         wallPaperAdapter.onItemClick = { hit ->
@@ -227,7 +227,7 @@ class SearchFragment : Fragment() {
                 searchViewModel.saveSearchHistory(p0)
 
                 //검색 실행 시 검색 기록 숨기기
-                searchViewModel.setSearchHistoryVisible(false)
+                searchViewModel.setSearchHistoryVisibility(false)
                 return false
             }
 
@@ -245,7 +245,7 @@ class SearchFragment : Fragment() {
                     // 예: 이전 화면으로 이동하지 않고 다른 작업을 수행하고 싶을 때
                     // requireActivity().onBackPressedDispatcher.onBackPressed()을 호출하면 원래 동작(뒤로 가기)이 실행됨.
                     if (binding.recyclerSearchHistory.isVisible && binding.txtSearch.query.isNotEmpty()) {
-                        searchViewModel.setSearchHistoryVisible(false)
+                        searchViewModel.setSearchHistoryVisibility(false)
                         return
                     }
 
@@ -253,6 +253,4 @@ class SearchFragment : Fragment() {
                 }
             })
     }
-
-
 }

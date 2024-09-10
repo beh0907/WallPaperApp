@@ -25,42 +25,31 @@ class SearchViewModel @Inject constructor(
     private val searchHistoryUseCases: SearchHistoryUseCases
 ) : ViewModel() {
 
+    //UI 상태 정보
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
 
-    // 검색어 이력 목록
-    val searchHistories = searchHistoryUseCases.getSearchHistory()
-
-    // 외부에서 접근 가능한 검색 결과 Flow
-    val searchWallPapers: Flow<PagingData<Hit>> = _uiState
-        .filter {
-            it.searchQuery.isBlank().not()
-        } // null인 경우 무시
-        .flatMapLatest {
-            wallPaperUseCases.getSearchWallPapers(it.searchQuery)
+    init {
+        viewModelScope.launch {
+            //검색어 목록 가져오기
+            searchHistoryUseCases.getSearchHistory().collect { histories ->
+                _uiState.update { it.copy(searchHistories = histories) }
+            }
         }
-        .cachedIn(viewModelScope)
+    }
 
     //검색 페이징
     fun searchWallPapers(searchQuery: String) {
         //검색어 저장
-        _uiState.update {
-            it.copy(searchQuery = searchQuery)
-        }
-    }
+        _uiState.update { it.copy(searchQuery = searchQuery, isLoading = true, error = null) }
 
-    //검색 이력 목록 표시 여부 저장
-    fun setSearchHistoryVisible(isVisible: Boolean) {
-        //검색어 저장
-        _uiState.update {
-            it.copy(isSearchHistoryVisible = isVisible)
-        }
-    }
-
-    //첫 화면 포커싱 여부 처리
-    fun setFirstFocus(isFirst: Boolean) {
-        _uiState.update {
-            it.copy(isFirstSearchFocus = isFirst)
+        viewModelScope.launch {
+            try {
+                val searchWallPapers = wallPaperUseCases.getSearchWallPapers(searchQuery).cachedIn(viewModelScope)
+                _uiState.update { it.copy(searchWallPapers = searchWallPapers, isLoading = false) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = e.message, isLoading = false) }
+            }
         }
     }
 
@@ -75,6 +64,21 @@ class SearchViewModel @Inject constructor(
     fun deleteSearchHistory(searchQuery: String) {
         viewModelScope.launch {
             searchHistoryUseCases.deleteSearchHistory(searchQuery)
+        }
+    }
+
+    //검색 이력 목록 표시 여부 저장
+    fun setSearchHistoryVisibility(isVisible: Boolean) {
+        //검색어 저장
+        _uiState.update {
+            it.copy(isSearchHistoryVisible = isVisible)
+        }
+    }
+
+    //첫 화면 포커싱 여부 처리
+    fun setFirstSearchFocus(isFirstSearchFocus: Boolean) {
+        _uiState.update {
+            it.copy(isFirstSearchFocus = isFirstSearchFocus)
         }
     }
 }
