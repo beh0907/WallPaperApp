@@ -6,21 +6,24 @@
 
     <TextView
         android:id="@+id/txtHistory"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:paddingVertical="@dimen/_5sdp"
+        android:background="?attr/selectableItemBackground"
         android:fontFamily="@font/bm_hanna_pro"
         android:maxLines="1"
         android:text="검색입니다"
         android:textColor="@color/white"
         android:textSize="@dimen/_16ssp"
+        app:layout_constraintEnd_toStartOf="@id/btnDelete"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btnDelete"
         android:layout_width="@dimen/_36sdp"
         android:layout_height="@dimen/_36sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
         android:background="?attr/selectableItemBackground"
         android:src="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="@id/txtHistory"

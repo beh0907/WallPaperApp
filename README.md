@@ -16,10 +16,11 @@
     * ViewModel - UI와 DATA 관련된 처리 로직을 분리합니다.
     * ViewBinding - View(XML)과 코드(kotlin)간의 상호작용을 원활하게 처리합니다.
     * Paging3 - 무한 스크롤 목록을 처리하고 관리합니다. (API 페이징 처리)
-    * navigation - fragment 화면간의 이동을 처리하고 데이터 전달을 관리합니다.
+    * Navigation - fragment 화면간의 이동을 처리하고 데이터 전달을 관리합니다.
     * Download Manager - 이미지 파일의 HTTP 다운로드를 백그라운드에서 원활하게 처리합니다.
     * Permissions - [TedPermission](https://github.com/ParkSangGwon/TedPermission)을 활용해 저장장치에 관한 권한을 요청하고 처리합니다.
     * Notifications - 이미지 파일의 다운로드 상태를 알리기 위해 알림을 표시합니다.
+    * DataStore - SharedPreferences의 한계점을 개선한 라이브러리로 이미지의 검색 이력 정보를 관리합니다.
 * Architecture
     * MVVM 패턴 적용 - Model + View + ViewModel
     * Repository 패턴 적용 - Data + Domain + Presentation Layer

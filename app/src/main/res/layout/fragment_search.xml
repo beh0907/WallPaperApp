@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@color/main_background"
     tools:context=".store.presentation.screen.search.SearchFragment">
 
@@ -14,6 +16,8 @@
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/bg_search"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,19 +32,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSearch"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtSearch" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/main_background"
         android:id="@+id/recyclerSearchHistory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/main_background"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSearch"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:itemCount="5"
-        tools:listitem="@layout/item_search_history"/>
+        tools:listitem="@layout/item_search_history" />
 
     <Button
         android:id="@+id/btnRetry"
@@ -59,12 +65,13 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/loading_lottie"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_lottie" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

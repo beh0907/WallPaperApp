@@ -2,7 +2,6 @@ package com.skymilk.wallpaperapp.store.presentation.screen.search
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +26,6 @@ import com.skymilk.wallpaperapp.databinding.FragmentSearchBinding
 import com.skymilk.wallpaperapp.store.presentation.common.LoadStateHandleError.handleError
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.LoaderStateAdapter
 import com.skymilk.wallpaperapp.store.presentation.common.adapter.WallPaperAdapter
-import com.skymilk.wallpaperapp.store.presentation.util.KeyboardUtil.hideKeyboard
 import com.skymilk.wallpaperapp.store.presentation.util.KeyboardUtil.showKeyboard
 import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,14 +47,18 @@ class SearchFragment : Fragment() {
     ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initSearchView()
         initRecyclerViewSearchHistory()
         initRecyclerViewWallPaper()
 
         setObserve()
         setEvent()
-
-        return binding.root
     }
 
     private fun initSearchView() {
@@ -77,34 +79,56 @@ class SearchFragment : Fragment() {
             val closeIcon: ImageView = findViewById(androidx.appcompat.R.id.search_close_btn)
             closeIcon.setColorFilter(Color.WHITE)
 
-            // 서치뷰를 터치할 때 검색 이력도 표시
-            setOnClickListener {
-                showSearchHistory(true)
+            // 서치뷰에 포커싱될 때 검색 이력과 키보드 표시
+            setOnQueryTextFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    searchEditText.showKeyboard()
+                    searchViewModel.setSearchHistoryVisible(true)
+                }
             }
 
-            //첫 화면 초기화에서만 키보드 표시
-            searchEditText.showKeyboard()
+            //첫 화면 초기화 시에만 포커스 설정
+            if (searchViewModel.uiState.value.isFirstSearchFocus) {
+                searchEditText.requestFocus()
+                searchViewModel.setFirstFocus(false)
+            }
         }
     }
 
     private fun setObserve() {
+        //검색 월페이퍼 페이징 데이터 수집
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchViewModel.searchWallPapers.collectLatest {
-                    //paging3 Data
+                    // 페이징 데이터 목록 어댑터 적용
                     wallPaperAdapter.submitData(it)
                 }
             }
         }
 
-
+        //검색 이력 목록 데이터 수집
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchViewModel.searchHistories.collectLatest {
-                    Log.d("검색어 이력", it.toString())
-                    // 검색 기록을 UI에 반영하는 로직 추가
-                    // 예를 들어 RecyclerView에 검색 기록을 업데이트하는 코드
+                    // 검색 이력 목록 어댑터 적용
                     searchHistoryAdapter.differ.submitList(it)
+                }
+            }
+        }
+
+        //UI 상태 변화 수집
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                searchViewModel.uiState.collectLatest {
+                    // UI 설정 반영
+
+                    //검색 이력 목록 가시 설정
+                    binding.recyclerSearchHistory.isVisible = it.isSearchHistoryVisible
+
+                    //보여질때는 항상 최상단에 위치하여 최신 이력이 보이도록 설정
+                    if (it.isSearchHistoryVisible) {
+                        binding.recyclerSearchHistory.scrollToPosition(0)
+                    }
                 }
             }
         }
@@ -118,7 +142,8 @@ class SearchFragment : Fragment() {
             //searchView 텍스트 적용 및 검색
             binding.txtSearch.setQuery(history, true)
 
-            showSearchHistory(false)
+            //검색 이력 목록 숨기기
+            searchViewModel.setSearchHistoryVisible(false)
         }
 
         searchHistoryAdapter.onItemClickDelete = { history ->
@@ -202,7 +227,7 @@ class SearchFragment : Fragment() {
                 searchViewModel.saveSearchHistory(p0)
 
                 //검색 실행 시 검색 기록 숨기기
-                showSearchHistory(false)
+                searchViewModel.setSearchHistoryVisible(false)
                 return false
             }
 
@@ -219,21 +244,14 @@ class SearchFragment : Fragment() {
                     // 백 버튼을 눌렀을 때 수행할 작업
                     // 예: 이전 화면으로 이동하지 않고 다른 작업을 수행하고 싶을 때
                     // requireActivity().onBackPressedDispatcher.onBackPressed()을 호출하면 원래 동작(뒤로 가기)이 실행됨.
-                    if (binding.recyclerSearchHistory.isVisible) {
-                        showSearchHistory(false)
+                    if (binding.recyclerSearchHistory.isVisible && binding.txtSearch.query.isNotEmpty()) {
+                        searchViewModel.setSearchHistoryVisible(false)
                         return
                     }
 
                     findNavController().navigateUp()
                 }
             })
-    }
-
-    private fun showSearchHistory(isShow: Boolean) {
-        binding.apply {
-            //검색 중이 아닐땐 검색 결과 목록 보이기
-            recyclerSearchHistory.isVisible = isShow
-        }
     }
 
 
