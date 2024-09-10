@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val wallPaperUseCases: WallPaperUseCases,
@@ -29,27 +28,24 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            //검색어 목록 가져오기
-            searchHistoryUseCases.getSearchHistory().collect { histories ->
-                _uiState.update { it.copy(searchHistories = histories) }
-            }
+    // 검색어 이력 목록
+    val searchHistories = searchHistoryUseCases.getSearchHistory()
+
+    // 외부에서 접근 가능한 검색 결과 Flow
+    val searchWallPapers: Flow<PagingData<Hit>> = _uiState
+        .filter {
+            it.searchQuery.isBlank().not()
+        } // null인 경우 무시
+        .flatMapLatest {
+            wallPaperUseCases.getSearchWallPapers(it.searchQuery)
         }
-    }
+        .cachedIn(viewModelScope)
 
     //검색 페이징
     fun searchWallPapers(searchQuery: String) {
         //검색어 저장
-        _uiState.update { it.copy(searchQuery = searchQuery, isLoading = true, error = null) }
-
-        viewModelScope.launch {
-            try {
-                val searchWallPapers = wallPaperUseCases.getSearchWallPapers(searchQuery).cachedIn(viewModelScope)
-                _uiState.update { it.copy(searchWallPapers = searchWallPapers, isLoading = false) }
-            } catch (e: Exception) {
-                _uiState.update { it.copy(error = e.message, isLoading = false) }
-            }
+        _uiState.update {
+            it.copy(searchQuery = searchQuery)
         }
     }
 

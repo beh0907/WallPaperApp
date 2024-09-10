@@ -97,6 +97,27 @@ class SearchFragment : Fragment() {
 
     //UI 상태 변화 수집
     private fun setObserve() {
+        //검색 월페이퍼 페이징 데이터 수집
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                searchViewModel.searchWallPapers.collectLatest {
+                    // 페이징 데이터 목록 어댑터 적용
+                    wallPaperAdapter.submitData(it)
+                }
+            }
+        }
+
+        //검색 이력 목록 데이터 수집
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                searchViewModel.searchHistories.collectLatest {
+                    // 검색 이력 목록 어댑터 적용
+                    searchHistoryAdapter.differ.submitList(it)
+                }
+            }
+        }
+
+        //UI 상태 변화 수집
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchViewModel.uiState.collect { uiState ->
@@ -114,20 +135,8 @@ class SearchFragment : Fragment() {
                 MessageUtil.showToast(requireContext(), error)
             }
 
-            //검색 이력 목록 어댑터 적용
-            searchHistoryAdapter.differ.submitList(uiState.searchHistories)
-
             //검색 이력 목록 표시 여부
             recyclerSearchHistory.isVisible = uiState.isSearchHistoryVisible
-
-            //검색 페이징 데이터 어댑터 적용
-            uiState.searchWallPapers?.let { wallpapers ->
-                viewLifecycleOwner.lifecycleScope.launch {
-                    wallpapers.collectLatest { pagingData ->
-                        wallPaperAdapter.submitData(pagingData)
-                    }
-                }
-            }
         }
     }
 
