@@ -1,15 +1,17 @@
 package com.skymilk.wallpaperapp.store.presentation.util
 
 import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import androidx.core.content.FileProvider
-import com.canhub.cropper.CropImage.CancelledResult.bitmap
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.skymilk.wallpaperapp.BuildConfig
@@ -92,11 +94,6 @@ object ImageUtil {
         }
     }
 
-    //파일 경로를 통해 파일 객체를 가져온다
-    fun getFileFromPath(filePath: String) {
-        val file = File(filePath)
-    }
-
     //파일 객체에서 이미지를 가져온다
     fun getBitmapFromCache(file: File): Bitmap? {
         return if (file.exists()) {
@@ -109,7 +106,8 @@ object ImageUtil {
     //URL에서 이미지 다운로드
     fun downloadImageFromUrl(
         url: String,
-        context: Context
+        context: Context,
+        receiver: BroadcastReceiver // 다운로드 완료 시 처리
     ) {
         try {
             // 백그라운드에서 실행
@@ -129,7 +127,16 @@ object ImageUtil {
                     )
             }
 
+            //파일 다운로드
             downloadManager.enqueue(request)
+
+            // BroadcastReceiver 등록
+            val intentFilter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                context.registerReceiver(receiver, intentFilter, Context.RECEIVER_NOT_EXPORTED)
+            else
+                context.registerReceiver(receiver, intentFilter)
+
         } catch (e: Exception) {
             e.printStackTrace()
 

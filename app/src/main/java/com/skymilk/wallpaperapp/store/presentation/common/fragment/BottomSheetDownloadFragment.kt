@@ -1,8 +1,13 @@
 package com.skymilk.wallpaperapp.store.presentation.common.fragment
 
+import android.app.DownloadManager
 import android.app.WallpaperManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,7 +111,22 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     private fun downloadImageFromUrl(url: String) {
         ImageUtil.downloadImageFromUrl(
             url,
-            requireContext()
+            requireContext(),
+            object : BroadcastReceiver() {
+                override fun onReceive(context: Context?, intent: Intent?) {
+                    Log.d("receive context", context.toString())
+                    Log.d("receive intent", intent.toString())
+                    val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+
+                    //메시지 출력
+                    MessageUtil.showToast(requireActivity(), "이미지 다운로드 완료")
+
+                    // 여기에 다운로드 완료 후 필요한 작업을 수행
+                    requireContext().unregisterReceiver(this) // 리시버 해제
+                    dismiss() // BottomSheetDialogFragment 닫기
+                }
+
+            }
         )
     }
 

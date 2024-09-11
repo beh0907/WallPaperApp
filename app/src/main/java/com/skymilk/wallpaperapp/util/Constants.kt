@@ -7,6 +7,6 @@ object Constants {
 
     const val PAGE_SIZE = 30 // 페이지당 사이즈
 
-    const val HISTORY_DATA_STORE = "https://pixabay.com/"
-    const val SEARCH_HISTORY_KEY = "https://pixabay.com/"
+    const val HISTORY_DATA_STORE = "HISTORY_DATA_STORE" // Datastore 이름
+    const val SEARCH_HISTORY_KEY = "SEARCH_HISTORY_KEY" // Datastore 검색 이력 키
 }
