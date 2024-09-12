@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.lang.ref.WeakReference
 
 class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
@@ -31,6 +31,8 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     //공유, 배경화면 설정을 위한 이미지 정보
     private lateinit var currentImageFile: File
     private var bitmap: Bitmap? = null
+
+    private var downloadReceiver: BroadcastReceiver? = null
 
     companion object {
         private const val ARG_DOWNLOAD_IMAGE_URL = "download_image_url"
@@ -109,24 +111,26 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     }
 
     private fun downloadImageFromUrl(url: String) {
+        val weakFragment = WeakReference(this)
+        downloadReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val fragment = weakFragment.get() ?: return
+                if (!fragment.isAdded) return
+
+                if (intent?.action == DownloadManager.ACTION_DOWNLOAD_COMPLETE) {
+                    context?.applicationContext?.let { safeContext ->
+                        MessageUtil.showToast(safeContext, "이미지 다운로드 완료")
+                    }
+                    fragment.safeUnregisterReceiver()
+                    fragment.dismissAllowingStateLoss()
+                }
+            }
+        }
+
         ImageUtil.downloadImageFromUrl(
             url,
             requireContext(),
-            object : BroadcastReceiver() {
-                override fun onReceive(context: Context?, intent: Intent?) {
-                    Log.d("receive context", context.toString())
-                    Log.d("receive intent", intent.toString())
-                    val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-
-                    //메시지 출력
-                    MessageUtil.showToast(requireActivity(), "이미지 다운로드 완료")
-
-                    // 여기에 다운로드 완료 후 필요한 작업을 수행
-                    requireContext().unregisterReceiver(this) // 리시버 해제
-                    dismiss() // BottomSheetDialogFragment 닫기
-                }
-
-            }
+            downloadReceiver!!
         )
     }
 
@@ -138,7 +142,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         )
 
         //공유 후 종료
-        dismiss()
+        dismissAllowingStateLoss()
     }
 
     private suspend fun setBackGround(flag: Int, bitmap: Bitmap) {
@@ -155,7 +159,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
             }
 
             //종료
-            dismiss()
+            dismissAllowingStateLoss()
         } catch (e: Exception) {
             e.printStackTrace()
 
@@ -163,5 +167,22 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
                 MessageUtil.showToast(requireContext(), "적용 실패 - ${e.message.toString()}")
             }
         }
+    }
+
+    //브,로드캐스트 리시버 제거
+    private fun safeUnregisterReceiver() {
+        downloadReceiver?.let {
+            try {
+                context?.unregisterReceiver(it)
+            } catch (e: IllegalArgumentException) {
+                // Receiver not registered 예외 처리
+            }
+        }
+        downloadReceiver = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        safeUnregisterReceiver()
     }
 }

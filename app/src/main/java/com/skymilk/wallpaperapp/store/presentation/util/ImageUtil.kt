@@ -133,10 +133,9 @@ object ImageUtil {
             // BroadcastReceiver 등록
             val intentFilter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                context.registerReceiver(receiver, intentFilter, Context.RECEIVER_NOT_EXPORTED)
+                context.registerReceiver(receiver, intentFilter, Context.RECEIVER_EXPORTED)
             else
                 context.registerReceiver(receiver, intentFilter)
-
         } catch (e: Exception) {
             e.printStackTrace()
 

@@ -13,11 +13,10 @@
 
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
-        <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-<!--    툴바 기본 타이틀-->
+    <!--    툴바 기본 타이틀-->
     <style name="Toolbar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">.01sp</item>
         <item name="android:alpha">0.0</item>
@@ -25,13 +24,13 @@
         <item name="actionTextColorAlpha">0</item>
     </style>
 
-<!--    툴바 확장 타이틀-->
+    <!--    툴바 확장 타이틀-->
     <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">@dimen/_20ssp</item>
         <item name="android:fontFamily">@font/bm_hanna_pro</item>
     </style>
 
-<!--    탭 메뉴 기본 상태-->
+    <!--    탭 메뉴 기본 상태-->
     <style name="Tab" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:textSize">@dimen/_10ssp</item>
         <item name="tabGravity">center</item>
@@ -41,7 +40,7 @@
         <item name="android:fontStyle">normal</item>
     </style>
 
-<!--    탭 메뉴 선택 상태-->
+    <!--    탭 메뉴 선택 상태-->
     <style name="TabSelected">
         <item name="android:textSize">@dimen/_10ssp</item>
         <item name="tabGravity">center</item>
@@ -51,7 +50,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-<!--    bottom sheet 테두리 -->
+    <!--    bottom sheet 테두리 -->
     <style name="AppBottomSheetDialogTheme" parent="Theme.Material3.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
@@ -59,8 +58,8 @@
     <style name="AppModalStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_rounded_top_shape</item>
     </style>
-    
-<!--    다이얼로그 텍스트 추가-->
+
+    <!--    다이얼로그 텍스트 추가-->
     <style name="DialogAddText">
         <item name="android:singleLine">true</item>
         <item name="colorControlNormal">@color/white</item>
@@ -69,5 +68,14 @@
         <item name="android:textSize">@dimen/_14ssp</item>
     </style>
 
+    <!--    앱 시작 로딩 화면-->
+    <style name="Theme.WallPaperApp.Start" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/main_background</item>
+        <item name="windowSplashScreenAnimationDuration">2000</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.WallPaperApp</item>
+    </style>
+
     <style name="Theme.WallPaperApp" parent="Base.Theme.WallPaperApp" />
+
 </resources>

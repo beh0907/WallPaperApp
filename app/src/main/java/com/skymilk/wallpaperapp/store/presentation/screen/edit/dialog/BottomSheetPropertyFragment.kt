@@ -38,7 +38,7 @@ class BottomSheetPropertyFragment : BottomSheetDialogFragment(), OnSeekBarChange
 
         colorAdapter.onItemClick = { color ->
             onColorChangedListener?.invoke(color)
-            dismiss()
+            dismissAllowingStateLoss()
         }
 
         binding.recyclerColor.apply {

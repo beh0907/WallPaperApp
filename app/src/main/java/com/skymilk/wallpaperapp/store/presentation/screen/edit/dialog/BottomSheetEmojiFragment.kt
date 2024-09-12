@@ -33,7 +33,7 @@ class BottomSheetEmojiFragment : BottomSheetDialogFragment() {
         //어댑터 -> 바텀시트 -> 편집 프래그먼트
         emojiAdapter.onItemClick = { emoji ->
             onEmojiSelectedListener?.invoke(emoji)
-            dismiss()
+            dismissAllowingStateLoss()
         }
 
         binding.recyclerEmoji.apply {

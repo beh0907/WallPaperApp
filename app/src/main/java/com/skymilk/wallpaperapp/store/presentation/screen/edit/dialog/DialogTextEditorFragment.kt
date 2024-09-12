@@ -114,7 +114,7 @@ class DialogTextEditorFragment : DialogFragment() {
                 binding.editAdd.hideKeyboard()
 
                 //시트 숨기기
-                dismiss()
+                dismissAllowingStateLoss()
             }
 
         }
