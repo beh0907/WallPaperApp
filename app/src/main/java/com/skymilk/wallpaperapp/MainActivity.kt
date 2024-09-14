@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         //권한 요청 처리
         lifecycleScope.launch {
-            PermissionUtil.requestStoragePermissions()
+            PermissionUtil.requestAllPermissions()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
