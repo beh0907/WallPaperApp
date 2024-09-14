@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.presentation.screen.download
+package com.skymilk.wallpaperapp.store.presentation.screen.mydownload
 
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable

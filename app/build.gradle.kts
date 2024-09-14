@@ -111,4 +111,7 @@ dependencies {
 
     //Datastore
     implementation (libs.androidx.datastore.preferences)
+
+    //Download
+    implementation ("com.github.khushpanchal:Ketch:2.0.1")
 }

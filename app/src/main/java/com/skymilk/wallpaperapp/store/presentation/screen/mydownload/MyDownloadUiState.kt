@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.presentation.screen.download
+package com.skymilk.wallpaperapp.store.presentation.screen.mydownload
 
 import java.io.File
 

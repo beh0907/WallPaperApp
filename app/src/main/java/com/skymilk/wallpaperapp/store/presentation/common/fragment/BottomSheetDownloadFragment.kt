@@ -1,27 +1,31 @@
 package com.skymilk.wallpaperapp.store.presentation.common.fragment
 
-import android.app.DownloadManager
 import android.app.WallpaperManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.ketch.Ketch
+import com.ketch.Status
 import com.skymilk.wallpaperapp.databinding.DialogDownloadBottomSheetBinding
 import com.skymilk.wallpaperapp.store.presentation.util.ImageUtil
 import com.skymilk.wallpaperapp.store.presentation.util.MessageUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.lang.ref.WeakReference
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogDownloadBottomSheetBinding
@@ -32,7 +36,9 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
     private lateinit var currentImageFile: File
     private var bitmap: Bitmap? = null
 
-    private var downloadReceiver: BroadcastReceiver? = null
+    //다운로드 매니저
+    @Inject
+    lateinit var ketch: Ketch
 
     companion object {
         private const val ARG_DOWNLOAD_IMAGE_URL = "download_image_url"
@@ -89,7 +95,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         binding.apply {
 
             btnDownload.setOnClickListener {
-                downloadImageFromUrl(downloadImageUrl!!)
+                downloadImageWithKetch(downloadImageUrl!!)
             }
 
             btnShare.setOnClickListener {
@@ -110,28 +116,39 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun downloadImageFromUrl(url: String) {
-        val weakFragment = WeakReference(this)
-        downloadReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val fragment = weakFragment.get() ?: return
-                if (!fragment.isAdded) return
+    private fun downloadImageWithKetch(url: String) {
+        val fileName = "image_${System.currentTimeMillis()}.jpg"
+        val path =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath +
+                    File.separator + "wallpapers" + File.separator
+        val id = ketch.download(url = url, path = path, fileName = fileName)
 
-                if (intent?.action == DownloadManager.ACTION_DOWNLOAD_COMPLETE) {
-                    context?.applicationContext?.let { safeContext ->
-                        MessageUtil.showToast(safeContext, "이미지 다운로드 완료")
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                ketch.observeDownloadById(id).collect { downloadModel ->
+
+                    when (downloadModel.status) {
+                        //다운로드 성공
+                        Status.SUCCESS -> {
+                            MessageUtil.showToast(requireContext(), "이미지 다운로드 완료")
+                            dismissAllowingStateLoss()
+                        }
+
+                        //다운로드 실패
+                        Status.FAILED -> {
+                            MessageUtil.showToast(requireContext(), "이미지 다운로드에 실패하였습니다")
+                        }
+
+                        Status.QUEUED -> {}
+                        Status.STARTED -> {}
+                        Status.PROGRESS -> {}
+                        Status.CANCELLED -> {}
+                        Status.PAUSED -> {}
+                        Status.DEFAULT -> {}
                     }
-                    fragment.safeUnregisterReceiver()
-                    fragment.dismissAllowingStateLoss()
                 }
             }
         }
-
-        ImageUtil.downloadImageFromUrl(
-            url,
-            requireContext(),
-            downloadReceiver!!
-        )
     }
 
     private fun shareImage(file: File) {
@@ -167,22 +184,5 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
                 MessageUtil.showToast(requireContext(), "적용 실패 - ${e.message.toString()}")
             }
         }
-    }
-
-    //브,로드캐스트 리시버 제거
-    private fun safeUnregisterReceiver() {
-        downloadReceiver?.let {
-            try {
-                context?.unregisterReceiver(it)
-            } catch (e: IllegalArgumentException) {
-                // Receiver not registered 예외 처리
-            }
-        }
-        downloadReceiver = null
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        safeUnregisterReceiver()
     }
 }

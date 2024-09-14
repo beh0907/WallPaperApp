@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/myDownloadFragment"
-        android:name="com.skymilk.wallpaperapp.store.presentation.screen.download.MyDownloadFragment"
+        android:name="com.skymilk.wallpaperapp.store.presentation.screen.mydownload.MyDownloadFragment"
         android:label="fragment_my_download"
         tools:layout="@layout/fragment_my_download" >
         <action

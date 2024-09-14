@@ -1,4 +1,4 @@
-package com.skymilk.wallpaperapp.store.presentation.screen.download
+package com.skymilk.wallpaperapp.store.presentation.screen.mydownload
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyDownloadViewModel @Inject constructor() : ViewModel() {
-    private val _MyDownload_uiState = MutableStateFlow(MyDownloadUiState())
-    val myDownloadUiState: StateFlow<MyDownloadUiState> = _MyDownload_uiState.asStateFlow()
+    private val _myDownloadUiState = MutableStateFlow(MyDownloadUiState())
+    val myDownloadUiState: StateFlow<MyDownloadUiState> = _myDownloadUiState.asStateFlow()
 
     init {
         loadImages()
@@ -23,10 +23,10 @@ class MyDownloadViewModel @Inject constructor() : ViewModel() {
 
     private fun loadImages() {
         viewModelScope.launch {
-            _MyDownload_uiState.update { it.copy(isLoading = true) }
+            _myDownloadUiState.update { it.copy(isLoading = true) }
             try {
                 val images = ImageUtil.getSavedImages()
-                _MyDownload_uiState.update {
+                _myDownloadUiState.update {
                     it.copy(
                         imageList = images,
                         isEmptyState = images.isEmpty(),
@@ -34,7 +34,7 @@ class MyDownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 }
             } catch (e: Exception) {
-                _MyDownload_uiState.update {
+                _myDownloadUiState.update {
                     it.copy(
                         error = "이미지를 불러오는 데 실패했습니다: ${e.message}",
                         isLoading = false
@@ -46,12 +46,12 @@ class MyDownloadViewModel @Inject constructor() : ViewModel() {
 
     fun deleteImage(file: File) {
         viewModelScope.launch {
-            _MyDownload_uiState.update { it.copy(isLoading = true) }
+            _myDownloadUiState.update { it.copy(isLoading = true) }
             try {
                 if (ImageUtil.deleteImageFile(file.absolutePath)) {
                     loadImages() // 이미지 목록 새로고침
                 } else {
-                    _MyDownload_uiState.update {
+                    _myDownloadUiState.update {
                         it.copy(
                             error = "이미지 삭제에 실패했습니다.",
                             isLoading = false
@@ -59,7 +59,7 @@ class MyDownloadViewModel @Inject constructor() : ViewModel() {
                     }
                 }
             } catch (e: Exception) {
-                _MyDownload_uiState.update {
+                _myDownloadUiState.update {
                     it.copy(
                         error = "이미지 삭제 중 오류가 발생했습니다: ${e.message}",
                         isLoading = false
@@ -70,7 +70,7 @@ class MyDownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun clearError() {
-        _MyDownload_uiState.update { it.copy(error = null) }
+        _myDownloadUiState.update { it.copy(error = null) }
     }
 
 }
