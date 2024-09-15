@@ -29,24 +29,28 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
 
+    // 검색어를 저장하는 변수
+    private val _searchQuery = MutableStateFlow("")
+    var searchQuery = _searchQuery.asStateFlow()
+
     // 검색어 이력 목록
     val searchHistories = searchHistoryUseCases.getSearchHistory()
 
     // 외부에서 접근 가능한 검색 결과 Flow
-    val searchWallPapers: Flow<PagingData<Hit>> = _uiState
+    val searchWallPapers: Flow<PagingData<Hit>> = searchQuery
         .filter {
-            it.searchQuery.isBlank().not()
+            it.isNotBlank()
         } // null인 경우 무시
         .flatMapLatest {
-            wallPaperUseCases.getSearchWallPapers(it.searchQuery)
+            wallPaperUseCases.getSearchWallPapers(it)
         }
         .cachedIn(viewModelScope)
 
-    //검색 페이징
+    //검색어 저장 -> 검색 시도
     fun searchWallPapers(searchQuery: String) {
         //검색어 저장
-        _uiState.update {
-            it.copy(searchQuery = searchQuery)
+        _searchQuery.update {
+            searchQuery
         }
     }
 

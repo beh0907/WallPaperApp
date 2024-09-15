@@ -130,6 +130,7 @@ class BottomSheetDownloadFragment : BottomSheetDialogFragment() {
                     when (downloadModel.status) {
                         //다운로드 성공
                         Status.SUCCESS -> {
+                            Log.d("downloadModel SUCCESS", downloadModel.toString())
                             MessageUtil.showToast(requireContext(), "이미지 다운로드 완료")
                             dismissAllowingStateLoss()
                         }
