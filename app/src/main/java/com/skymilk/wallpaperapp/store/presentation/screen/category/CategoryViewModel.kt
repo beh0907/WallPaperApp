@@ -41,5 +41,5 @@ class CategoryViewModel @AssistedInject constructor(
 
     // 외부에서 접근 가능한 검색 결과 Flow
     val categoryWallPapers: Flow<PagingData<Hit>> =
-        wallPaperUseCases.getSearchWallPapers(category).cachedIn(viewModelScope)
+        wallPaperUseCases.getCategoryWallPapers(category).cachedIn(viewModelScope)
 }
